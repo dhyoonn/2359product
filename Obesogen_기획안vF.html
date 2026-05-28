@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>환경성 비만 다이어트 기획안 · 오베소겐 가설 기반 통합 검토</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07090F;
+  --bg2: #0F1420;
+  --bg3: #161D30;
+  --card: #1C2540;
+  --border: rgba(180,160,100,0.2);
+  --gold: #C9A84C;
+  --gold-light: #E8D5A3;
+  --gold-dim: rgba(201,168,76,0.15);
+  --teal: #2DD4BF;
+  --teal-dim: rgba(45,212,191,0.12);
+  --coral: #F4A261;
+  --coral-dim: rgba(244,162,97,0.12);
+  --blue: #60A5FA;
+  --blue-dim: rgba(96,165,250,0.12);
+  --purple: #A78BFA;
+  --purple-dim: rgba(167,139,250,0.12);
+  --red: #F87171;
+  --red-dim: rgba(248,113,113,0.1);
+  --text: #EDE8DC;
+  --text2: #9AA5BE;
+  --text3: #5C6B87;
+  --serif: 'Noto Serif KR', Georgia, serif;
+  --sans: 'Noto Sans KR', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.75;
+  font-size: 15px;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(7,9,15,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 52px;
+}
+.nav-brand {
+  font-family: var(--serif);
+  font-size: 13px;
+  color: var(--gold);
+  white-space: nowrap;
+  font-weight: 600;
+}
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-links a {
+  font-size: 11px;
+  color: var(--text3);
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--gold); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 95vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 8rem 5rem 6rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(201,168,76,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(45,212,191,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(167,139,250,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 1.5rem;
+  max-width: 850px;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--gold);
+}
+.hero-sub {
+  font-size: 16px;
+  color: var(--text2);
+  max-width: 680px;
+  margin-bottom: 3rem;
+  line-height: 1.8;
+}
+.hero-meta {
+  display: flex;
+  gap: 3rem;
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+  flex-wrap: wrap;
+}
+.hero-meta-item { font-size: 12px; color: var(--text3); }
+.hero-meta-item strong { display: block; color: var(--text2); font-size: 13px; font-weight: 500; margin-top: 3px; }
+
+/* ── SECTION ── */
+section {
+  padding: 6rem 5rem;
+  border-top: 1px solid var(--border);
+}
+section:nth-child(even) { background: var(--bg2); }
+
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+.section-desc {
+  color: var(--text2);
+  max-width: 760px;
+  margin-bottom: 3rem;
+  font-size: 15px;
+}
+
+/* ── GRID ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+.grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+
+/* ── CARD ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.75rem;
+}
+.card-gold { border-color: rgba(201,168,76,0.4); background: var(--gold-dim); }
+.card-teal { border-color: rgba(45,212,191,0.3); background: var(--teal-dim); }
+.card-coral { border-color: rgba(244,162,97,0.3); background: var(--coral-dim); }
+.card-purple { border-color: rgba(167,139,250,0.3); background: var(--purple-dim); }
+.card-blue { border-color: rgba(96,165,250,0.3); background: var(--blue-dim); }
+
+.card-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 0.5rem;
+}
+.card h3 {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+.card p { font-size: 14px; color: var(--text2); line-height: 1.7; }
+
+.stat-num {
+  font-family: var(--serif);
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+.stat-num-teal { color: var(--teal); }
+.stat-num-coral { color: var(--coral); }
+.stat-num-purple { color: var(--purple); }
+.stat-label { font-size: 13px; color: var(--text2); line-height: 1.5; }
+.stat-source { font-size: 11px; color: var(--text3); margin-top: 0.5rem; }
+
+/* ── LOGIC FLOW ── */
+.logic-flow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+}
+.logic-step {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  font-size: 13px;
+  text-align: center;
+  min-width: 120px;
+  flex: 1;
+}
+.logic-step.highlight { background: var(--gold-dim); border-color: rgba(201,168,76,0.5); color: var(--gold-light); }
+.logic-step.highlight-teal { background: var(--teal-dim); border-color: rgba(45,212,191,0.5); color: var(--teal); }
+.logic-step.highlight-coral { background: var(--coral-dim); border-color: rgba(244,162,97,0.5); color: var(--coral); }
+.logic-step.highlight-purple { background: var(--purple-dim); border-color: rgba(167,139,250,0.5); color: var(--purple); }
+.logic-step.result { background: var(--teal-dim); border-color: rgba(45,212,191,0.4); color: var(--teal); }
+.logic-arrow {
+  color: var(--text3);
+  font-size: 18px;
+  padding: 0 0.5rem;
+  flex-shrink: 0;
+}
+
+/* ── TABLE ── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin: 1.5rem 0;
+}
+.data-table th {
+  background: var(--bg3);
+  color: var(--text2);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.9rem 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.data-table td {
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid rgba(180,160,100,0.08);
+  color: var(--text);
+  vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+}
+.tag-gold { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+.tag-teal { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(45,212,191,0.3); }
+.tag-coral { background: var(--coral-dim); color: var(--coral); border: 1px solid rgba(244,162,97,0.3); }
+.tag-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167,139,250,0.3); }
+.tag-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+.tag-blue { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(96,165,250,0.3); }
+
+/* ── MECHANISM BOX ── */
+.mechanism {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+.mechanism-title {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 1.25rem;
+}
+.mechanism-chain {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 13px;
+}
+.m-node {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  color: var(--text2);
+  text-align: center;
+  min-width: 100px;
+}
+.m-node.key { background: var(--gold-dim); border-color: rgba(201,168,76,0.4); color: var(--gold-light); font-weight: 500; }
+.m-node.key-teal { background: var(--teal-dim); border-color: rgba(45,212,191,0.4); color: var(--teal); font-weight: 500; }
+.m-node.key-coral { background: var(--coral-dim); border-color: rgba(244,162,97,0.4); color: var(--coral); font-weight: 500; }
+.m-node.key-purple { background: var(--purple-dim); border-color: rgba(167,139,250,0.4); color: var(--purple); font-weight: 500; }
+.m-node.out { background: var(--teal-dim); border-color: rgba(45,212,191,0.4); color: var(--teal); }
+.m-arrow { color: var(--text3); padding: 0 0.25rem; line-height: 2.2; }
+
+/* ── EVIDENCE ── */
+.evidence {
+  border-left: 3px solid var(--gold);
+  padding: 1.25rem 1.5rem;
+  background: var(--gold-dim);
+  border-radius: 0 8px 8px 0;
+  margin: 1rem 0;
+}
+.evidence-title { font-size: 12px; font-weight: 700; color: var(--gold); margin-bottom: 0.4rem; letter-spacing: 0.05em; }
+.evidence p { font-size: 13.5px; color: var(--text2); line-height: 1.7; }
+.evidence strong { color: var(--text); font-weight: 500; }
+
+.evidence-teal { border-left-color: var(--teal); background: var(--teal-dim); }
+.evidence-teal .evidence-title { color: var(--teal); }
+.evidence-coral { border-left-color: var(--coral); background: var(--coral-dim); }
+.evidence-coral .evidence-title { color: var(--coral); }
+.evidence-purple { border-left-color: var(--purple); background: var(--purple-dim); }
+.evidence-purple .evidence-title { color: var(--purple); }
+
+/* ── CALLOUT ── */
+.callout {
+  background: var(--gold-dim);
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+.callout-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+.callout p { font-size: 15px; line-height: 1.8; font-family: var(--serif); color: var(--gold-light); }
+
+.callout-teal { background: var(--teal-dim); border-color: rgba(45,212,191,0.3); }
+.callout-teal .callout-label { color: var(--teal); }
+.callout-teal p { color: var(--teal); }
+
+.callout-coral { background: var(--coral-dim); border-color: rgba(244,162,97,0.3); }
+.callout-coral .callout-label { color: var(--coral); }
+.callout-coral p { color: var(--coral); }
+
+.callout-purple { background: var(--purple-dim); border-color: rgba(167,139,250,0.3); }
+.callout-purple .callout-label { color: var(--purple); }
+.callout-purple p { color: var(--purple); }
+
+/* ── FORMULA ── */
+.formula-box {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.75rem;
+  margin: 1.5rem 0;
+}
+.formula-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(180,160,100,0.06);
+}
+.formula-row:last-child { border-bottom: none; }
+.formula-role {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  min-width: 100px;
+  margin-top: 2px;
+}
+.formula-name { font-weight: 500; font-size: 14px; color: var(--text); }
+.formula-desc { font-size: 12px; color: var(--text2); margin-top: 3px; }
+
+/* ── CHECKLIST ── */
+.check-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.6rem 0;
+}
+.check-icon { flex-shrink: 0; margin-top: 2px; font-size: 15px; }
+.check-text { font-size: 14px; color: var(--text2); line-height: 1.6; }
+.check-text strong { color: var(--text); font-weight: 500; }
+
+/* ── TIP CARD ── */
+.tip-card {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  padding: 1.25rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+.tip-num {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold);
+  font-family: var(--serif);
+}
+.tip-content h4 { font-size: 14px; font-weight: 500; margin-bottom: 0.4rem; color: var(--text); }
+.tip-content p { font-size: 13px; color: var(--text2); line-height: 1.65; }
+
+/* ── BIG QUOTE ── */
+.big-quote {
+  border-left: 3px solid var(--gold);
+  padding: 1.5rem 2rem;
+  margin: 2.5rem 0;
+  background: var(--gold-dim);
+  border-radius: 0 12px 12px 0;
+}
+.big-quote p {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  line-height: 1.7;
+  color: var(--gold-light);
+}
+.big-quote-teal { border-left-color: var(--teal); background: var(--teal-dim); }
+.big-quote-teal p { color: var(--teal); }
+.big-quote-coral { border-left-color: var(--coral); background: var(--coral-dim); }
+.big-quote-coral p { color: var(--coral); }
+.big-quote-purple { border-left-color: var(--purple); background: var(--purple-dim); }
+.big-quote-purple p { color: var(--purple); }
+
+/* ── DIRECTION TABS (핵심 토글 컴포넌트) ── */
+.direction-tabs {
+  position: sticky;
+  top: 52px;
+  background: rgba(15,20,32,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 5rem;
+  z-index: 50;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.direction-tabs-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-right: 0.5rem;
+}
+.direction-tab {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.65rem 1.25rem;
+  font-size: 13px;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.25s;
+  font-family: var(--sans);
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.direction-tab .tab-badge {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 12px;
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.direction-tab[data-tab="A"] .tab-badge { background: var(--teal-dim); color: var(--teal); }
+.direction-tab[data-tab="B"] .tab-badge { background: var(--coral-dim); color: var(--coral); }
+.direction-tab[data-tab="C"] .tab-badge { background: var(--purple-dim); color: var(--purple); }
+
+.direction-tab:hover { border-color: var(--gold); color: var(--text); }
+
+.direction-tab.active[data-tab="A"] { background: var(--teal-dim); border-color: var(--teal); color: var(--teal); }
+.direction-tab.active[data-tab="B"] { background: var(--coral-dim); border-color: var(--coral); color: var(--coral); }
+.direction-tab.active[data-tab="C"] { background: var(--purple-dim); border-color: var(--purple); color: var(--purple); }
+
+/* ── DIRECTION CONTENT TOGGLE ── */
+.dir-content { display: none; }
+.dir-content.active { display: block; }
+
+/* ── DIRECTION HEADER ── */
+.direction-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  padding: 2rem;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.direction-badge {
+  flex-shrink: 0;
+  width: 72px; height: 72px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.badge-A { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(45,212,191,0.4); }
+.badge-B { background: var(--coral-dim); color: var(--coral); border: 1px solid rgba(244,162,97,0.4); }
+.badge-C { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167,139,250,0.4); }
+
+.direction-title { font-family: var(--serif); font-size: 1.7rem; font-weight: 700; margin-bottom: 0.4rem; }
+.direction-sub { font-size: 14px; color: var(--text2); line-height: 1.7; }
+.direction-meta { display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; font-size: 12px; color: var(--text3); }
+.direction-meta span strong { color: var(--text2); font-weight: 500; margin-left: 4px; }
+
+/* ── AD LOGIC STAGES ── */
+.ad-stage {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--gold);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.ad-stage-num {
+  font-family: var(--serif);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+}
+.ad-stage h4 { font-size: 14px; font-weight: 500; margin: 0.3rem 0 0.5rem; color: var(--text); }
+.ad-stage p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+.ad-stage.teal { border-left-color: var(--teal); }
+.ad-stage.teal .ad-stage-num { color: var(--teal); }
+.ad-stage.coral { border-left-color: var(--coral); }
+.ad-stage.coral .ad-stage-num { color: var(--coral); }
+.ad-stage.purple { border-left-color: var(--purple); }
+.ad-stage.purple .ad-stage-num { color: var(--purple); }
+
+/* ── COMPARISON MATRIX ── */
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.matrix-table th, .matrix-table td {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(180,160,100,0.08);
+  vertical-align: middle;
+}
+.matrix-table th {
+  background: var(--bg3);
+  color: var(--text2);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.matrix-table th.col-A { color: var(--teal); }
+.matrix-table th.col-B { color: var(--coral); }
+.matrix-table th.col-C { color: var(--purple); }
+.star { color: var(--gold); letter-spacing: 1px; }
+
+/* ── PORTFOLIO STRATEGY ── */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.portfolio-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.75rem;
+  position: relative;
+  overflow: hidden;
+}
+.portfolio-card.A { border-color: rgba(45,212,191,0.4); }
+.portfolio-card.B { border-color: rgba(244,162,97,0.4); }
+.portfolio-card.C { border-color: rgba(167,139,250,0.4); }
+.portfolio-role {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 0.5rem;
+}
+.portfolio-card h3 { font-family: var(--serif); font-size: 1.2rem; margin-bottom: 0.5rem; }
+.portfolio-card p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+/* ── REC BLOCK ── */
+.rec-block {
+  background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(45,212,191,0.05));
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 16px;
+  padding: 3rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+.rec-block h2 { font-family: var(--serif); font-size: 2rem; margin-bottom: 1rem; }
+.rec-block p { color: var(--text2); max-width: 700px; margin: 0 auto 2rem; line-height: 1.8; }
+
+/* ── DIVIDER ── */
+.divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 3rem 5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text3);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  section { padding: 4rem 1.5rem; }
+  .hero { padding: 7rem 1.5rem 4rem; }
+  .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns: 1fr; }
+  .hero-meta { flex-wrap: wrap; gap: 1.5rem; }
+  nav { padding: 0 1rem; }
+  .direction-tabs { padding: 1rem; flex-wrap: wrap; }
+  .direction-header { flex-direction: column; }
+  .portfolio-grid { grid-template-columns: 1fr; }
+  footer { padding: 2rem 1.5rem; flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ────────────── NAV ────────────── -->
+<nav>
+  <span class="nav-brand">환경성 비만 · 통합 기획안 v3</span>
+  <div class="nav-links">
+    <a href="#obesogen">오베소겐</a>
+    <a href="#market">시장 배경</a>
+    <a href="#logic">핵심 로직</a>
+    <a href="#directions">방향 선택</a>
+    <a href="#comparison">비교 매트릭스</a>
+    <a href="#portfolio">포트폴리오 전략</a>
+    <a href="#conclusion">최종 제언</a>
+  </div>
+</nav>
+
+<!-- ────────────── HERO ────────────── -->
+<div class="hero" id="top">
+  <div class="hero-eyebrow">신규 카테고리 기획안 · 미디어커머스 사업부</div>
+  <h1>당신이 살이 찐 게 아닙니다<br><em>환경에 오염된 것입니다</em></h1>
+  <p class="hero-sub">
+    "덜 먹고 더 움직여라"의 시대는 끝났습니다. 학계는 비만의 진짜 원인을 다시 정의하고 있습니다.
+    <strong style="color:var(--text)">오베소겐 가설(Obesogen Hypothesis)</strong>을 학술적 뼈대로,
+    두 가지 환경 적(敵)에 각각 대응하는 다이어트 신규 카테고리를 제안합니다.
+  </p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">분류<strong>건강기능식품 · 일반식품</strong></div>
+    <div class="hero-meta-item">우산 컨셉<strong>환경성 비만 (Obesogen-related Obesity)</strong></div>
+    <div class="hero-meta-item">방향성<strong>A · 차세대 균 아커만시아 (비만균 vs 날씬균) / B · 미세플라스틱</strong></div>
+    <div class="hero-meta-item">시장<strong>국내 + 글로벌 동시 진출 가능 (A) / 국내 (B)</strong></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     01. 오베소겐이란 무엇인가 (서론 강화)
+════════════════════════════════════ -->
+<section id="obesogen">
+  <div class="section-label">01 · 학술 뼈대</div>
+  <h2 class="section-title">오베소겐(Obesogen)이란 무엇인가</h2>
+  <p class="section-desc">
+    이 기획안의 핵심 가설입니다. 경영진 설득의 학술적 뿌리이자, 세 방향성 모두에 일관 적용되는 학문적 권위입니다.
+  </p>
+
+  <div class="callout">
+    <div class="callout-label">정의</div>
+    <p><strong style="color:var(--gold);font-weight:700">오베소겐(Obesogen)</strong> = Obesity(비만) + -gen(유발 인자)<br>
+    "정상 칼로리 섭취·정상 활동량에도 불구하고 <strong style="color:var(--gold)">지방세포 분화·호르몬 시스템·대사 회로를 교란</strong>시켜 비만을 유발하는 환경 화학물질 또는 환경 요인."</p>
+  </div>
+
+  <div class="grid-3" style="margin-top: 2.5rem;">
+    <div class="card card-gold">
+      <div class="card-label">제안</div>
+      <h3>2006년 학계 등장</h3>
+      <p>미국 캘리포니아 대학교(UC Irvine) <strong style="color:var(--gold-light)">Bruce Blumberg 교수</strong>가 처음 제안. "환경 화학물질이 지방 형성을 직접 유도한다"는 가설로 분자생물학·내분비학 분야 충격.</p>
+    </div>
+    <div class="card card-gold">
+      <div class="card-label">현재 위치</div>
+      <h3>WHO·내분비학회 공식 인정 단계</h3>
+      <p>2017년 미국 내분비학회(Endocrine Society) 입장문 발표.<br>2020년대 들어 인체 데이터 누적, <strong style="color:var(--gold-light)">"비만 환경 가설(Environmental Obesity)"이 메인스트림 진입</strong>.</p>
+    </div>
+    <div class="card card-gold">
+      <div class="card-label">패러다임 전환</div>
+      <h3>"덜 먹어라"의 종말</h3>
+      <p>지난 30년간 미국·한국 비만율 폭증에도 평균 칼로리 섭취량은 감소. 운동량은 증가. <strong style="color:var(--gold-light)">"칼로리 균형 가설"로는 설명 불가능 → 환경이 바뀐 것</strong>이 학계 결론.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <h3 style="font-family: var(--serif); font-size: 1.4rem; margin-bottom: 1.25rem;">오베소겐이 비만을 일으키는 5가지 작용 경로</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 2rem;">하나의 오베소겐은 보통 2~3개 경로를 동시에 건드립니다. 그래서 단순 칼로리 조절로는 잡히지 않습니다.</p>
+
+  <div class="grid-5" style="margin-bottom: 3rem;">
+    <div class="card">
+      <div class="stat-num stat-num-coral" style="font-size: 2rem;">①</div>
+      <div class="card-label">경로 1</div>
+      <h3 style="font-size: 0.95rem;">지방세포 분화 직접 유도</h3>
+      <p style="font-size: 12.5px;">PPARγ 수용체 활성화 → 지방전구세포가 지방세포로 강제 분화. 살을 만드는 신호 자체를 ON.</p>
+    </div>
+    <div class="card">
+      <div class="stat-num stat-num-coral" style="font-size: 2rem;">②</div>
+      <div class="card-label">경로 2</div>
+      <h3 style="font-size: 0.95rem;">호르몬 수용체 교란</h3>
+      <p style="font-size: 12.5px;">에스트로겐·갑상선·인슐린 수용체에 가짜 호르몬으로 결합 → 대사 시그널 마비.</p>
+    </div>
+    <div class="card">
+      <div class="stat-num stat-num-coral" style="font-size: 2rem;">③</div>
+      <div class="card-label">경로 3</div>
+      <h3 style="font-size: 0.95rem;">식욕 호르몬 변화</h3>
+      <p style="font-size: 12.5px;">렙틴 저항성 ↑, 그렐린 분비 ↑ → 포만감 신호 망가짐. 같은 양 먹어도 배가 안 부름.</p>
+    </div>
+    <div class="card">
+      <div class="stat-num stat-num-coral" style="font-size: 2rem;">④</div>
+      <div class="card-label">경로 4</div>
+      <h3 style="font-size: 0.95rem;">장내 미생물 파괴</h3>
+      <p style="font-size: 12.5px;">날씬균(아커만시아) 멸종, 비만균(피르미쿠테스) 증식 → 같은 음식이 더 많은 살로.</p>
+    </div>
+    <div class="card">
+      <div class="stat-num stat-num-coral" style="font-size: 2rem;">⑤</div>
+      <div class="card-label">경로 5</div>
+      <h3 style="font-size: 0.95rem;">미토콘드리아 손상</h3>
+      <p style="font-size: 12.5px;">세포의 발전소(미토콘드리아) 손상 → 같은 노력으로 같은 칼로리 못 태움. 운동 효율 ↓.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <h3 style="font-family: var(--serif); font-size: 1.4rem; margin-bottom: 1.25rem;">대표적 오베소겐 — 우리 일상의 적(敵)들</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 2rem;">학계가 정의한 주요 오베소겐들. 이 중 어떤 적(敵)을 우리 제품이 잡을 것인가 — 이것이 방향 선택의 출발점입니다.</p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width:22%">오베소겐 종류</th>
+        <th style="width:33%">주요 노출원</th>
+        <th style="width:30%">작용 경로</th>
+        <th style="width:15%">우리 방향성</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>장내 미생물 교란 인자</strong></td>
+        <td>항생제, 인공감미료(아스파탐·수크랄로스), 가공식품, 살균제</td>
+        <td>경로 ④ 미생물 파괴</td>
+        <td><span class="tag tag-teal">방향 A</span></td>
+      </tr>
+      <tr>
+        <td><strong>정제 탄수화물 · 인공감미료</strong></td>
+        <td>시럽 음료, 흰빵, 디저트, 제로 음료</td>
+        <td>경로 ②·③·④ 인슐린 저항성 + 미생물 파괴</td>
+        <td><span class="tag tag-teal">방향 A</span> (시너지)</td>
+      </tr>
+      <tr>
+        <td><strong>미세플라스틱 (MPs)</strong></td>
+        <td>생리대·탐폰, 플라스틱 용기, 배달 음식, 수돗물, 공기</td>
+        <td>경로 ①·② 지방세포 분화·호르몬 교란</td>
+        <td><span class="tag tag-coral">방향 B</span></td>
+      </tr>
+      <tr>
+        <td><strong>환경호르몬 (EDCs)</strong></td>
+        <td>BPA(영수증·통조림 코팅), 프탈레이트(화장품·향수), PFAS</td>
+        <td>경로 ①·② 지방세포 분화·호르몬 교란</td>
+        <td><span class="tag tag-coral">방향 B</span> (동반)</td>
+      </tr>
+      <tr>
+        <td>만성 스트레스 (코르티솔)</td>
+        <td>디지털 과부하, 수면 부족, 도시 소음</td>
+        <td>경로 ② 호르몬 교란</td>
+        <td>기존 갱년기 라인</td>
+      </tr>
+      <tr>
+        <td>대기오염 · 중금속</td>
+        <td>미세먼지, 디젤 매연, 카드뮴, 납</td>
+        <td>경로 ②·⑤ 미토콘드리아·호르몬</td>
+        <td>차기 라인</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr class="divider">
+
+  <h3 style="font-family: var(--serif); font-size: 1.4rem; margin-bottom: 1.25rem;">왜 지금 오베소겐 가설인가</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 2rem;">"덜 먹어라"는 처방이 더 이상 작동하지 않는 데이터 증거.</p>
+
+  <div class="grid-4">
+    <div class="card">
+      <div class="stat-num">38%</div>
+      <div class="stat-label">한국 성인 비만율 (2023)<br>1998년 26%에서 12%p 증가</div>
+      <div class="stat-source">국민건강영양조사</div>
+    </div>
+    <div class="card">
+      <div class="stat-num">-150kcal</div>
+      <div class="stat-label">같은 기간 미국인 1인 일평균 칼로리 섭취<br>감소했음에도 비만은 증가</div>
+      <div class="stat-source">USDA Food Availability Data</div>
+    </div>
+    <div class="card">
+      <div class="stat-num">+24%</div>
+      <div class="stat-label">한국인 운동 참여율 증가 (2008→2023)<br>그런데도 비만은 증가</div>
+      <div class="stat-source">문체부 국민생활체육조사</div>
+    </div>
+    <div class="card">
+      <div class="stat-num">95%</div>
+      <div class="stat-label">다이어트 실패율 (5년 내 요요)<br>"칼로리 균형 가설"의 한계 증명</div>
+      <div class="stat-source">UCLA 메타분석 (Mann et al.)</div>
+    </div>
+  </div>
+
+  <div class="callout callout-teal" style="margin-top: 2.5rem;">
+    <div class="callout-label">결론</div>
+    <p>"덜 먹고 더 움직이라"는 처방으로는 비만이 잡히지 않습니다. <strong style="color:var(--text);font-weight:600">환경이 변했고, 환경이 사람을 살찌게 합니다.</strong><br>
+    오베소겐 가설은 학계의 새로운 컨센서스이자, 우리 제품의 학술적 뼈대입니다.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     02. 시장 배경
+════════════════════════════════════ -->
+<section id="market">
+  <div class="section-label">02 · 시장 배경</div>
+  <h2 class="section-title">왜 지금, 환경성 비만 카테고리인가</h2>
+  <p class="section-desc">
+    다이어트는 영원한 카테고리지만, 패러다임은 바뀌고 있습니다. "굶기 vs 운동"의 시대에서
+    "오염원 배출 vs 대사 회복"의 시대로. 우리는 이 전환의 첫 시장을 선점합니다.
+  </p>
+
+  <div class="grid-4" style="margin-bottom: 2rem;">
+    <div class="card card-gold">
+      <div class="stat-num">38%</div>
+      <div class="stat-label">한국 성인 비만율 (2023)<br>꾸준한 증가 추세</div>
+      <div class="stat-source">국민건강영양조사</div>
+    </div>
+    <div class="card card-gold">
+      <div class="stat-num">6.4조</div>
+      <div class="stat-label">2025년 국내 건강기능식품 시장<br>다이어트 카테고리 약 1조 추정</div>
+      <div class="stat-source">한국건강기능식품협회</div>
+    </div>
+    <div class="card card-gold">
+      <div class="stat-num">59%</div>
+      <div class="stat-label">건기식 온라인 구매 비중 (2025)<br>미디어커머스 채널 주도권</div>
+      <div class="stat-source">한국보건산업진흥원</div>
+    </div>
+    <div class="card card-gold">
+      <div class="stat-num">+8.1%</div>
+      <div class="stat-label">글로벌 마이크로바이옴 시장 CAGR<br>(2024~2030) 차세대 카테고리</div>
+      <div class="stat-source">Grand View Research</div>
+    </div>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.2rem; margin-bottom: 1rem;">사전 체크리스트 통과 근거 (세 방향 공통)</h3>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-label">① 깊은 니즈 적합성</div>
+      <h3>매우 넓은 공감층</h3>
+      <p>"굶어도 안 빠진다"는 좌절은 30~40대 여성 다이어터의 보편 경험. 환경성 비만 프레임은 그 좌절에 학술적 해명을 제공해 즉각 공감 유도.</p>
+    </div>
+    <div class="card">
+      <div class="card-label">② 차별성의 수요</div>
+      <h3>+1만원 의향 강함</h3>
+      <p>"환경성 비만 솔루션"이라는 새 카테고리는 기존 다이어트 보조제 대비 차별점이 명확. 환경 의식 높은 30~40대 여성은 프리미엄 지불 의향 충분.</p>
+    </div>
+    <div class="card">
+      <div class="card-label">③ 수익성</div>
+      <h3>3.5~6만원 포지셔닝</h3>
+      <p>국내 다이어트 카테고리 평균 3.9~4.2만원, 차세대·환경 카테고리는 5만원대 가능. 해외 SKU(C)는 $39.99~49.99 미국 표준가 적용.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     03. 핵심 로직 (공통)
+════════════════════════════════════ -->
+<section id="logic">
+  <div class="section-label">03 · 핵심 로직 (세 방향 공통)</div>
+  <h2 class="section-title">문제를 다시 정의합니다</h2>
+  <p class="section-desc">
+    기존 다이어트 시장은 "의지 부족"을 탓하는 프레임을 씁니다. 우리는 다른 프레임을 제안합니다.
+    오베소겐 가설로 "당신 잘못이 아니다"라는 죄책감 해소 + "환경을 정리하면 빠진다"는 희망을 동시에 제시합니다.
+  </p>
+
+  <div class="callout">
+    <div class="callout-label">기획의 한 줄 (모든 방향에 공통)</div>
+    <p>"당신이 살이 찐 게 아니라, 환경에 오염된 것입니다. 오염원을 빼면 몸은 알아서 정상화됩니다."</p>
+  </div>
+
+  <div class="grid-2" style="margin: 2.5rem 0;">
+    <div>
+      <h3 style="font-family: var(--serif); margin-bottom: 1rem; color: var(--text3); font-size: 1rem;">❌ 기존 프레임 (다이어트 시장의 함정)</h3>
+      <div class="logic-flow">
+        <div class="logic-step">살이 찐다</div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-step">의지 부족</div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-step">덜 먹어라</div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-step">또 실패 (요요)</div>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-family: var(--serif); margin-bottom: 1rem; color: var(--gold); font-size: 1rem;">✅ 우리의 프레임 (오베소겐 가설)</h3>
+      <div class="logic-flow">
+        <div class="logic-step highlight">살이 찐다</div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-step highlight">환경에 오염</div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-step highlight">오염원 배출</div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-step result">몸이 정상화</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mechanism">
+    <div class="mechanism-title">오베소겐이 비만을 만드는 공통 메커니즘 — 5단계</div>
+    <div class="mechanism-chain">
+      <div class="m-node">① 환경 노출<br><span style="font-size:11px;opacity:0.7">매일 음식·물·공기</span></div>
+      <div class="m-arrow">→</div>
+      <div class="m-node">② 체내 흡수·축적</div>
+      <div class="m-arrow">→</div>
+      <div class="m-node key">③ 신호 교란<br><span style="font-size:11px;opacity:0.7">PPARγ·호르몬·미생물</span></div>
+      <div class="m-arrow">→</div>
+      <div class="m-node">④ 지방세포 분화·비대화</div>
+      <div class="m-arrow">→</div>
+      <div class="m-node out">⑤ 다이어트 무력화<br>(굶어도 안 빠짐)</div>
+    </div>
+  </div>
+
+  <div class="callout callout-teal">
+    <div class="callout-label">소비자 공감 포인트</div>
+    <p>"낮에 아무리 굶고 운동해도 안 빠지는 이유, 환경에 답이 있습니다. 몸 안에 오베소겐이 쌓이는 한, 어떤 다이어트도 작동하지 않습니다."</p>
+  </div>
+
+  <hr class="divider">
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin-bottom: 1rem;">두 방향성 — 어떤 오베소겐 적(敵)을 잡을 것인가</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 2rem;">동일한 오베소겐 가설을 학술 뼈대로 두되, 잡는 적과 시장에 따라 두 가지 방향성을 분리 운영합니다. 두 방향 모두 국내·해외 진출이 가능합니다.</p>
+
+  <div class="grid-2">
+    <div class="card card-teal">
+      <div class="card-label">방향 A · 국내 + 글로벌 동시 진출</div>
+      <h3 style="color: var(--teal);">비만균 vs 날씬균</h3>
+      <p><strong style="color:var(--text)">적:</strong> 장내 미생물 교란 (비만균 우세 + 날씬균 결핍)<br><strong style="color:var(--text)">메인 원료:</strong> 사균체 아커만시아 (서브: 베르베린·BNR17)<br><strong style="color:var(--text)">한 줄:</strong> "당신이 살찐 게 아닙니다, 살찌는 균만 키운 것입니다"</p>
+    </div>
+    <div class="card card-coral">
+      <div class="card-label">방향 B · 국내 다이어트+여성건강</div>
+      <h3 style="color: var(--coral);">미세플라스틱 + EDC</h3>
+      <p><strong style="color:var(--text)">적:</strong> 미세플라스틱·BPA·프탈레이트<br><strong style="color:var(--text)">메인 원료:</strong> 흑국균 키토산<br><strong style="color:var(--text)">한 줄:</strong> "지방세포가 미세플라스틱의 보디가드"</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     04. 방향 선택 탭 (인터랙티브)
+════════════════════════════════════ -->
+<div class="direction-tabs" id="directions">
+  <span class="direction-tabs-label">방향 선택</span>
+  <button class="direction-tab active" data-tab="A" onclick="selectDirection('A')">
+    <span class="tab-badge">A</span> 차세대 균 · 비만균 vs 날씬균
+  </button>
+  <button class="direction-tab" data-tab="B" onclick="selectDirection('B')">
+    <span class="tab-badge">B</span> 미세플라스틱 · 흑국균 키토산
+  </button>
+</div>
+
+<!-- ════════════════════════════════════
+     [방향 A] 차세대 균 · 비만균 vs 날씬균
+════════════════════════════════════ -->
+<div class="dir-content active" data-direction="A">
+
+<section>
+  <div class="section-label" style="color: var(--teal);">방향 A · 상세 기획안 (학술 검증 완료)</div>
+  
+  <div class="direction-header">
+    <div class="direction-badge badge-A">A</div>
+    <div>
+      <div class="direction-title">비만균 vs 날씬균 — 차세대 균 다이어트</div>
+      <div class="direction-sub">비만인의 장에는 날씬균(아커만시아)이 정상 체중인의 1/3 수준에 불과합니다. 사균체 아커만시아 뮤시니필라를 직접 보충해 망가진 균 인구 구조를 회복시키는 차세대 솔루션. 일반 유산균(BNR17 포함)이 도달하지 못하는 장 점막에 직접 정착하는 단 하나의 균.</div>
+      <div class="direction-meta">
+        <span>오베소겐 적<strong>장내 미생물 교란 (비만균 우세 · 날씬균 결핍)</strong></span>
+        <span>메인 USP<strong>사균체 Akkermansia muciniphila</strong></span>
+        <span>시장<strong>국내 + 글로벌 동시 진출</strong></span>
+        <span>목표 판매가<strong>5.5~7만원 / $44.99~54.99</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="big-quote big-quote-teal">
+    <p>"당신이 살찐 게 아닙니다.<br>살찌는 균만 키운 것입니다."</p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--teal);">A-1. 체질의 정체 — 비만균 vs 날씬균</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 1.5rem;">"같은 음식 먹는데 왜 나만 살찔까?" 이 평생의 질문에 학계가 답을 내놓았습니다. 체질이 아닙니다. <strong style="color: var(--text)">장 속 균 인구 구조의 차이</strong>입니다.</p>
+
+  <div class="grid-2">
+    <div class="evidence evidence-teal">
+      <div class="evidence-title">정상 체중인의 장 — 균형 잡힌 인구</div>
+      <p><strong>비만균 : 날씬균 = 1 : 1</strong><br>
+      • 피르미쿠테스(Firmicutes, 비만균) ≈ 박테로이데테스(날씬균)<br>
+      • 아커만시아(Akkermansia) <strong style="color: var(--teal)">3~5% 정상 보유</strong><br>
+      • 점막층이 두껍고 장 누수 없음<br>
+      • L-cell이 활발히 GLP-1 분비</p>
+    </div>
+    <div class="evidence evidence-coral">
+      <div class="evidence-title">비만인의 장 — 균형이 무너진 도시</div>
+      <p><strong>비만균 : 날씬균 = 2 : 1 (불균형)</strong><br>
+      • 피르미쿠테스 우세 (비만균 인구 폭증)<br>
+      • 아커만시아 <strong style="color: var(--coral)">정상인의 1/3 수준</strong><br>
+      • 점막층 얇아짐 + 장 누수<br>
+      • 만성 저등급 염증 + 렙틴 저항성</p>
+    </div>
+  </div>
+
+  <div class="callout callout-teal">
+    <div class="callout-label">학계의 결론</div>
+    <p>"<strong style="color: var(--text); font-weight:600">쌍둥이 연구 — 같은 유전자, 같은 식단, 다른 결과.</strong> 한 명은 비만, 한 명은 정상. 차이는 단 하나, 장 속 균 인구 구조였습니다. '체질'이라는 막연한 단어의 정체가 과학적으로 밝혀졌습니다."</p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--teal);">A-2. 충격 통계 — 비만인의 아커만시아는 정상인의 1/3</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 1.5rem;">이 한 가지 수치가 이 제품의 모든 것입니다. 다이어트 시장 전체를 뒤집을 한 줄.</p>
+
+  <div class="mechanism" style="background: linear-gradient(135deg, rgba(45,212,191,0.08), rgba(244,162,97,0.08)); border-color: rgba(45,212,191,0.3); text-align: center; padding: 3rem 2rem;">
+    <div style="font-family: var(--serif); font-size: 5rem; font-weight: 900; color: var(--teal); line-height: 1; margin-bottom: 1rem;">1/3</div>
+    <div style="font-family: var(--serif); font-size: 1.3rem; color: var(--text); font-weight: 600; margin-bottom: 0.5rem;">비만인의 장내 아커만시아 보유량</div>
+    <div style="font-size: 14px; color: var(--text2); margin-bottom: 1rem;">(정상 체중인 대비)</div>
+    <div style="font-size: 12px; color: var(--text3);">📄 Everard et al., PNAS 2013 / Dao et al., Gut 2016</div>
+  </div>
+
+  <p style="font-size: 14px; color: var(--text2); margin: 1.5rem 0;">이 결핍이 만드는 결과는 단순히 "균이 적다"가 아닙니다. <strong style="color: var(--text)">다이어트가 작동하지 않는 신체 환경 자체가 형성</strong>됩니다.</p>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-label">결과 ①</div>
+      <h3>장 점막 얇아짐</h3>
+      <p>아커만시아가 만들던 점막층이 얇아짐 → 장 누수(leaky gut) → LPS 내독소 혈류 유입 → <strong style="color: var(--text)">만성 저등급 염증</strong> → 렙틴 저항성</p>
+    </div>
+    <div class="card">
+      <div class="card-label">결과 ②</div>
+      <h3>식욕 조절 실패</h3>
+      <p>L-cell 자극 부족 → <strong style="color: var(--text)">GLP-1 자연 분비 감소</strong> → 식후 포만감 짧음 → 자꾸 단 게 당김 → 폭식 패턴</p>
+    </div>
+    <div class="card">
+      <div class="card-label">결과 ③</div>
+      <h3>지방 저장 모드</h3>
+      <p>AMPK 활성화 저하 → 지방 산화 신호 OFF → <strong style="color: var(--text)">먹는 모든 것이 지방으로 저장</strong> → 굶어도 안 빠지는 몸</p>
+    </div>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--teal);">A-3. 왜 이렇게 됐는가 — 환경이 만든 미생물 학살</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 1.5rem;">아커만시아 결핍은 유전이 아닙니다. 현대인의 일상이 만든 결과입니다.</p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 30%">현대 일상의 적</th>
+        <th style="width: 35%">아커만시아에 미치는 영향</th>
+        <th style="width: 35%">학술 근거</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>항생제 (한 번의 처방)</strong></td>
+        <td>장내 미생물 다양성 <strong style="color: var(--coral)">30% 감소</strong>, 평생 완전 복원 불가</td>
+        <td>Nature 2018 (Palleja et al.)</td>
+      </tr>
+      <tr>
+        <td><strong>인공감미료</strong><br>(아스파탐·수크랄로스·제로 음료)</td>
+        <td>날씬균 <strong style="color: var(--coral)">최대 80% 감소</strong>. "제로 칼로리"의 비만 함정</td>
+        <td>Nature 2014 (Suez et al.)</td>
+      </tr>
+      <tr>
+        <td><strong>가공식품·트랜스지방</strong></td>
+        <td>점막층 분해, 아커만시아 서식지 파괴</td>
+        <td>Cell Host & Microbe 2018</td>
+      </tr>
+      <tr>
+        <td><strong>살균제 (방부제·세제 잔여)</strong></td>
+        <td>장내 미생물 다양성 점진적 감소</td>
+        <td>Gut Microbes 2020</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-coral">
+    <div class="callout-label">소비자 공감 포인트</div>
+    <p>"당신 잘못이 아닙니다. <strong style="color: var(--text); font-weight: 600">매일의 식환경이 당신 장에서 날씬균을 학살해 온 것</strong>입니다. 이제 다시 심으면 됩니다."</p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--teal);">A-4. 아커만시아 단독으로 만들어내는 4가지 작용</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 1.5rem;">"하나의 균이 어떻게 이렇게 많은 효과를 낼 수 있나?" 답은 아커만시아가 <strong style="color: var(--text)">장 점막에 직접 거주하는 차세대 균</strong>이라는 데 있습니다.</p>
+
+  <div class="mechanism">
+    <div class="mechanism-title">아커만시아의 핵심 작용 인자: Amuc_1100 (외막 단백질)</div>
+    <div class="mechanism-chain">
+      <div class="m-node key-teal">사균체 Akkermansia<br><span style="font-size:11px;opacity:0.7">Amuc_1100 단백질</span></div>
+      <div class="m-arrow">→</div>
+      <div class="m-node">장 점막 TLR2 수용체</div>
+      <div class="m-arrow">→</div>
+      <div class="m-node">동시 4가지 작용 분기</div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top: 1rem;">
+    <div class="evidence evidence-teal">
+      <div class="evidence-title">작용 ① · 장 점막 강화</div>
+      <p><strong>장 누수 차단</strong> — 점막층 두께 증가, LPS 내독소 혈류 유입 차단, 만성 염증 감소.<br>📄 Plovier et al., Nature Medicine 2017</p>
+    </div>
+    <div class="evidence evidence-teal">
+      <div class="evidence-title">작용 ② · GLP-1 자연 분비</div>
+      <p><strong>식욕 조절 호르몬 정상화</strong> — L-cell 자극으로 GLP-1 자체 분비 ↑. 식후 포만감 회복.<br>📄 Everard et al., PNAS 2013</p>
+    </div>
+    <div class="evidence evidence-teal">
+      <div class="evidence-title">작용 ③ · AMPK 활성화</div>
+      <p><strong>지방 연소 스위치 ON</strong> — AMPK 경로 활성화로 지방 산화 증가, 메트포민과 같은 경로.<br>📄 Cani et al., Nature Medicine 2019</p>
+    </div>
+    <div class="evidence evidence-teal">
+      <div class="evidence-title">작용 ④ · FIAF 증가</div>
+      <p><strong>지방 저장 차단</strong> — FIAF(Fasting-Induced Adipose Factor) 증가 → 음식의 지방 전환 억제.<br>📄 Bäckhed et al., PNAS 2007</p>
+    </div>
+  </div>
+
+  <div class="callout callout-teal" style="margin-top: 1.5rem;">
+    <div class="callout-label">핵심</div>
+    <p>"단 하나의 균이 <strong style="color: var(--text); font-weight: 600">4가지 작용을 동시에 만들어냅니다.</strong> 일반 유산균 10가지를 모아도 이 메커니즘은 만들지 못합니다. 점막에 거주하는 차세대 균만의 능력입니다."</p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--teal);">A-5. 왜 사균체(Pasteurized)인가 — 직관과 반대의 학술 결론</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 1.5rem;">"살아있는 균이 더 좋다"는 직관과 반대로, <strong style="color: var(--text)">사균체(저온 열처리) 아커만시아가 대사 효과 측면에서 살아있는 균보다 우수</strong>하다는 것이 학술 컨센서스입니다.</p>
+
+  <div class="grid-2">
+    <div class="evidence evidence-teal">
+      <div class="evidence-title">⭐ Plovier et al., Nature Medicine 2017 (결정 임상)</div>
+      <p><strong>인체 무작위 이중맹검 위약대조 시험</strong>:<br>• 사균체 아커만시아 3개월 투여 → <strong style="color:var(--text)">인슐린 감수성 30% 개선</strong><br>• 인슐린 수치·총 콜레스테롤 감소<br>• <strong style="color:var(--text)">살아있는 균은 동일 효과 없음</strong> — 사균체가 유의하게 우월<br>• EFSA 안전성 평가 완료, EU Novel Food 인정 (2021)</p>
+    </div>
+    <div class="evidence evidence-teal">
+      <div class="evidence-title">메커니즘 — 왜 죽은 균이 더 효과적인가</div>
+      <p><strong>핵심 작용 인자: Amuc_1100 외막 단백질</strong>.<br>• 저온 열처리(70-80°C) 시에도 안정<br>• TLR2 수용체에 직접 결합 → 효과 발현<br>• 살아있는 균보다 면역 자극이 강함<br>• 살아있는 균의 다른 성분이 오히려 효과를 방해하는 가능성 보고</p>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-top: 1.5rem;">
+    <div class="card card-teal">
+      <div class="card-label">제조·유통 우위</div>
+      <h3 style="color: var(--teal);">콜드체인 불필요</h3>
+      <p>사균체이므로 저장 안정성이 압도적. 유통기한 길어짐, 제형 자유도 ↑ (캡슐·정제·스틱·스무디 모두 가능).</p>
+    </div>
+    <div class="card card-teal">
+      <div class="card-label">안전성 우위</div>
+      <h3 style="color: var(--teal);">면역저하자도 안전</h3>
+      <p>죽은 균이므로 패혈증·균 전위 위험 없음. 임산부·노약자 안전성 우수. 면역억제제 복용자도 사용 가능.</p>
+    </div>
+    <div class="card card-teal">
+      <div class="card-label">규제 우위</div>
+      <h3 style="color: var(--teal);">EU 식품 사용 공식 인정</h3>
+      <p>2021년 EU Novel Food 인정은 사균체 형태 기준. 안전성 데이터 풍부로 국내 식약처 진입 시에도 유리.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--teal);">A-6. 1세대 유산균(BNR17 포함) vs 차세대 균 — 결정적 차이 4가지</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 1.5rem;">"BNR17으로 부족했던 분들"이라는 마케팅 후크 뒤에는 실제로 균 분류·작용 방식·임상 위계의 명확한 차이가 있습니다. 이건 "더 좋은 유산균"이 아닌 <strong style="color: var(--text)">다른 종류의 균</strong>입니다.</p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 18%">구분</th>
+        <th style="width: 41%">1세대 유산균 (BNR17 · 락토바실러스 · 비피더스)</th>
+        <th style="width: 41%; color: var(--teal);">차세대 균 (아커만시아 뮤시니필라)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>학술 분류</strong></td>
+        <td>전통 프로바이오틱스 (Traditional Probiotics)</td>
+        <td><strong style="color:var(--teal)">차세대 프로바이오틱스 (Next-Generation Probiotics, NGP)</strong> — 학계 공식 용어</td>
+      </tr>
+      <tr>
+        <td><strong>거주 위치</strong></td>
+        <td>락토바실러스 = 주로 소장 / 비피더스 = 주로 대장<br>변(便) 통과형 — <span class="tag tag-red">정착 안 함</span></td>
+        <td><strong style="color:var(--teal)">장 점막층(mucus layer)에 직접 거주</strong> ("muciniphila" = mucus-loving)<br>소장+대장 모두 점령, 장벽 세포와 직접 cross-talk</td>
+      </tr>
+      <tr>
+        <td><strong>작용 메커니즘</strong></td>
+        <td><strong>BNR17:</strong> 지방산 산화 유전자(PPARα/δ·CPT1) 발현 ↑, 렙틴·인슐린 감소 (간접)<br><strong>일반 락토:</strong> 락트산 생성, 장 환경 산성화</td>
+        <td><strong style="color:var(--teal)">Amuc_1100 → TLR2 자극 → 4가지 작용 동시 분기</strong><br>(점막 강화 + GLP-1 + AMPK + FIAF)</td>
+      </tr>
+      <tr>
+        <td><strong>인체 임상</strong></td>
+        <td>BNR17 12주 RCT 90명 — 내장지방·허리둘레 감소<br><span class="tag tag-gold">식약처 체지방 감소 개별인정 1호 (한국)</span></td>
+        <td>Cani 2019 Nature Medicine 32명 — <strong style="color:var(--teal)">인슐린 감수성 28%↑, 체중 2.3kg↓</strong><br>Plovier 2017 Nature Medicine — 사균체 인슐린 감수성 30%↑<br><span class="tag tag-teal">EU Novel Food 인정 (2021)</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-teal">
+    <div class="callout-label">핵심 한 줄 요약</div>
+    <p>일반 유산균이 장을 <strong style="color: var(--text)">통과하며 잠시 효과를 주는 '순회형'</strong>이라면, 아커만시아는 <strong style="color: var(--text)">점막에 거주하며 장벽 자체를 강화하는 '정착형'</strong>입니다. 점막에 거주하는 균이 있어야 4가지 작용이 동시에 만들어집니다.</p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--teal);">A-7. 대안 차단 로직 — "왜 이미 사 본 것들로는 안 되는가"</h3>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 25%">소비자가 이미 시도한 것</th>
+        <th style="width: 35%">한계/단점</th>
+        <th style="width: 40%">우리 제품이 필요한 이유</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>BNR17 / 다이어트 유산균</strong></td>
+        <td>1세대 균 — 통과형, 점막에 정착 안 함. 식약처 기능성은 있지만 BMI에 미치는 영향은 보조적</td>
+        <td>"BNR17은 첫 단계, 아커만시아는 다음 단계. <strong style="color:var(--teal)">점막 거주형 차세대 균만이 4가지 작용을 동시에 만들어냅니다.</strong>"</td>
+      </tr>
+      <tr>
+        <td>일반 유산균 다종 복합 (10종·20종 균주)</td>
+        <td>100가지 균이 있어도 점막 거주 균(아커만시아)은 거의 없음</td>
+        <td>균 종류가 아니라 <strong style="color:var(--teal)">균 종</strong>이 다름. 사균체 단독 보충이 핵심</td>
+      </tr>
+      <tr>
+        <td>다이어트 보조제 (가르시니아·CLA)</td>
+        <td>식욕 억제 일시적, 의지 의존, 요요 필연</td>
+        <td>식욕을 억지로 누르지 않고 <strong style="color:var(--teal)">날씬균이 자연히 식욕 신호를 정상화</strong>하게 만듦</td>
+      </tr>
+      <tr>
+        <td>식이섬유·프리바이오틱스 (이눌린·차전자피)</td>
+        <td>균 먹이만 줄 뿐, <strong style="color:var(--coral)">존재하지 않는 균의 먹이를 줘봐야 의미 없음</strong></td>
+        <td>"잡초 정원에 비료만 뿌리면? 잡초가 더 자랍니다. <strong style="color:var(--teal)">먼저 진짜 꽃(아커만시아)을 직접 심어야 합니다.</strong>"</td>
+      </tr>
+      <tr>
+        <td>요거트·발효식품</td>
+        <td>일반 유산균만 함유, 아커만시아는 식품 자연 함유 거의 불가능</td>
+        <td>아커만시아는 <strong style="color:var(--teal)">전용 배양·라이센스 균주</strong>로만 보충 가능</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--teal);">A-8. 직관 비유 + 공포소구</h3>
+  <div class="grid-3">
+    <div class="card card-teal">
+      <div class="card-label">⭐ 메인 비유 · 정원</div>
+      <h3 style="color: var(--teal);">"잡초만 무성한 정원"</h3>
+      <p>"당신의 장은 정원입니다. 잡초(비만균)는 알아서 자라지만, <strong style="color:var(--text)">진짜 꽃(아커만시아)은 심어야 자랍니다.</strong> 잡초만 매도 또 자랍니다. 진짜 꽃을 심어 잡초가 자랄 자리를 빼앗아야 합니다."</p>
+    </div>
+    <div class="card card-teal">
+      <div class="card-label">서브 비유 · 도시 인구</div>
+      <h3 style="color: var(--teal);">"무너진 인구 균형"</h3>
+      <p>"장 속 도시에 비만족이 인구의 90%, 날씬족은 1%. 도시 균형이 무너졌습니다. <strong style="color:var(--text)">날씬족을 이민시켜 인구를 정상화</strong>해야 도시가 다시 작동합니다."</p>
+    </div>
+    <div class="card card-teal">
+      <div class="card-label">서브 비유 · 쌍둥이</div>
+      <h3 style="color: var(--teal);">"같은 유전자, 다른 체중"</h3>
+      <p>"쌍둥이도 한 명은 비만, 한 명은 정상. 같은 유전자, 같은 식단인데 결과가 다릅니다. 차이는 단 하나 — <strong style="color:var(--text)">장 속 균 구성</strong>. '체질'의 정체가 이것입니다."</p>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top: 1.5rem;">
+    <div class="callout callout-coral" style="margin: 0;">
+      <div class="callout-label">공포소구 ① 다이어트 유산균 실패자</div>
+      <p style="font-size: 13px;">"BNR17, 비피더스, 다 먹어봤는데 효과가 미미하셨다면, 이유는 명확합니다. 당신의 장에는 <strong style="color:var(--text)">비만 직격 균(아커만시아)이 정상인의 1/3 수준</strong>(Everard 2013 PNAS). 1세대 유산균은 점막에 정착하지 않습니다. <strong style="color:var(--text)">점막에 거주하는 차세대 균을 따로 보충해야 합니다.</strong>"</p>
+    </div>
+    <div class="callout callout-coral" style="margin: 0;">
+      <div class="callout-label">공포소구 ② 가공식품·제로 음료 잦은 분</div>
+      <p style="font-size: 13px;">"제로 칼로리 음료를 매일 드신다면, <strong style="color:var(--text)">인공감미료가 날씬균을 80%까지 감소시킨다는 연구</strong>가 있습니다(Nature 2014). 칼로리는 0이어도 비만률은 +. 지금 마시는 것마다 당신 장에서 날씬균을 학살하고 있습니다."</p>
+    </div>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--teal);">A-9. 원료 설계</h3>
+  <div class="formula-box">
+    <div class="formula-row">
+      <div class="formula-role">⭐ 메인 USP</div>
+      <div>
+        <div class="formula-name">사균체 Akkermansia muciniphila <span class="tag tag-teal">차세대 균</span> <span class="tag tag-gold">EU Novel Food 인정</span></div>
+        <div class="formula-desc">10×10⁹ TFU (사균체 단위) · A-Mansia, 고바이오랩 KBL983, 서울대 SNUG-61027 중 라이센스 / Amuc_1100 외막 단백질 작용, 살아있는 균보다 우수한 인체 RCT 결과 (Nature Medicine 2017, 2019) / <strong style="color:var(--teal)">단독으로 4가지 작용 동시 발현</strong></div>
+      </div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-role">서브 ① 식약처 기능성</div>
+      <div>
+        <div class="formula-name">락토바실러스 가세리 BNR17 <span class="tag tag-gold">식약처 체지방 감소 개별인정</span></div>
+        <div class="formula-desc">1세대 + 2세대 균 동시 탑재. BNR17 경험자에게 친숙함 제공 + <strong style="color:var(--teal)">"체지방 감소" 표시광고 합법 확보</strong> + "BNR17보다 차세대 균" 위계 메시지 가능</div>
+      </div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-role">서브 ② 식약처 기능성</div>
+      <div>
+        <div class="formula-name">밀크씨슬 추출물 (실리마린) 200mg <span class="tag tag-gold">식약처 간건강</span></div>
+        <div class="formula-desc">"간 건강에 도움" 표시 가능. 다이어트 카테고리의 신뢰 보강 + 광고 법적 근거 확보</div>
+      </div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-role">서브 ③ 정착 보조</div>
+      <div>
+        <div class="formula-name">베르베린 (Berberine) 200~300mg <span class="tag tag-teal">정착 비료</span></div>
+        <div class="formula-desc">⚠️ 메인이 아닌 <strong style="color:var(--text)">"정원의 비료" 역할</strong> — 베르베린은 장 점막 뮤신 분비를 자극해 아커만시아 정착 환경 조성 (ScienceDirect 2021 prebiotic 메커니즘) / 광고 후크에서는 노출 최소화</div>
+      </div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-role">서브 ④ 즉각 효능감</div>
+      <div>
+        <div class="formula-name">Faecalibacterium prausnitzii + 식이섬유 복합 (이눌린·다시마)</div>
+        <div class="formula-desc">첫주 배변·복부 가스 감소 체감 — 메인 효과 도달 전 즉각 신호 + 아커만시아의 prebiotic 먹이 제공</div>
+      </div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-role">부원료</div>
+      <div>
+        <div class="formula-name">L-글루타민 + 아연 + 비타민D (장 점막) · 케르세틴 + 비타민C (염증 차단)</div>
+        <div class="formula-desc">아커만시아 작용 환경 보완 — 장 점막 강화·만성 염증 차단으로 메인 효과 극대화</div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size: 13px; color: var(--text2); margin-top: 1rem;">📦 <strong>섭취 방법:</strong> 1일 1캡슐, 공복 (식전 30분 또는 취침 전) · 4주 1사이클, 3개월 풀 사이클</p>
+
+  <div class="callout callout-teal" style="margin-top: 1.5rem;">
+    <div class="callout-label">위계 명확화</div>
+    <p style="font-size: 14px;"><strong style="color: var(--text); font-weight: 600">메인 USP는 사균체 아커만시아 단독</strong>입니다. 베르베린·BNR17·밀크씨슬은 메인 원료의 효과를 극대화하거나 식약처 기능성을 확보하기 위한 보조 원료. 마케팅 후크는 "아커만시아 = 비만균 vs 날씬균" 단일 메시지로 통일합니다.</p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--teal);">A-10. 광고 5단계 로직 흐름</h3>
+  <div class="ad-stage teal">
+    <span class="ad-stage-num">STAGE ① · HOOK</span>
+    <h4>공감 — "같은 음식, 왜 나만 살찔까?"</h4>
+    <p>"친구는 똑같이 먹어도 안 찌는데, 나만 자꾸 찐다고요? <strong style="color:var(--text)">'체질'이라고만 생각해 오셨죠?</strong>" — 같은 식탁에 앉은 두 여성 / 한 명만 살찌는 클로즈업</p>
+  </div>
+  <div class="ad-stage teal">
+    <span class="ad-stage-num">STAGE ② · PROBLEM REFRAME</span>
+    <h4>문제 재정의 — 비만균 vs 날씬균</h4>
+    <p>"'체질'이라는 단어의 정체가 밝혀졌습니다. <strong style="color:var(--text)">비만인의 장에는 날씬균(아커만시아)이 정상인의 1/3 수준</strong>입니다(Everard 2013 PNAS). 같은 음식이라도 살찌는 균이 많으면 살이 찝니다. BNR17도 비피더스도 점막에 정착하지 않습니다." — 비만인 vs 정상인 장내 균 비율 비교 그래픽</p>
+  </div>
+  <div class="ad-stage teal">
+    <span class="ad-stage-num">STAGE ③ · MECHANISM</span>
+    <h4>메커니즘 — 정원 비유</h4>
+    <p>"당신의 장은 정원입니다. 잡초(비만균)는 알아서 자라고, 진짜 꽃(아커만시아)은 심어야 자랍니다. <strong style="color:var(--text)">날씬균을 직접 보충하면 잡초가 자랄 자리를 잃습니다.</strong>" — 잡초 무성한 정원 → 진짜 꽃 심기 → 잡초 사라짐 일러스트</p>
+  </div>
+  <div class="ad-stage teal">
+    <span class="ad-stage-num">STAGE ④ · SOLUTION</span>
+    <h4>솔루션 등장 — Nature Medicine 권위</h4>
+    <p>"Nature Medicine 인체 임상에서 사균체 아커만시아 12주 → 인슐린 감수성 28%, 체중 2.3kg 감소. EU에서 식품 사용 공식 인정. <strong style="color:var(--text)">차세대 균을 직접 보충하는 단 하나의 방법</strong>." — Nature 논문 캡처 + EU 인증 인서트 + 4가지 작용 도식</p>
+  </div>
+  <div class="ad-stage teal">
+    <span class="ad-stage-num">STAGE ⑤ · PROMISE</span>
+    <h4>결과 약속 — 단계별 타임라인</h4>
+    <p>"1주: 가스가 빠집니다. 4주: 식욕 패턴이 변합니다. 12주: 평생 안 빠지던 살이 빠집니다. <strong style="color:var(--text)">균 인구를 회복하면, 몸이 다시 작동합니다.</strong>" — 단계별 변화 타임라인 + RCT 결과 그래프</p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--teal);">A-11. 타겟 & 소구 방향</h3>
+  <table class="data-table">
+    <thead><tr><th>타겟</th><th>정의</th><th>핵심 소구</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>메인</strong></td>
+        <td>30~45세, BMI 정상~과체중, BNR17·다이어트 유산균 시도 후 만족 못한 다이어터, 잦은 변비/가스</td>
+        <td>"BNR17 다음 단계의 차세대 균 — 점막에 거주하는 단 하나의 균"</td>
+      </tr>
+      <tr>
+        <td>서브 ①</td>
+        <td>"같은 음식 먹는데 나만 살찐다"는 체질 의구심 가진 여성</td>
+        <td>"'체질'의 정체가 균 구성으로 밝혀졌습니다 — 균을 바꾸면 체질도 바뀝니다"</td>
+      </tr>
+      <tr>
+        <td>서브 ②</td>
+        <td>항생제 자주 복용 경험자 + 가공식품·제로 음료 잦은 30~40대</td>
+        <td>"당신 식환경이 날씬균을 학살해 왔습니다. 이제 다시 심어야 합니다"</td>
+      </tr>
+      <tr>
+        <td><strong>해외 (US)</strong></td>
+        <td>25~45세, "I eat the same but gain more" 좌절층, 마이크로바이옴 트렌드 관심층</td>
+        <td>"Why some people stay thin: It's not genetics, it's their gut bacteria"</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--teal);">A-12. 즉시 확인 필요 사항</h3>
+  <div class="grid-3">
+    <div class="card" style="border-color: var(--red); border-left: 4px solid var(--red);">
+      <div class="card-label" style="color: var(--red);">🔴 1순위 · 1주 내</div>
+      <h3>아커만시아 균주 라이센스</h3>
+      <p>국내 라이센스 우선: <strong style="color:var(--text)">고바이오랩 KBL983</strong> (Nature Microbiology 게재) / 서울대 SNUG-61027 / KRIBB 균주 (DSM 22959).<br>해외 라이센스: A-Mansia BioSciences (네덜란드), Pendulum (미국).<br>사균체 처리 가능 여부 + MOQ + 독점 조건 확인.</p>
+    </div>
+    <div class="card" style="border-color: var(--red); border-left: 4px solid var(--red);">
+      <div class="card-label" style="color: var(--red);">🔴 1순위 · 2주 내</div>
+      <h3>식약처 표시광고 검토</h3>
+      <p>"비만균 vs 날씬균" / "차세대 균" 표현 가능 여부 / "아커만시아" 단독 표시 가능 여부 / 사균체 일반식품 원료 사용 가능성 / Nature Medicine RCT 데이터 광고 인용 한계 — 법무·인허가팀 검토.</p>
+    </div>
+    <div class="card" style="border-color: var(--gold); border-left: 4px solid var(--gold);">
+      <div class="card-label" style="color: var(--gold);">🟡 2순위 · 3주 내</div>
+      <h3>베르베린 식품원료 사용 (서브 격하)</h3>
+      <p>베르베린은 <strong style="color:var(--text)">메인이 아닌 정착 보조 원료</strong>로 격하. 국내 식품원료 사용 가능 함량(200~300mg) 확인. 사용 불가 시 폴리페놀류·이눌린으로 정착 환경 보조 가능 (대체 가능).</p>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top: 2rem;">
+    <div class="callout-label">국내·해외 동시 진출 전략</div>
+    <p style="font-size: 14px; font-family: var(--sans); color: var(--text2);">아커만시아 메인 단독 처방으로 <strong style="color: var(--gold)">국내·해외 SKU를 동시 운영</strong>할 수 있습니다. 국내는 <strong style="color: var(--gold)">"BNR17 다음 단계 · 차세대 균"</strong>으로, 해외는 <strong style="color: var(--gold)">"Why thin people stay thin"</strong>으로 동일 제품 다른 메시지 운영. 제조는 한국 OEM에서 진행해 비용 우위 + Nature Medicine 권위로 신뢰도 확보.</p>
+  </div>
+</section>
+
+</div>
+
+<!-- ════════════════════════════════════
+     [방향 B] 미세플라스틱 · 흑국균 키토산
+════════════════════════════════════ -->
+<div class="dir-content" data-direction="B">
+
+<section>
+  <div class="section-label" style="color: var(--coral);">방향 B · 상세 기획안 (학술 검증 완료)</div>
+
+  <div class="direction-header">
+    <div class="direction-badge badge-B">B</div>
+    <div>
+      <div class="direction-title">미세플라스틱 오베소겐 다이어트</div>
+      <div class="direction-sub">"지방세포는 미세플라스틱의 보디가드입니다" — 배달음식 자주 먹을수록 BMI가 높아진다는 인체 연구가 나왔습니다. 매일 먹는 음식·물·생리대가 쌓아놓은 미세플라스틱이 지방세포를 붙잡고 있습니다. 흑국균 키토산으로 빼내면, 지방세포는 할 일을 잃고 떠납니다.</div>
+      <div class="direction-meta">
+        <span>오베소겐 적<strong>미세플라스틱 + 환경호르몬(EDC)</strong></span>
+        <span>메인 USP<strong>흑국균 키토산 125mg (특허 출원)</strong></span>
+        <span>시장<strong>국내 다이어트 + 여성건강</strong></span>
+        <span>목표 판매가<strong>38,200~42,000원</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="big-quote big-quote-coral">
+    <p>"지방세포는 미세플라스틱의 보디가드입니다.<br>보디가드가 지킬 대상이 사라지면, 지방도 떠납니다."</p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--coral);">B-1. 오베소겐 적(敵)의 정체 — 미세플라스틱이 노출되는 경로</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 1.5rem;">더 이상 환경 이슈가 아닙니다. 매일의 식사·물·생리대가 몸 안에 쌓고 있는 것이 지방세포를 만들고 있습니다.</p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 22%">일상 노출원</th>
+        <th style="width: 28%">구체적 상황</th>
+        <th style="width: 28%">노출량 추정</th>
+        <th style="width: 22%">체내 경로</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>배달음식 용기</strong></td>
+        <td>뜨거운 음식 → 플라스틱 용기에서 수백만 입자 용출</td>
+        <td>1회 배달 수십~수백만 입자</td>
+        <td>소화기 → 혈류</td>
+      </tr>
+      <tr>
+        <td><strong>생수·커피 테이크아웃</strong></td>
+        <td>PET병 생수 1L당 평균 240입자<br>커피 뚜껑 열처리 시 ↑↑</td>
+        <td>하루 수백 입자 (음료만)</td>
+        <td>소화기 → 혈류</td>
+      </tr>
+      <tr>
+        <td><strong>생리대 (여성)</strong></td>
+        <td>29종 전수 검출 (2026 국내 조사)<br>12개 제품서 자궁 내막 세포 변형</td>
+        <td>월 노출량 측정 중</td>
+        <td>점막 직접 흡수</td>
+      </tr>
+      <tr>
+        <td><strong>실내 공기·먼지</strong></td>
+        <td>합성섬유 의류·카펫·소파 마모 입자</td>
+        <td>하루 100~7,000입자 흡입</td>
+        <td>폐 → 혈류</td>
+      </tr>
+      <tr>
+        <td><strong>조리 용기 (테프론·실리콘)</strong></td>
+        <td>긁힌 코팅 → 음식에 직접 혼입</td>
+        <td>1회 조리 수천~수백만 입자</td>
+        <td>소화기 → 혈류</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="evidence evidence-coral">
+    <div class="evidence-title">미세플라스틱이 오베소겐인 이유 — 지방조직 친화성</div>
+    <p>미세플라스틱은 <strong>지방을 좋아하는 성질(친지질성)</strong>을 가집니다. 혈류로 들어온 미세플라스틱은 지방조직을 우선 목적지로 삼아 쌓입니다. 이미 2022년 인체 부검에서 <strong>지방조직 내 미세플라스틱 직접 검출</strong>이 확인됐습니다. 지방조직에 쌓인 미세플라스틱은 PPARγ 수용체를 자극해 지방세포 분화를 직접 유도합니다 — 먹지 않아도 살이 찌는 신체 환경이 만들어지는 것입니다.</p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--coral);">B-2. 충격 통계 — 미세플라스틱 많이 먹는 사람일수록 BMI가 높다</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 1.5rem;">"미세플라스틱과 살이 무슨 관계냐"는 질문에 답하는 데이터가 나왔습니다. 인체 연구입니다.</p>
+
+  <div class="mechanism" style="background: linear-gradient(135deg, rgba(244,162,97,0.08), rgba(201,168,76,0.06)); border-color: rgba(244,162,97,0.35); padding: 3rem 2rem; text-align: center;">
+    <div style="font-family: var(--serif); font-size: 4.8rem; font-weight: 900; color: var(--coral); line-height: 1; margin-bottom: 1rem;">1.264배</div>
+    <div style="font-family: var(--serif); font-size: 1.2rem; color: var(--text); font-weight: 600; margin-bottom: 0.5rem;">미세플라스틱 고노출군의 비만 위험</div>
+    <div style="font-size: 14px; color: var(--text2); margin-bottom: 1rem;">(저노출군 대비, P&lt;0.001, 95% CI: 1.108–1.441)</div>
+    <div style="font-size: 12px; color: var(--text3);">📄 배달음식 빈도별 미세플라스틱 노출·비만 연구, 란저우대학교 2024 (n=121, ScienceDirect)</div>
+  </div>
+
+  <div class="grid-2" style="margin-top: 1.5rem;">
+    <div class="evidence evidence-coral">
+      <div class="evidence-title">연구 설계 — 배달음식 빈도·체내 미세플라스틱·BMI 동시 측정</div>
+      <p>21~30세 건강한 성인 121명. 배달음식 섭취 빈도에 따라 고노출군(HME) vs 저노출군(LME)으로 분류 → 분변 내 미세플라스틱 농도 + BMI 동시 측정.<br>
+      결과: 고노출군에서 분변 미세플라스틱 농도도 높고, <strong>BMI도 유의하게 높음(P&lt;0.05)</strong>. 다중 회귀분석에서 미세플라스틱 농도가 BMI의 독립적 예측 인자로 확인.</p>
+    </div>
+    <div class="evidence evidence-coral">
+      <div class="evidence-title">이중 타격 — 미세플라스틱은 장내 균도 무너뜨린다</div>
+      <p>같은 연구에서 고노출군은 <strong>날씬균(Faecalibacterium·Coprococcus)이 감소하고 비만 관련 균이 증가</strong>. 미세플라스틱 → ① 지방세포 직접 분화 + ② 장내 미생물 교란 이중 경로로 비만을 악화시킵니다.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-coral">
+    <div class="callout-label">소비자 공감 포인트</div>
+    <p>"배달음식 자주 먹는 내가 살찌는 이유는 의지가 부족해서가 아닙니다. <strong style="color: var(--text); font-weight:600">매끼 배달 용기에서 녹아드는 미세플라스틱이 지방세포를 만들고 있었던 것입니다.</strong>"</p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--coral);">B-3. 학술 권위 — 미세플라스틱이 비만을 만드는 3가지 경로</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 1.5rem;">단순 환경 이슈가 아닌 비만의 직접적인 원인임을 입증하는 연구들. 다이어트에 직결된 경로만 정리했습니다.</p>
+
+  <div class="grid-3">
+    <div class="evidence evidence-coral">
+      <div class="evidence-title">① 지방세포 분화 직접 유도<br>📄 Frontiers Endocrinology 2021 (NYU)</div>
+      <p>미세플라스틱 구성 성분(BPA·프탈레이트)이 <strong>PPARγ 수용체에 결합 → 지방전구세포를 지방세포로 직접 분화</strong> 유도. 칼로리 섭취 변화 없어도 BMI 상승 가능.</p>
+    </div>
+    <div class="evidence evidence-coral">
+      <div class="evidence-title">② 지방조직 직접 축적·인슐린 저항성<br>📄 Nature Scientific Reports 2024</div>
+      <p>미세플라스틱이 지방조직에 직접 축적 → <strong>지방세포 노화·염증·인슐린 저항성 직접 유발</strong>. 인슐린 저항성 → 지방 저장 모드 고착 → 다이어트 무력화.</p>
+    </div>
+    <div class="evidence evidence-coral">
+      <div class="evidence-title">③ 장내 미생물 교란·지방 대사 악화<br>📄 Environment Health Perspectives 2024</div>
+      <p>폴리스티렌 미세플라스틱 + 고지방식 → 고지방식 단독 대비 <strong>체중·지방 조직량 더 많이 증가</strong>. 장내 미생물 교란 통해 지방 대사 이중 악화 (마우스 모델).</p>
+    </div>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--coral);">B-4. 메커니즘 — 미세플라스틱이 살을 만드는 5단계</h3>
+
+  <div class="mechanism">
+    <div class="mechanism-title">미세플라스틱 → 지방세포 격리 → 다이어트 무력화</div>
+    <div class="mechanism-chain">
+      <div class="m-node">① 일상 노출<br><span style="font-size:11px;opacity:0.7">음식·물·공기·생리대</span></div>
+      <div class="m-arrow">→</div>
+      <div class="m-node">② 혈류 진입<br>장 점막 통과·폐 흡수</div>
+      <div class="m-arrow">→</div>
+      <div class="m-node key-coral">③ 지방조직 우선 축적<br><span style="font-size:11px;opacity:0.7">친지질성 → 지방 먼저</span></div>
+      <div class="m-arrow">→</div>
+      <div class="m-node">④ PPARγ 활성화<br>지방세포 분화 유도</div>
+      <div class="m-arrow">→</div>
+      <div class="m-node out">⑤ 지방세포 비대화·고착<br>(다이어트 무력화)</div>
+    </div>
+  </div>
+
+  <div class="callout callout-coral">
+    <div class="callout-label">핵심 인사이트</div>
+    <p>"지방세포가 미세플라스틱을 인질로 잡고 있어 다이어트로 빠지지 않습니다. <strong style="color: var(--text); font-weight:600">미세플라스틱이 빠져야 → 지방세포가 격리 임무에서 해방 → 자연 감량 시작</strong>."</p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--coral);">B-5. 왜 키토산인가 — 미세플라스틱을 잡아당기는 단 하나의 성분</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 1.5rem;">클렌즈 주스·식이섬유·정수기로는 왜 안 되는가. 키토산이 유일하게 가진 것이 있습니다.</p>
+
+  <div class="big-quote" style="font-size: 1.2rem; padding: 1.5rem 0; text-align: center; font-family: var(--serif);">
+    "미세플라스틱은 끈적하게 지방에 달라붙는 성질이 있습니다.<br>
+    키토산은 이 미세플라스틱을 <em style="font-style:normal; color: var(--coral);">자석처럼 끌어당겨</em><br>
+    변으로 끌고 나가는 천연 성분입니다."
+  </div>
+
+  <div class="grid-2" style="margin: 1.5rem 0;">
+    <div class="card card-coral">
+      <div class="card-label">⭐ 메인 원리 — 자석 메타포</div>
+      <h3 style="color: var(--coral);">"반대끼리 끌어당기는 자연의 법칙"</h3>
+      <p>모든 물질에는 전기적인 성질이 있습니다. 미세플라스틱은 (–) 성질, 키토산은 (+) 성질을 가집니다. <strong style="color: var(--text)">반대 성질끼리는 자석처럼 서로 끌어당깁니다.</strong> 키토산이 장을 지나가며 미세플라스틱을 붙잡고 변으로 함께 빠져나갑니다. 마치 끈끈이 트랩처럼.</p>
+    </div>
+    <div class="card card-coral">
+      <div class="card-label">왜 일반 식이섬유는 안 되는가</div>
+      <h3 style="color: var(--coral);">"이눌린·차전자피는 이 힘이 없습니다"</h3>
+      <p>일반 식이섬유도 장을 지나가지만, <strong style="color: var(--text)">미세플라스틱을 잡아당기는 힘이 없습니다.</strong> 미세플라스틱은 장벽에 달라붙어 있어 그냥 지나쳐버립니다. 오직 키토산만이 이 인력으로 미세플라스틱을 떼어내 붙잡을 수 있습니다.</p>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom: 1.5rem;">
+    <div class="evidence evidence-coral">
+      <div class="evidence-title">인체 연구 (2025, 파비아대학)<br>📄 Foods 2025</div>
+      <p>건강한 성인 10명, 키토산(0.8g) 섭취 전·후 비교. <strong>변 내 미세플라스틱 배출량 47% 증가 확인</strong>(965±165 vs 656±110 입자). 인체에서도 효과가 확인된 최초 연구.</p>
+    </div>
+    <div class="evidence evidence-coral">
+      <div class="evidence-title">동물 연구 (2025, 도카이대학)<br>📄 Scientific Reports 2025</div>
+      <p>쥐 실험. 키토산 섭취 → <strong>장내 미세플라스틱 잔류율 50% 감소</strong>(6.1% vs 12.1%). "키토산이 미세플라스틱 배출을 촉진한다는 것을 입증한 첫 번째 연구".</p>
+    </div>
+    <div class="card card-coral">
+      <div class="card-label">왜 흑국균 키토산인가</div>
+      <h3 style="color: var(--coral);">갑각류 알러지 없음 · 비건</h3>
+      <p>일반 키토산은 새우·게 껍질에서 추출. <strong style="color: var(--text)">흑국균(Aspergillus niger) 발효 식물성 키토산은 갑각류 알러지가 없고 완전 비건.</strong> 더 정제된 공정으로 흡착 효율도 높습니다.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--coral);">B-6. 기존 해결책과의 결정적 차이</h3>
+  <p style="font-size: 14px; color: var(--text2); margin-bottom: 1.5rem;">기존 시도들이 공통으로 놓치고 있는 한 가지 — "이미 쌓인 것을 끄집어내는 메커니즘"입니다.</p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 22%">기존 해결책</th>
+        <th style="width: 30%">왜 미세플라스틱을 해결 못 하나</th>
+        <th style="width: 48%">흑국균 키토산이 필요한 이유</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>일반 다이어트 보조제</strong><br>(가르시니아·CLA)</td>
+        <td>지방세포 내 PPARγ 활성화(미세플라스틱)를 끄지 못함. 지방 합성 신호가 켜진 상태에서 억제제만 씀</td>
+        <td>"근본 원인인 미세플라스틱이 남아있는 한 어떤 다이어트 보조제도 일시적 효과에 그칩니다"</td>
+      </tr>
+      <tr>
+        <td><strong>디톡스 주스·클렌즈</strong></td>
+        <td>수용성 독소는 배출하지만, <strong>지방에 붙은 미세플라스틱은 수용성 방법으로 접근 불가</strong></td>
+        <td>"미세플라스틱은 기름에 달라붙어 있어 물로 씻기지 않습니다. 자석처럼 당기는 성분이 필요합니다"</td>
+      </tr>
+      <tr>
+        <td><strong>일반 식이섬유</strong><br>(이눌린·차전자피)</td>
+        <td>끌어당기는 힘 없음 → 미세플라스틱을 붙잡지 못하고 통과</td>
+        <td>"식이섬유는 장 환경에 좋지만, 미세플라스틱 포획력 자체가 없습니다"</td>
+      </tr>
+      <tr>
+        <td><strong>정수기·유리 용기</strong></td>
+        <td>회피 전략 — <strong>이미 평생 쌓인 체내 축적분은 회피로 해결 불가</strong></td>
+        <td>"이미 들어온 건 끄집어내야 합니다. 회피와 배출은 다른 문제입니다"</td>
+      </tr>
+      <tr>
+        <td><strong>클로렐라·스피루리나</strong></td>
+        <td>중금속 배출에 특화. 미세플라스틱은 플라스틱 고분자 → 흡착 못 함</td>
+        <td>"중금속 디톡스와 미세플라스틱 배출은 다른 메커니즘입니다"</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--coral);">B-7. 대안 차단 로직</h3>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 25%">소비자 반응</th>
+        <th style="width: 30%">한계</th>
+        <th style="width: 45%">차단 메시지</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>"그냥 굶고 운동하면 되지"</td>
+        <td>PPARγ가 켜진 상태 — 지방 합성 신호가 더 강함</td>
+        <td>"미세플라스틱이 지방 공장의 스위치를 켠 상태에서는 굶어도 공장이 멈추지 않습니다"</td>
+      </tr>
+      <tr>
+        <td>"클렌즈 주스로 디톡스했는데"</td>
+        <td>수용성 디톡스는 지방에 붙은 미세플라스틱에 접근 불가</td>
+        <td>"기름때는 기름으로 지워야 합니다. 물로는 안 됩니다. 미세플라스틱도 같은 원리입니다"</td>
+      </tr>
+      <tr>
+        <td>"정수기 샀고 유리 컵 씁니다"</td>
+        <td>미래 노출을 줄일 뿐, 이미 쌓인 체내 잔류분은 그대로</td>
+        <td>"막았어도 이미 들어온 건 나가지 않습니다. 배출이 필요합니다"</td>
+      </tr>
+      <tr>
+        <td>"다이어트 유산균 먹고 있어요"</td>
+        <td>장내 환경 개선 도움은 되지만 미세플라스틱 자체를 배출 못 함</td>
+        <td>"미세플라스틱이 계속 들어오는 한 장내 환경 개선은 밑 빠진 독에 물 붓기입니다"</td>
+      </tr>
+      <tr>
+        <td>"생분해 플라스틱으로 바꿨어요"</td>
+        <td>제조 과정에서 일반 미세플라스틱 동일 발생, 인증 허점 다수</td>
+        <td>"생분해 플라스틱도 미세플라스틱을 배출합니다. 이미 쌓인 것을 먼저 빼야 합니다"</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--coral);">B-8. 직관 비유 + 공포소구</h3>
+  <div class="grid-3">
+    <div class="card card-coral">
+      <div class="card-label">⭐ 메인 비유 · 보디가드</div>
+      <h3 style="color: var(--coral);">"지방세포는 미세플라스틱의 보디가드"</h3>
+      <p>"당신의 뱃살은 게으름의 증거가 아닙니다. 미세플라스틱의 보디가드입니다. <strong style="color:var(--text)">보디가드가 보호할 대상이 사라지면, 보디가드도 떠납니다.</strong>"</p>
+    </div>
+    <div class="card card-coral">
+      <div class="card-label">서브 비유 · 끈끈이 트랩</div>
+      <h3 style="color: var(--coral);">"키토산 = 미세플라스틱 끈끈이 트랩"</h3>
+      <p>"키토산은 장 속에 놓이는 미세플라스틱 끈끈이 트랩입니다. <strong style="color:var(--text)">지나가는 미세플라스틱을 붙잡아 변으로 함께 끌고 나갑니다.</strong>"</p>
+    </div>
+    <div class="card card-coral">
+      <div class="card-label">서브 비유 · 격리실 해방</div>
+      <h3 style="color: var(--coral);">"격리실 임무 종료"</h3>
+      <p>"지방세포는 몸을 지키기 위해 미세플라스틱을 격리실에 가두고 있습니다. 격리할 독소가 사라지면 격리실도 닫힙니다. <strong style="color:var(--text)">원인을 제거하면 결과(지방)도 사라집니다.</strong>"</p>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-top: 1.5rem;">
+    <div class="callout callout-coral" style="margin: 0;">
+      <div class="callout-label">공포소구 ① 다이어터</div>
+      <p style="font-size: 13px;">"배달음식 자주 드십니까? 연구에 따르면 배달음식 고노출군은 저노출군 대비 <strong style="color:var(--text)">비만 위험이 1.264배 높았습니다</strong>(란저우대학 2024). 더 무서운 건, 이 살은 굶어도 운동해도 안 빠진다는 것입니다."</p>
+    </div>
+    <div class="callout callout-coral" style="margin: 0;">
+      <div class="callout-label">공포소구 ② 여성건강</div>
+      <p style="font-size: 13px;">"시판 생리대 29종 모두에서 미세플라스틱 검출. <strong style="color:var(--text)">12개 제품에서 자궁 내막 세포 변형 확인</strong>. 더 무서운 건, 이 영향은 산부인과 검사로도 보이지 않는다는 것입니다."</p>
+    </div>
+    <div class="callout callout-coral" style="margin: 0;">
+      <div class="callout-label">공포소구 ③ 임산부</div>
+      <p style="font-size: 13px;">"미세플라스틱은 이미 <strong style="color:var(--text)">태반에서 검출</strong>됐습니다(Ragusa et al. 2021). 조산·저체중아·태아 발달 지연과의 연관성이 보고됩니다. 내 아이가 세상에 나오기 전, 자궁 환경부터 챙겨야 합니다."</p>
+    </div>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--coral);">B-9. 원료 설계</h3>
+  <div class="formula-box">
+    <div class="formula-row">
+      <div class="formula-role">⭐ 메인 USP</div>
+      <div>
+        <div class="formula-name">흑국균 키토산 125mg <span class="tag tag-coral">조성물 특허 출원</span> <span class="tag tag-teal">비건</span></div>
+        <div class="formula-desc">Aspergillus niger 발효 식물성 키토산 / 갑각류 알러지 없음 / 미세플라스틱·환경호르몬·지방·중금속 동시 포획 배출 / 인체 파일럿 연구(Foods 2025) + 동물 모델 입증</div>
+      </div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-role">서브 ① 즉각 효능감</div>
+      <div>
+        <div class="formula-name">식이섬유 복합 (다시마 후코이단 · 알긴산 · 이눌린) 300mg+ <span class="tag tag-coral">즉각 효능감</span></div>
+        <div class="formula-desc">첫주 배변·복부 둘레 감소 체감 / 키토산과의 복합 → 미세플라스틱 포획 후 빠른 배출 경로 확보 / 장 점막 보호</div>
+      </div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-role">서브 ② 식약처 기능성</div>
+      <div>
+        <div class="formula-name">키토산 콜레스테롤 저하 <span class="tag tag-gold">식약처 개별인정</span> + 글루타치온 <span class="tag tag-gold">식약처 체지방 감소</span></div>
+        <div class="formula-desc">"체지방 감소에 도움" + "혈중 콜레스테롤 개선에 도움" 표시 광고 가능 / 광고 법적 근거 확보</div>
+      </div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-role">부원료 · 동반 피해 복구</div>
+      <div>
+        <div class="formula-name">셀레늄·비타민E·아연 (산화스트레스) / 케르세틴·레스베라트롤 (만성 염증) / 클로렐라·스피루리나 (중금속 동반 배출)</div>
+        <div class="formula-desc">미세플라스틱이 유발하는 산화스트레스·만성 염증·중금속 부담을 전방위 완화 / 배출 후 세포 재건 보조</div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size: 13px; color: var(--text2); margin-top: 1rem;">📦 <strong>섭취 방법:</strong> 1일 2회, 식전 30분, 1회 1캡슐 (공복 시 흡착 효율 최대화) · 4주 1사이클, 3개월 풀 사이클</p>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--coral);">B-10. 광고 5단계 로직 흐름</h3>
+  <div class="ad-stage coral">
+    <span class="ad-stage-num">STAGE ① · HOOK</span>
+    <h4>공감 — 죄책감 해소</h4>
+    <p>"굶어도 배만 안 빠지시죠? 그게 당신 잘못이 아닙니다." — 다이어터의 좌절 클로즈업 + 배달앱 주문 화면 인서트</p>
+  </div>
+  <div class="ad-stage coral">
+    <span class="ad-stage-num">STAGE ② · PROBLEM REFRAME</span>
+    <h4>문제 재정의 — BMI-미세플라스틱 비례 데이터</h4>
+    <p>"배달음식 자주 먹는 사람이 더 살찐다는 연구가 나왔습니다. 이유는 칼로리가 아닙니다. 매끼 용기에서 녹아드는 미세플라스틱이 지방세포를 만들고 있었습니다." — BMI-미세플라스틱 상관 그래프 + 신용카드 1장 모션그래픽</p>
+  </div>
+  <div class="ad-stage coral">
+    <span class="ad-stage-num">STAGE ③ · MECHANISM</span>
+    <h4>메커니즘 — 보디가드 비유</h4>
+    <p>"지방세포는 미세플라스틱의 보디가드입니다. 보디가드가 지키고 있는 한, 지방은 떠나지 않습니다." — 지방세포가 미세플라스틱을 감싸는 일러스트 + 자석 포획 도식</p>
+  </div>
+  <div class="ad-stage coral">
+    <span class="ad-stage-num">STAGE ④ · SOLUTION</span>
+    <h4>솔루션 등장 — 자석 원리 + 인체 연구</h4>
+    <p>"미세플라스틱을 자석처럼 끌어당겨 변으로 내보내는 흑국균 키토산. <strong style="color:var(--text)">실제 사람 대상 연구에서 변 내 미세플라스틱 배출 47% 증가 확인.</strong> 비건, 갑각류 알러지 없음, 특허 출원 조성." — 자석 포획 영상 + Foods 2025 논문 인서트</p>
+  </div>
+  <div class="ad-stage coral">
+    <span class="ad-stage-num">STAGE ⑤ · PROMISE</span>
+    <h4>결과 약속 — 단계별 타임라인</h4>
+    <p>"1주: 변이 달라집니다. 4주: 허리 둘레가 변합니다. 12주: 평생 안 빠지던 살이 빠집니다." — 단계별 변화 타임라인 + 변화 일러스트</p>
+  </div>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--coral);">B-11. 타겟 & 소구 방향</h3>
+  <table class="data-table">
+    <thead><tr><th>타겟</th><th>정의 & 특성</th><th>핵심 소구</th><th>차단할 반응</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>메인</strong></td>
+        <td>30~45세 여성, 배달음식 주 3회+, 다이어트 좌절 경험, 복부 비만, BMI 정상~과체중</td>
+        <td>"당신이 게으른 게 아니라, 미세플라스틱 때문입니다"</td>
+        <td>"그냥 덜 먹으면 되지" → "미세플라스틱이 지방 공장 스위치를 켠 상태에서는 덜 먹어도 공장이 돌아갑니다"</td>
+      </tr>
+      <tr>
+        <td>서브 ①</td>
+        <td>임신 준비 중·임산부, 가족 건강 의사결정자</td>
+        <td>"내 아이의 첫 번째 환경, 자궁부터 깨끗하게"</td>
+        <td>"임신 중에 괜찮을까" → "흑국균 식물성 키토산, 갑각류 알러지 없는 안전한 성분"</td>
+      </tr>
+      <tr>
+        <td>서브 ②</td>
+        <td>여성질환(생리불순·자궁근종·난소낭종) 고민층</td>
+        <td>"자궁 속 미세플라스틱이 호르몬을 교란합니다"</td>
+        <td>"산부인과서 이상 없다는데" → "산부인과 검사로는 보이지 않습니다"</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size: 13px; color: var(--text2); margin-top: 1rem;">⚠️ <strong>타겟 분산 방지:</strong> 광고 후크는 메인 타겟(다이어트 좌절 여성) 단일 메시지 통일. 상세페이지 중·후반에서 서브 타겟 메시지 전개.</p>
+
+  <h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 2.5rem 0 1rem; color: var(--coral);">B-12. 즉시 확인 필요 사항</h3>
+  <div class="grid-2">
+    <div class="card" style="border-color: var(--red); border-left: 4px solid var(--red);">
+      <div class="card-label" style="color: var(--red);">🔴 1순위 · 2주 내</div>
+      <h3>식약처 표시광고 법무 검토</h3>
+      <p>"미세플라스틱 배출" 직접 표현 가능 여부 / "환경성 비만" / "오베소겐" / 인체 파일럿 연구(10명) 광고 인용 가능 범위 — <strong style="color:var(--text)">법무·인허가팀 검토 필수.</strong> 표현 불가 시 대체 문구 사전 준비.</p>
+    </div>
+    <div class="card" style="border-color: var(--red); border-left: 4px solid var(--red);">
+      <div class="card-label" style="color: var(--red);">🔴 1순위 · 2주 내</div>
+      <h3>흑국균 키토산 공급처·특허 확인</h3>
+      <p>공급처 단가·인증 재확인 (현 추정: 14만원/Kg, 25Kg 패킹) / 조성물 특허 출원 진행 상태 + 변리사 미팅 / 비건 키토산 EU 인증 (EU 2023/915 기준) 적용 가능 여부.</p>
+    </div>
+  </div>
+</section>
+
+</div>
+<!-- ════════════════════════════════════
+     05. 비교 매트릭스 (공통)
+════════════════════════════════════ -->
+<section id="comparison">
+  <div class="section-label">05 · 비교 매트릭스</div>
+  <h2 class="section-title">두 방향성 한눈에 비교</h2>
+  <p class="section-desc">동일한 오베소겐 가설을 학술 뼈대로 두되, 두 방향이 잡는 적·시장·강점이 명확히 다릅니다.</p>
+
+  <table class="matrix-table">
+    <thead>
+      <tr>
+        <th style="width:24%">항목</th>
+        <th class="col-A" style="width:38%">A · 차세대 균 (비만균 vs 날씬균)</th>
+        <th class="col-B" style="width:38%">B · 미세플라스틱</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>오베소겐 적</strong></td>
+        <td>장내 미생물 교란 (비만균 우세 · 날씬균 결핍)</td>
+        <td>미세플라스틱 + 환경호르몬(EDC)</td>
+      </tr>
+      <tr>
+        <td><strong>메인 USP</strong></td>
+        <td>사균체 Akkermansia muciniphila (단독 메인)</td>
+        <td>흑국균 키토산 125mg (조성물 특허)</td>
+      </tr>
+      <tr>
+        <td><strong>서브 원료</strong></td>
+        <td>BNR17(식약처 기능성) + 베르베린(정착 보조) + 밀크씨슬</td>
+        <td>식이섬유 복합 + 글루타치온 + 폴리페놀</td>
+      </tr>
+      <tr>
+        <td><strong>한 줄 후크 (국내)</strong></td>
+        <td>"당신이 살찐 게 아닙니다, 살찌는 균만 키운 것입니다"</td>
+        <td>"지방세포가 미세플라스틱의 보디가드"</td>
+      </tr>
+      <tr>
+        <td><strong>한 줄 후크 (해외)</strong></td>
+        <td>"Why thin people stay thin: 1/3 the Akkermansia"</td>
+        <td>국내 한정</td>
+      </tr>
+      <tr>
+        <td><strong>핵심 비유</strong></td>
+        <td>정원 (잡초 vs 진짜 꽃) · 도시 인구 균형 · 쌍둥이</td>
+        <td>보디가드 · 스펀지 · 격리실</td>
+      </tr>
+      <tr>
+        <td><strong>핵심 학술 근거</strong></td>
+        <td><strong style="color:var(--teal)">"비만인의 아커만시아 = 정상인의 1/3"</strong> (Everard PNAS 2013)</td>
+        <td><strong style="color:var(--coral)">"배달음식 고노출군 비만 위험 1.264배"</strong> (란저우대학 2024, n=121)</td>
+      </tr>
+      <tr>
+        <td><strong>주력 시장</strong></td>
+        <td><strong style="color:var(--teal)">국내 + 해외 동시 진출 가능</strong></td>
+        <td>국내 (다이어트 + 여성건강)</td>
+      </tr>
+      <tr>
+        <td><strong>타겟 연령</strong></td>
+        <td>30~45세 (국내) / 25~45세 (해외)</td>
+        <td>30~45세 (국내)</td>
+      </tr>
+      <tr>
+        <td><strong>가격대</strong></td>
+        <td>5.5~7만원 / $44.99~54.99</td>
+        <td>38,200~42,000원</td>
+      </tr>
+      <tr>
+        <td><strong>한 줄 후크 강도</strong></td>
+        <td><span class="star">★★★★★</span></td>
+        <td><span class="star">★★★★★</span></td>
+      </tr>
+      <tr>
+        <td><strong>차별성</strong></td>
+        <td><span class="star">★★★★★</span> ("1/3" 단일 통계로 충격, 국내 미선점)</td>
+        <td><span class="star">★★★★★</span> (사회 이슈 직격)</td>
+      </tr>
+      <tr>
+        <td><strong>인체 임상</strong></td>
+        <td><span class="star">★★★★★</span> Nature Medicine RCT 2건 + PNAS 결핍 통계</td>
+        <td><span class="tag tag-coral">★★★</span> 키토산 인체 파일럿(Foods 2025, n=10) + 동물 모델 + 미세플라스틱-BMI 인체 상관 연구</td>
+      </tr>
+      <tr>
+        <td><strong>식약처/규제 활용성</strong></td>
+        <td><span class="star">★★★</span> 사균체 라이센스 + BNR17·밀크씨슬 기능성 활용</td>
+        <td><span class="star">★★★</span> 보강 원료(글루타치온·키토산-콜레스테롤) 활용</td>
+      </tr>
+      <tr>
+        <td><strong>트렌드 타이밍</strong></td>
+        <td><span class="star">★★★★★</span> 마이크로바이옴 트렌드 진입기, 국내 선점 가능</td>
+        <td><span class="star">★★★★★</span> 2026년 생리대 검출 이슈 직격</td>
+      </tr>
+      <tr>
+        <td><strong>글로벌 확장성</strong></td>
+        <td><span class="star">★★★★★</span> 동일 처방 국내·해외 동시</td>
+        <td><span class="tag tag-red">★★</span> 한국 사회 이슈 의존도 높음</td>
+      </tr>
+      <tr>
+        <td><strong>카니발 위험</strong></td>
+        <td><span class="tag tag-teal">없음</span></td>
+        <td><span class="tag tag-teal">없음</span></td>
+      </tr>
+      <tr>
+        <td><strong>종합 매력도</strong></td>
+        <td><span class="star">★★★★★</span> <strong>메인 라인 / 회사 핵심 자산</strong></td>
+        <td><span class="star">★★★★</span> <strong>국내 한정 / 즉시 출시 가능</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ════════════════════════════════════
+     06. 포트폴리오 전략 (공통)
+════════════════════════════════════ -->
+<section id="portfolio">
+  <div class="section-label">06 · 포트폴리오 전략</div>
+  <h2 class="section-title">두 방향, 두 가지 역할</h2>
+  <p class="section-desc">
+    두 방향성은 서로 카니발이 없고 시장이 다릅니다. <strong style="color: var(--text)">A를 회사 핵심 자산(메인 라인)</strong>으로,
+    <strong style="color: var(--text)">B를 즉시 출시 가능한 이슈 활용 라인</strong>으로 운영하면 환경성 비만이라는 우산 안에서 회사 전체 다이어트 카테고리를 점령할 수 있습니다.
+  </p>
+
+  <div class="grid-2" style="margin: 2rem 0;">
+    <div class="portfolio-card A">
+      <div class="portfolio-role">메인 라인 · 국내 + 글로벌</div>
+      <h3 style="color: var(--teal);">방향 A · 차세대 균 (비만균 vs 날씬균)</h3>
+      <p><strong style="color:var(--text)">역할:</strong> 회사 핵심 자산 / "환경성 비만" 카테고리 정의 SKU<br><strong style="color:var(--text)">선점 가치:</strong> 국내 미선점 + 마이크로바이옴 트렌드 진입기<br><strong style="color:var(--text)">차별 강점:</strong> "비만인의 아커만시아 1/3" 단일 충격 통계 + Nature Medicine RCT + 사균체 안전성<br><strong style="color:var(--text)">출시 조건:</strong> 사균체 균주 라이센스 (고바이오랩 KBL983 우선) + 식약처 표시광고 검토</p>
+    </div>
+    <div class="portfolio-card B">
+      <div class="portfolio-role">이슈 활용 · 국내 즉시</div>
+      <h3 style="color: var(--coral);">방향 B · 미세플라스틱</h3>
+      <p><strong style="color:var(--text)">역할:</strong> 사회적 타이밍 활용 즉시 출시 라인<br><strong style="color:var(--text)">선점 가치:</strong> 2026년 생리대 검출 이슈 직격<br><strong style="color:var(--text)">차별 강점:</strong> 다이어트 + 여성건강 단일 솔루션 + 흑국균 키토산 특허<br><strong style="color:var(--text)">출시 조건:</strong> 식약처 표시광고 검토 + 정직 마케팅 (동물 모델 표기)</p>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top: 2rem;">
+    <div class="callout-label">포트폴리오 운영 시나리오</div>
+    <p style="font-size: 14px; font-family: var(--sans); color: var(--text2);"><strong style="color: var(--gold); font-family: var(--serif);">Year 1 Q1~Q2 :</strong> 방향 B 즉시 출시 (사회 이슈 타이밍 활용) → 방향 A 사균체 균주 라이센스 + 식약처 검토 동시 진행<br>
+    <strong style="color: var(--gold); font-family: var(--serif);">Year 1 Q3~Q4 :</strong> 방향 A 국내 출시 (회사 메인 라인 자산화 · "비만균 vs 날씬균" 후크) → 방향 B 미국 SKU 검토 (선택적)<br>
+    <strong style="color: var(--gold); font-family: var(--serif);">Year 2 :</strong> 방향 A 미국 Amazon FBA 진입 ("Why thin people stay thin" 포지셔닝) → 방향 B 라인 확장 (임산부·여성질환 전용)<br>
+    <strong style="color: var(--gold); font-family: var(--serif);">Year 3 :</strong> 두 라인 동시 운영 → 환경성 비만 카테고리 회사 전체 점유 → 차기 라인 확장 (대기오염·만성 스트레스)</p>
+  </div>
+
+  <div class="callout callout-teal" style="margin-top: 1.5rem;">
+    <div class="callout-label">왜 A가 메인 라인인가</div>
+    <p style="font-size: 14px;">동일한 처방으로 <strong style="color: var(--text); font-weight:600">국내·해외 동시 진출이 가능한 유일한 안</strong>입니다. "비만인의 아커만시아 = 정상인의 1/3"이라는 단일 통계가 다이어트 시장 전체를 뒤집을 후크입니다. 임상 견고함(Nature Medicine RCT)·차별성(국내 미선점)·트렌드 타이밍(마이크로바이옴 진입기) 모두 압도적입니다. 회사 입장에선 한국 OEM 비용 우위를 살려 미국 시장 진출까지 동시 노릴 수 있는 가장 큰 그림입니다.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════
+     07. 최종 제언 (공통)
+════════════════════════════════════ -->
+<section id="conclusion">
+  <div class="section-label">07 · 최종 제언</div>
+  <h2 class="section-title">즉시 실행해야 할 4가지</h2>
+  <p class="section-desc">두 방향성 모두 <strong style="color:var(--text)">"즉시 확인할 1순위 리스크"</strong>가 명확합니다. 4가지를 동시에 의뢰하면 2~3주 안에 두 안 모두에 대한 의사결정이 가능합니다.</p>
+
+  <div class="grid-2" style="margin-bottom: 1.5rem;">
+    <div class="card" style="border-color: var(--teal); border-left: 4px solid var(--teal);">
+      <div class="card-label" style="color: var(--teal);">방향 A · 1주 내</div>
+      <h3 style="color: var(--teal);">🔴 아커만시아 균주 라이센스</h3>
+      <p>국내 라이센스 1순위: <strong>고바이오랩 KBL983</strong> (Nature Microbiology), 서울대 SNUG-61027, KRIBB 균주.<br>해외 라이센스: A-Mansia BioSciences, Pendulum.<br>사균체 처리 가능 여부 + MOQ + 독점 조건 확인.</p>
+      <p style="margin-top: 0.75rem; font-size: 12px; color: var(--text3);"><strong>담당:</strong> 원료 소싱 + R&D</p>
+    </div>
+    <div class="card" style="border-color: var(--teal); border-left: 4px solid var(--teal);">
+      <div class="card-label" style="color: var(--teal);">방향 A · 2주 내</div>
+      <h3 style="color: var(--teal);">🔴 식약처 표시광고 검토</h3>
+      <p>"비만균 vs 날씬균" / "차세대 균" / "아커만시아" 단독 표시 가능 여부 / 사균체 일반식품 원료 사용 가능성 / Nature Medicine RCT 데이터 광고 인용 한계 검토.<br>※ 베르베린은 메인 아닌 서브이므로 우선순위 후순위로 격하.</p>
+      <p style="margin-top: 0.75rem; font-size: 12px; color: var(--text3);"><strong>담당:</strong> 법무·인허가</p>
+    </div>
+    <div class="card" style="border-color: var(--coral); border-left: 4px solid var(--coral);">
+      <div class="card-label" style="color: var(--coral);">방향 B · 2주 내</div>
+      <h3 style="color: var(--coral);">🔴 식약처 표시광고 검토</h3>
+      <p>"미세플라스틱 배출" / "환경성 비만" / "오베소겐" 표현 가능 여부. 흑국균 키토산 공급처·단가 재확인. 조성물 특허 출원 상태.</p>
+      <p style="margin-top: 0.75rem; font-size: 12px; color: var(--text3);"><strong>담당:</strong> 법무·인허가 + 원료 소싱</p>
+    </div>
+    <div class="card" style="border-color: var(--coral); border-left: 4px solid var(--coral);">
+      <div class="card-label" style="color: var(--coral);">방향 B · 3주 내</div>
+      <h3 style="color: var(--coral);">🟡 인체 임상 검토 + 정직 마케팅</h3>
+      <p>키토산-미세플라스틱 인체 임상 (12주 60~80명) 견적·일정 검토. "동물 모델 기준" 표기 가이드 확정. 광고 문구 법무 사전 검토.</p>
+      <p style="margin-top: 0.75rem; font-size: 12px; color: var(--text3);"><strong>담당:</strong> R&D + 마케팅</p>
+    </div>
+  </div>
+
+  <div class="rec-block">
+    <h2 style="color: var(--gold);">우리의 권고</h2>
+    <p style="font-size: 15px;">두 방향성은 카니발 없는 보완 관계입니다. <strong style="color:var(--text)">A를 회사 메인 라인으로, B를 즉시 출시 가능한 보조 라인으로 운영</strong>하는 포트폴리오 전략을 권합니다.<br>
+    A의 강점은 <strong style="color:var(--text)">"비만인의 아커만시아 1/3"이라는 단일 충격 통계</strong> — 다이어트 시장 전체를 뒤집을 후크와 국내·해외 동시 진출이 가능한 학술적 견고함. B의 강점은 사회적 타이밍을 활용한 빠른 출시. 두 라인 모두 "환경성 비만"이라는 우리만의 카테고리 언어를 회사 전체 자산으로 누적합니다.</p>
+    
+    <div class="grid-2" style="margin-top: 2rem; text-align: left;">
+      <div class="portfolio-card A">
+        <div class="portfolio-role">메인 라인 · 6개월 내 출시</div>
+        <h3 style="color: var(--teal);">A · 차세대 균 (비만균 vs 날씬균)</h3>
+        <p>"비만인의 아커만시아 = 정상인의 1/3" 단일 충격 통계 + 사균체 안전성 + Nature Medicine 권위. <strong style="color:var(--text)">국내·해외 동시 진출 가능한 회사 핵심 자산.</strong></p>
+      </div>
+      <div class="portfolio-card B">
+        <div class="portfolio-role">즉시 출시 · 3개월 내</div>
+        <h3 style="color: var(--coral);">B · 미세플라스틱</h3>
+        <p>2026년 사회 이슈 타이밍 활용. 다이어트 + 여성건강 단일 솔루션. <strong style="color:var(--text)">식약처 검토 통과 시 즉시 출시 가능.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────── FOOTER ────────────── -->
+<footer>
+  <div>
+    <strong style="color: var(--gold); font-family: var(--serif);">환경성 비만 다이어트 통합 기획안</strong><br>
+    오베소겐 가설 기반 신규 카테고리 · 미디어커머스 사업부
+  </div>
+  <div style="text-align: right; font-size: 11px;">
+    버전 v1.0 · 2026년 5월<br>
+    상품기획 AI 프레임워크 STEP 1~6 기반
+  </div>
+</footer>
+
+<!-- ────────────── SCRIPT (방향 토글) ────────────── -->
+<script>
+function selectDirection(dir) {
+  document.querySelectorAll('.dir-content').forEach(el => {
+    el.classList.toggle('active', el.dataset.direction === dir);
+  });
+  document.querySelectorAll('.direction-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === dir);
+  });
+  // 부드러운 스크롤 — 방향 콘텐츠 상단으로
+  const activeContent = document.querySelector(`.dir-content[data-direction="${dir}"]`);
+  if (activeContent) {
+    const tabsHeight = document.querySelector('.direction-tabs').offsetHeight;
+    const navHeight = document.querySelector('nav').offsetHeight;
+    const offset = activeContent.getBoundingClientRect().top + window.pageYOffset - tabsHeight - navHeight - 20;
+    window.scrollTo({ top: offset, behavior: 'smooth' });
+  }
+}
+</script>
+
+</body>
+</html>

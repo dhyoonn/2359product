@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>위 건강 다이어트 — 최종 완성 기획안</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#1a1a18; --ink2:#3d3d38; --ink3:#6b6b64; --ink4:#9b9b92;
+  --paper:#f7f5f0; --paper2:#eeecea; --paper3:#e4e1da; --white:#fff;
+  --rule:#d4d1c8;
+  --al:#eeedfe; --am:#534ab7; --ad:#26215c;
+  --bl:#e1f5ee; --bm:#0f6e56; --bd:#04342c;
+  --dl:#faeeda; --dm:#854f0b; --dd:#412402;
+  --el:#eeedfe; --em:#534ab7; --ed:#26215c;
+  --fl:#faece7; --fm:#993c1d; --fd:#4a1b0c;
+  --rl:#fcebeb; --rm:#a32d2d;
+  --gl:#eaf3de; --gm:#3b6d11;
+  --serif:'Noto Serif KR',serif; --sans:'Noto Sans KR',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.8;-webkit-font-smoothing:antialiased}
+
+/* COVER */
+.cover{background:var(--ink);color:var(--paper);padding:76px 64px 64px;position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;top:-90px;right:-90px;width:440px;height:440px;border:1px solid rgba(255,255,255,.06);border-radius:50%;pointer-events:none}
+.cover::after{content:'';position:absolute;top:40px;right:50px;width:230px;height:230px;border:1px solid rgba(255,255,255,.04);border-radius:50%;pointer-events:none}
+.cover-accent{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#9fe1cb 0%,#534ab7 40%,#993c1d 100%)}
+.cv-eyebrow{font-size:9.5px;letter-spacing:.18em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:20px}
+.cv-title{font-family:var(--serif);font-size:44px;font-weight:700;line-height:1.18;margin-bottom:8px;position:relative;z-index:1}
+.cv-title em{font-style:normal;color:#9fe1cb}
+.cv-sub{font-family:var(--serif);font-size:17px;font-weight:400;color:rgba(255,255,255,.42);margin-bottom:26px;position:relative;z-index:1}
+.cv-line{width:42px;height:2px;background:#9fe1cb;margin-bottom:24px}
+.cv-desc{font-size:13.5px;color:rgba(255,255,255,.48);line-height:1.8;max-width:520px;margin-bottom:36px;position:relative;z-index:1}
+.cv-desc strong{color:rgba(255,255,255,.78);font-weight:500}
+.cv-pills{display:flex;gap:7px;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:10px}
+.cp{font-size:9.5px;font-weight:700;letter-spacing:.06em;padding:3px 11px;border-radius:2px}
+.cp-ab{background:var(--al);color:var(--ad)} .cp-b{background:var(--bl);color:var(--bd)}
+.cp-d{background:var(--dl);color:var(--dd)} .cp-f{background:var(--fl);color:var(--fd)}
+.cv-ver{position:absolute;bottom:20px;right:64px;font-size:9.5px;color:rgba(255,255,255,.18);letter-spacing:.05em;z-index:1}
+
+/* PAGE */
+.page{max-width:920px;margin:0 auto;padding:60px 64px}
+
+/* CHAPTER */
+.ch{display:flex;align-items:baseline;gap:14px;margin-bottom:28px;padding-bottom:13px;border-bottom:1px solid var(--rule)}
+.ch-n{font-size:9px;letter-spacing:.15em;color:var(--ink4);text-transform:uppercase;flex-shrink:0}
+.ch-t{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);line-height:1.3}
+.sl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);margin-bottom:7px}
+
+/* TYPE */
+.h2{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--ink);margin-bottom:9px}
+.h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.body{font-size:13px;color:var(--ink2);line-height:1.75;margin-bottom:7px}
+.muted{font-size:13px;color:var(--ink3);line-height:1.7;margin-bottom:10px}
+strong{font-weight:700;color:var(--ink)}
+.quote{font-family:var(--serif);font-size:16px;font-weight:600;color:var(--ink);padding-left:17px;margin:15px 0;line-height:1.55}
+
+/* DIVIDER */
+.div{border:none;border-top:.5px solid var(--rule);margin:36px 0}
+.div-sm{border:none;border-top:.5px solid var(--rule);margin:16px 0}
+
+/* BADGE */
+.b{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:2px}
+.b-a{background:var(--al);color:var(--ad)} .b-b{background:var(--bl);color:var(--bd)}
+.b-c{background:var(--bl);color:var(--bd)} .b-d{background:var(--dl);color:var(--dd)}
+.b-e{background:var(--al);color:var(--ad)} .b-f{background:var(--fl);color:var(--fd)}
+.b-g{background:var(--gl);color:var(--gm)} .b-r{background:var(--rl);color:var(--rm)}
+.b-k{background:var(--ink);color:var(--paper)} .b-am{background:var(--dl);color:var(--dd)}
+
+/* CARD */
+.card{background:var(--white);border:.5px solid var(--rule);border-radius:6px;padding:20px 22px;margin-bottom:12px}
+.card-a{border-left:3px solid var(--am);border-radius:0 6px 6px 0}
+.card-b{border-left:3px solid var(--bm);border-radius:0 6px 6px 0}
+.card-c{border-left:3px solid var(--bm);border-radius:0 6px 6px 0}
+.card-d{border-left:3px solid var(--dm);border-radius:0 6px 6px 0}
+.card-e{border-left:3px solid var(--em);border-radius:0 6px 6px 0}
+.card-f{border-left:3px solid var(--fm);border-radius:0 6px 6px 0}
+.card-r{border-left:3px solid var(--rm);border-radius:0 6px 6px 0}
+.card-k{border-left:3px solid var(--ink2);border-radius:0 6px 6px 0}
+.card-dash{border-style:dashed;background:var(--paper)}
+.card-dark{background:var(--ink);border-color:var(--ink)}
+
+/* HBOX */
+.hbox{border-radius:4px;padding:11px 15px;font-size:13px;line-height:1.65;margin-top:8px}
+.hx-a{background:var(--al);color:var(--ad)} .hx-b{background:var(--bl);color:var(--bd)}
+.hx-c{background:var(--bl);color:var(--bd)} .hx-d{background:var(--dl);color:var(--dd)}
+.hx-e{background:var(--al);color:var(--ad)} .hx-f{background:var(--fl);color:var(--fd)}
+.hx-g{background:var(--gl);color:var(--gm)} .hx-r{background:var(--rl);color:var(--rm)}
+.hx-dk{background:var(--ink);color:rgba(255,255,255,.85)} .hx-p{background:var(--paper2);color:var(--ink2)}
+
+/* FLOW */
+.flow{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin:8px 0}
+.fn{padding:4px 10px;border-radius:3px;font-size:11.5px;font-weight:500;white-space:nowrap}
+.fn-gy{background:var(--paper2);color:var(--ink2);border:.5px solid var(--rule)}
+.fn-a{background:var(--al);color:var(--ad)} .fn-b{background:var(--bl);color:var(--bd)}
+.fn-d{background:var(--dl);color:var(--dd)} .fn-f{background:var(--fl);color:var(--fd)}
+.fn-r{background:var(--rl);color:var(--rm);font-weight:700}
+.arr{color:var(--ink4);font-size:14px}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+/* STAT CELL */
+.sc{background:var(--paper2);border-radius:6px;padding:13px 15px}
+.sc-l{font-size:9px;letter-spacing:.07em;color:var(--ink3);text-transform:uppercase;margin-bottom:4px}
+.sc-v{font-family:var(--serif);font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;line-height:1.4}
+.sc-d{font-size:11.5px;color:var(--ink3);line-height:1.5}
+
+/* STEP ROW */
+.sr{display:flex;gap:10px;align-items:flex-start;margin-bottom:9px}
+.sn{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:2px}
+.sn-a{background:var(--al);color:var(--ad)} .sn-b{background:var(--bl);color:var(--bd)}
+.sn-c{background:var(--bl);color:var(--bd)} .sn-d{background:var(--dl);color:var(--dd)}
+.sn-e{background:var(--al);color:var(--ad)} .sn-f{background:var(--fl);color:var(--fd)}
+.sn-k{background:var(--ink);color:var(--paper)}
+.st{font-size:13px;color:var(--ink2);line-height:1.7}
+
+/* VS TABLE */
+.vs{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+.vs th{padding:8px 12px;text-align:left;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--paper2);color:var(--ink3);border-bottom:1px solid var(--rule)}
+.vs td{padding:9px 12px;border-bottom:.5px solid var(--rule);vertical-align:top;color:var(--ink2);line-height:1.5}
+.vs tr:last-child td{border-bottom:none}
+.vs tr:nth-child(even) td{background:var(--paper)}
+.vs-bad{color:var(--rm);font-weight:500} .vs-good{color:var(--bm);font-weight:500}
+.vs-rl{font-weight:600;color:var(--ink3);font-size:11px}
+
+/* MECH ROW */
+.mr{display:flex;align-items:flex-start;margin-bottom:24px}
+.mn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:12px;font-weight:700;flex-shrink:0;margin-right:12px;margin-top:2px}
+.mb{flex:1}
+.mt{font-weight:700;font-size:14px;color:var(--ink);margin-bottom:5px}
+.md{font-size:13px;color:var(--ink2);line-height:1.75}
+
+/* LOGIC HEADER BANNER */
+.lh{padding:20px 24px;border-radius:6px;margin-bottom:14px;position:relative;overflow:hidden}
+.lh::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.lh-a{background:#f0effe;} .lh-a::before{background:var(--am)}
+.lh-b{background:#e6f8f3;} .lh-b::before{background:var(--bm)}
+.lh-c{background:#e3f6f0;} .lh-c::before{background:var(--bm)}
+.lh-d{background:#fdf3e3;} .lh-d::before{background:var(--dm)}
+.lh-e{background:#f0effe;} .lh-e::before{background:var(--em)}
+.lh-f{background:#fceee8;} .lh-f::before{background:var(--fm)}
+.lh-letter{font-family:var(--serif);font-size:28px;font-weight:700;line-height:1;margin-bottom:3px}
+.lh-name{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;opacity:.65}
+.lh-title{font-family:var(--serif);font-size:15px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:6px}
+.lh-sub{font-size:12px;color:var(--ink3);line-height:1.6}
+
+/* EVIDENCE BOX */
+.ev-box{background:var(--white);border:.5px solid var(--rule);border-radius:6px;padding:15px 18px;margin-bottom:14px}
+.ev-label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.ev-body{font-size:12.5px;color:var(--ink2);line-height:1.7;margin-bottom:7px}
+.ev-cite{font-size:11px;color:var(--ink4);font-style:italic;line-height:1.55;border-left:2px solid var(--rule);padding-left:10px}
+
+/* TARGET CARD */
+.tc{background:var(--paper2);border-radius:6px;padding:14px 16px}
+.tc-n{font-weight:700;font-size:13px;color:var(--ink);margin-bottom:4px}
+.tc-s{font-size:11px;color:var(--ink3);margin-bottom:6px}
+.tc-m{font-size:12px;color:var(--ink2);line-height:1.55;border-top:.5px solid var(--rule);padding-top:6px;margin-top:4px}
+
+/* ING TABLE */
+.ing{width:100%;border-collapse:collapse}
+.ing th{padding:9px 14px;text-align:left;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);background:var(--paper2);border-bottom:.5px solid var(--rule)}
+.ing td{padding:12px 14px;border-bottom:.5px solid var(--rule);vertical-align:top;font-size:12.5px;color:var(--ink2);line-height:1.55}
+.ing tr:last-child td{border-bottom:none}
+.ing-m td:first-child{font-weight:700;color:var(--ink)}
+.ing-s td:first-child{color:var(--ink3)}
+.ing-role{font-size:10.5px;color:var(--ink4);margin-top:2px}
+.ing-lg{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.ing-anc{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:2px;background:var(--ink);color:var(--paper)}
+
+/* CHK */
+.chk{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:.5px solid var(--rule);font-size:13px;color:var(--ink2);line-height:1.6}
+.chk:last-child{border-bottom:none}
+.chk-ic{font-size:14px;margin-top:1px;flex-shrink:0}
+.chk-t{font-weight:700;color:var(--ink);margin-bottom:2px;font-size:13px}
+
+/* FOOTER */
+.footer{margin-top:52px;padding-top:18px;border-top:.5px solid var(--rule);display:flex;justify-content:space-between;align-items:center}
+.fl{font-size:10px;color:var(--ink4);letter-spacing:.05em}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cv-eyebrow">미디어커머스 상품 기획안 · 최종 완성본 · 내부 검토용</div>
+  <div class="cv-title">위(胃)부터<br>고치는 <em>다이어트</em></div>
+  <div class="cv-sub">단일 제품 · 6가지 마케팅 로직 · 로직별 디테일 완전 수록</div>
+  <div class="cv-line"></div>
+  <div class="cv-desc">
+    다이어트 실패의 진짜 원인은 위(胃)다.<br>
+    <strong>6가지 기전이 하나의 제품으로 수렴</strong>하며,<br>
+    타겟에 따라 언어를 바꿀 뿐 — 제품은 하나입니다.<br>
+    각 로직의 기전·근거·마케팅 언어·차별점이 완전 수록된 최종본입니다.
+  </div>
+  <div class="cv-pills">
+    <span class="cp cp-ab">A — 그렐린·식욕</span>
+    <span class="cp cp-b">B — 위산·소화</span>
+    <span class="cp cp-b">C — 렙틴 저항성</span>
+    <span class="cp cp-d">D — 위 배출 속도</span>
+    <span class="cp cp-ab">E — 코르티솔·뱃살</span>
+    <span class="cp cp-f">F — 역발상·빠른 배출</span>
+  </div>
+  <div class="cover-accent"></div>
+  <div class="cv-ver">Rev. Final · 미디어커머스 상품기획팀</div>
+</div>
+
+<div class="page">
+
+<div class="ch"><span class="ch-n">Step 1</span><h1 class="ch-t">원료 기전 분석 — 위(胃)는 왜 다이어트의 핵심인가</h1></div>
+<p class="muted">위는 단순한 소화기관이 아닙니다. 식욕 호르몬의 분비처, 혈당 패턴의 조절자, 전신 염증의 출발점입니다. 위 기능이 무너지면 6가지 살찌는 경로가 동시에 열립니다.</p>
+
+<div class="mr"><div class="mn">①</div><div class="mb"><div class="mt">그렐린(Ghrelin) 분비 조절 — 공복 호르몬의 오작동</div><div class="md">위 저부(fundus)에서 분비되는 "공복 호르몬" 그렐린은 식욕을 촉진하고 지방 축적을 유도합니다. 정상적으로는 식사가 시작되면 그렐린이 뚝 떨어지며 포만감이 형성되어야 합니다. 그러나 위 점막이 손상되거나 기능이 저하되면 그렐린 분비 리듬이 망가져 <strong>식사 후에도 포만감을 못 느끼고 과식·야식으로 이어집니다.</strong></div><div class="flow"><span class="fn fn-r">위 점막 손상</span><span class="arr">→</span><span class="fn fn-a">그렐린 리듬 붕괴</span><span class="arr">→</span><span class="fn fn-a">포만감 지연</span><span class="arr">→</span><span class="fn fn-a">과식·야식 반복</span><span class="arr">→</span><span class="fn fn-r">지방 축적</span></div></div></div>
+
+<div class="mr"><div class="mn">②</div><div class="mb"><div class="mt">위산 & 소화 효율 — 불완전한 소화가 만드는 지방 합성 파이프라인</div><div class="md">위산이 부족하면 단백질과 탄수화물의 소화가 불완전해집니다. 덜 분해된 영양소가 소장에서 한꺼번에 흡수되면서 <strong>혈당 스파이크 → 인슐린 과분비 → 지방 합성 사이클</strong>이 매 식사마다 반복됩니다. 소화제나 효소 제품으로는 이 사이클의 근본 원인인 위산 부족을 해결할 수 없습니다.</div><div class="flow"><span class="fn fn-r">위산 부족</span><span class="arr">→</span><span class="fn fn-b">소화 불완전</span><span class="arr">→</span><span class="fn fn-b">혈당 스파이크</span><span class="arr">→</span><span class="fn fn-b">인슐린 과분비</span><span class="arr">→</span><span class="fn fn-r">지방 합성</span></div></div></div>
+
+<div class="mr"><div class="mn">③</div><div class="mb"><div class="mt">위-장-뇌축(Gut-Brain Axis) 신호 교란 — 먹어도 배부르지 않는 구조</div><div class="md">위 기능 저하 시 미주신경을 통한 포만 신호 전달이 지연됩니다. <strong>위 배출 속도(gastric emptying)가 비정상적일수록 체중 조절이 어렵다</strong>는 연구 데이터가 확인됐습니다. 이 신호 교란은 단순히 배고픔을 느끼는 것을 넘어, 뇌가 지속적으로 식욕 신호를 보내는 구조적 과식을 만들어냅니다.</div><div class="flow"><span class="fn fn-r">위 기능 이상</span><span class="arr">→</span><span class="fn fn-gy">미주신경 신호 교란</span><span class="arr">→</span><span class="fn fn-gy">포만 신호 지연·실패</span><span class="arr">→</span><span class="fn fn-r">구조적 과식</span></div></div></div>
+
+<div class="mr"><div class="mn">④</div><div class="mb"><div class="mt">위 점막 만성 염증 → 렙틴 저항성 — 운동해도 살이 안 빠지는 진짜 이유</div><div class="md">위 점막의 만성 염증은 사이토카인(IL-6, TNF-α)을 분비시킵니다. 이 전신 염증이 렙틴 수용체 신호를 차단(SOCS3 과활성화)해, <strong>지방을 태우라는 렙틴 명령이 근육 세포에 전달되지 않습니다.</strong> 운동을 해도, 식단을 지켜도 살이 안 빠지는 사람들이 이 경로에 해당합니다.</div><div class="flow"><span class="fn fn-r">위 만성 염증</span><span class="arr">→</span><span class="fn fn-b">IL-6·TNF-α 분비</span><span class="arr">→</span><span class="fn fn-b">렙틴 수용체 차단</span><span class="arr">→</span><span class="fn fn-r">지방 연소 명령 전달 실패</span></div></div></div>
+
+<div class="mr"><div class="mn">⑤</div><div class="mb"><div class="mt">위 불편감 → 코르티솔 만성 분비 → 복부 내장지방 직접 축적</div><div class="md">"스트레스 받으면 살찐다"는 누구나 알지만, 위 불편감 자체도 신체에는 스트레스 신호입니다. 매 식사마다 속쓰림·더부룩함을 느끼는 사람은 <strong>하루 세 번 코르티솔 스파이크</strong>가 발생합니다. 코르티솔은 복부 내장지방을 직접 축적하고 근육까지 분해해 기초대사량을 낮춥니다.</div><div class="flow"><span class="fn fn-r">위 만성 불편감</span><span class="arr">→</span><span class="fn fn-a">신체 스트레스 신호</span><span class="arr">→</span><span class="fn fn-d">코르티솔 과다</span><span class="arr">→</span><span class="fn fn-r">복부지방·근육 분해</span></div></div></div>
+
+<div class="mr"><div class="mn">⑥</div><div class="mb"><div class="mt">위 배출 과속 → 포만 신호 형성 실패 — 소화가 잘 돼서 살찌는 역설</div><div class="md">위 기능 저하만 살찌는 것이 아닙니다. 위가 음식을 <strong>너무 빠르게</strong> 소장으로 보내도 문제입니다. 포만감은 음식이 위에 머무는 동안 서서히 형성되는데, 빠른 배출 시 뇌가 포만 신호를 받기 전에 위가 비어버려 구조적 과식이 반복됩니다. 비만 환자에서 빠른 위 배출 속도가 반복 관찰된다는 실제 연구 데이터가 있습니다.</div><div class="flow"><span class="fn fn-gy">위 배출 과속</span><span class="arr">→</span><span class="fn fn-f">포만 신호 형성 실패</span><span class="arr">→</span><span class="fn fn-f">뇌 "아직 배고파"</span><span class="arr">→</span><span class="fn fn-r">구조적 과식 → 지방</span></div></div></div>
+
+<div class="card card-dash" style="margin-top:4px">
+  <div class="sl" style="margin-bottom:9px">6가지 기전의 통합 결론</div>
+  <div class="body" style="margin-bottom:10px">위 기능이 저하되거나 과활성화되면 여섯 가지 살찌는 경로가 <strong>동시에</strong> 열립니다. 위를 회복하면 이 경로를 한꺼번에 차단할 수 있습니다.</div>
+  <div class="hbox hx-g"><strong>핵심 인사이트:</strong> "다이어트 실패는 의지력의 문제가 아니라, 위 기능이 무너진 문제다" — 이 한 문장이 제품의 존재 이유입니다.</div>
+</div>
+<div class="div"></div>
+
+<div class="ch"><span class="ch-n">Step 2</span><h1 class="ch-t">사전 체크리스트 검토</h1></div>
+<div class="g3" style="margin-bottom:14px">
+  <div class="card">
+    <div class="sl" style="margin-bottom:8px">① 깊은 니즈 적합성</div>
+    <div class="chk"><span class="chk-ic">✅</span><div><div class="chk-t">대중성</div>속쓰림·소화불량은 전 국민 공통 경험. 6개 로직이 각각 다른 타겟을 포용해 시장 커버리지 극대화.</div></div>
+    <div class="chk"><span class="chk-ic">✅</span><div><div class="chk-t">확장성</div>위 건강 + 다이어트 복합 수요 지속 증가. 건기식 시장 연 8%+ 성장 추세.</div></div>
+    <div class="chk"><span class="chk-ic">✅</span><div><div class="chk-t">빈번성 / 긴급성</div>매 식사마다 발생. 하루 세 번 트리거. 즉각적 불쾌감으로 구매 동기 형성.</div></div>
+  </div>
+  <div class="card">
+    <div class="sl" style="margin-bottom:8px">② 차별성 수요</div>
+    <div class="body" style="font-size:13px">"위 때문에 살이 찐다"는 완전히 새로운 프레임. 6개 기존 다이어트 카테고리를 동시에 차단합니다.</div>
+    <div class="hbox hx-a" style="font-size:12px;margin-top:10px">+1만원 더 지불할 의향 충분. 기전 설명이 납득되는 순간 구매 결정.</div>
+    <div style="margin-top:10px"><span class="b b-g">✅ 통과</span></div>
+  </div>
+  <div class="card">
+    <div class="sl" style="margin-bottom:8px">③ 수익성</div>
+    <div class="body" style="font-size:13px">위건강 기능식품 평균 3~6만원. 다이어트 포지셔닝 + 스퀴즈젤 제형 프리미엄 적용 시 4~8만원대 책정 가능.</div>
+    <div class="flow" style="margin-top:8px"><span class="fn fn-gy">시장 평균가</span><span class="arr">3만원+</span><span class="fn" style="background:var(--gl);color:var(--gm)">✅ 통과</span></div>
+  </div>
+</div>
+<div class="div"></div>
+
+<div class="ch"><span class="ch-n">Step 3</span><h1 class="ch-t">배타적 차별성 로직 — 6가지 언어, 하나의 제품</h1></div>
+<p class="muted">제품 성분·기능은 동일합니다. 어떤 타겟을 만나느냐에 따라 A~F 중 적합한 언어로 전환합니다. 각 로직에는 기전 근거, 설득 흐름, 비유, 공포소구, 경쟁 제품 차별점이 완전히 수록됩니다.</p>
+
+<!-- ──────────────────── 로직 A ──────────────────── -->
+<div class="lh lh-a">
+  <div class="lh-letter" style="color:var(--am)">A</div>
+  <div class="lh-name" style="color:var(--am)">그렐린·식욕 로직</div>
+  <div class="lh-title">"위가 망가지면 배고픔 신호가 오작동한다"</div>
+  <div class="lh-sub">타겟: 야식·폭식 반복자 / 식욕 통제 실패 경험자 | 차단 대안: 식욕억제제</div>
+</div>
+<div class="card" style="margin-bottom:10px">
+  <div class="sl">기전 핵심</div>
+  <div class="body">위 저부(fundus)에서 분비되는 그렐린은 식사가 시작되면 급격히 떨어져야 합니다. 위 점막이 손상되면 이 리듬이 깨져 식사 후에도 그렐린이 높은 수준을 유지합니다. 뇌는 계속 "배고프다"는 신호를 받게 되고, 과식·야식이 구조화됩니다. 이것은 의지력의 문제가 아니라 <strong>위에서 발생한 호르몬 신호의 오작동</strong>입니다.</div>
+</div>
+<div class="quote" style="border-left:3px solid var(--am)">"다이어트가 안 되는 건 의지력 부족이 아니라,<br>위가 망가져 배고픔 신호가 오작동하는 겁니다."</div>
+<div class="card card-a" style="margin-bottom:12px">
+  <div class="sl" style="margin-bottom:10px">핵심 설득 흐름 ①~⑤</div>
+  <div class="sr"><div class="sn sn-a">①</div><div class="st"><strong>공감:</strong> "다이어트 열심히 하는데 밤만 되면 배고픔을 못 참으셨나요?"</div></div>
+  <div class="sr"><div class="sn sn-a">②</div><div class="st"><strong>범인 지목:</strong> "배고픔 신호를 만드는 그렐린 호르몬이, 위가 망가지면서 오작동하고 있는 겁니다."</div></div>
+  <div class="sr"><div class="sn sn-a">③</div><div class="st"><strong>대안 차단:</strong> "식욕억제제는 뇌를 억누르는 방식입니다. 근본 원인인 위는 그대로라 복용을 중단하면 즉시 반등합니다."</div></div>
+  <div class="sr"><div class="sn sn-a">④</div><div class="st"><strong>해결책:</strong> "위 점막을 회복시켜 그렐린 리듬을 정상화하면, 먹어도 자연스럽게 배부릅니다."</div></div>
+  <div class="sr" style="margin-bottom:0"><div class="sn sn-a">⑤</div><div class="st"><strong>제품:</strong> "[제품명] — 배고픔을 만드는 곳, 위부터 고치는 다이어트."</div></div>
+</div>
+<div class="g2" style="margin-bottom:12px">
+  <div class="card"><div class="sl">직관적 비유</div><div class="h3" style="margin-top:6px">오작동하는 배고픔 경보기</div><div class="body" style="font-size:13px">"고장난 화재경보기가 계속 울리면, 아무리 진화해봐야 소용없다. 경보기부터 고쳐야 한다." 그렐린 = 오작동 배고픔 경보기. 위를 고치는 것 = 경보기 수리.</div></div>
+  <div class="card card-r"><div class="sl">공포소구 메시지</div><div class="hbox hx-r" style="margin-top:6px;font-size:13px">"지금 방치하면 그렐린 오작동이 고착화 → 나이 들수록 조금만 먹어도 살찌는 체질로 영구히 굳어집니다."</div></div>
+</div>
+<div class="card" style="margin-bottom:0">
+  <div class="sl" style="margin-bottom:4px">식욕억제제와의 결정적 차별점</div>
+  <table class="vs"><thead><tr><th style="width:20%">항목</th><th style="width:40%">식욕억제제 (기존 경쟁)</th><th style="width:40%">이 제품 — 로직 A</th></tr></thead>
+  <tbody>
+    <tr><td class="vs-rl">작동 위치</td><td><span class="vs-bad">뇌(중추신경)</span> — 세로토닌·노르에피네프린 조절</td><td><span class="vs-good">위(근본 원인)</span> — 그렐린 분비 세포 정상화</td></tr>
+    <tr><td class="vs-rl">복용 중단 시</td><td><span class="vs-bad">식욕 즉시 반등</span></td><td><span class="vs-good">위 기능 회복 효과 지속</span></td></tr>
+    <tr><td class="vs-rl">부작용</td><td><span class="vs-bad">불면·심계항진·구역감</span></td><td><span class="vs-good">속쓰림·더부룩함도 함께 해결</span></td></tr>
+    <tr><td class="vs-rl">근본 해결</td><td><span class="vs-bad">✗ 호르몬 신호를 억지로 막는 것</span></td><td><span class="vs-good">✓ 호르몬이 제대로 작동하도록 환경 복구</span></td></tr>
+    <tr><td class="vs-rl">소비자 메시지</td><td>"억지로 참아라"</td><td>"참을 필요가 없어지게 만든다"</td></tr>
+  </tbody></table>
+  <div class="hbox hx-a" style="margin-top:12px"><strong>핵심 차단 문장:</strong> "식욕억제제는 배고픔 신호가 왜 오는지는 해결 안 합니다. 우리는 그 신호 자체를 정상화합니다."</div>
+</div>
+
+<div class="div"></div>
+
+<!-- ──────────────────── 로직 B ──────────────────── -->
+<div class="lh lh-b">
+  <div class="lh-letter" style="color:var(--bm)">B</div>
+  <div class="lh-name" style="color:var(--bm)">위산·소화 로직</div>
+  <div class="lh-title">"소화가 불완전하면 매 식사가 지방 합성 공장이 된다"</div>
+  <div class="lh-sub">타겟: 더부룩함·소화불량·식단 조절 실패자 | 차단 대안: 소화제·효소 제품</div>
+</div>
+<div class="card" style="margin-bottom:10px">
+  <div class="sl">기전 핵심</div>
+  <div class="body">위산이 부족하면 단백질이 덜 분해된 채 소장에 도달합니다. 이 불완전 소화물이 혈당을 급격히 끌어올리고, 췌장이 인슐린을 대량 분비합니다. 인슐린은 혈당을 낮추면서 동시에 <strong>남은 에너지를 지방으로 변환·저장</strong>하는 명령을 내립니다. 결국 위산 부족 → 소화 불완전 → 혈당 스파이크 → 인슐린 → 지방 축적이라는 살찌는 파이프라인이 매 식사마다 가동됩니다.</div>
+</div>
+<div class="quote" style="border-left:3px solid var(--bm)">"밥 먹고 더부룩한 것과 살이 찌는 것,<br>사실 같은 원인입니다."</div>
+<div class="card card-b" style="margin-bottom:12px">
+  <div class="sl" style="margin-bottom:10px">핵심 설득 흐름 ①~⑤</div>
+  <div class="sr"><div class="sn sn-b">①</div><div class="st"><strong>공감:</strong> "밥 먹고 더부룩하고, 먹는 것도 없는데 살이 찌시나요?"</div></div>
+  <div class="sr"><div class="sn sn-b">②</div><div class="st"><strong>범인 지목:</strong> "소화가 불완전하면 매 식사가 혈당 스파이크를 만들고, 그게 지방으로 바로 쌓입니다."</div></div>
+  <div class="sr"><div class="sn sn-b">③</div><div class="st"><strong>대안 차단:</strong> "소화제·효소는 지금 이 식사만 처리합니다. 위산 자체를 고치지 않으면 다음 식사도 똑같습니다."</div></div>
+  <div class="sr"><div class="sn sn-b">④</div><div class="st"><strong>해결책:</strong> "위산을 회복시켜 소화 효율 자체를 높이면 혈당 스파이크 파이프라인이 끊어집니다."</div></div>
+  <div class="sr" style="margin-bottom:0"><div class="sn sn-b">⑤</div><div class="st"><strong>제품:</strong> "[제품명] — 소화부터 고치는 다이어트, 매 식사가 달라집니다."</div></div>
+</div>
+<div class="g2" style="margin-bottom:12px">
+  <div class="card"><div class="sl">직관적 비유</div><div class="h3" style="margin-top:6px">불완전 연소 엔진</div><div class="body" style="font-size:13px">"불완전 연소하는 엔진은 연료를 넣을수록 그을음만 쌓인다." 위산 부족 = 불완전 연소 엔진. 뭘 먹어도 에너지가 아닌 지방(그을음)으로 쌓인다.</div></div>
+  <div class="card card-r"><div class="sl">공포소구 메시지</div><div class="hbox hx-r" style="margin-top:6px;font-size:13px">"매 식사마다 혈당 스파이크 반복 → 인슐린 저항성 누적 → '먹는 것도 없는데 살찌는' 최악의 체질이 됩니다."</div></div>
+</div>
+<div class="card" style="margin-bottom:0">
+  <div class="sl" style="margin-bottom:4px">소화제·효소 제품과의 결정적 차별점</div>
+  <table class="vs"><thead><tr><th style="width:20%">항목</th><th style="width:40%">소화제·효소 제품 (기존 경쟁)</th><th style="width:40%">이 제품 — 로직 B</th></tr></thead>
+  <tbody>
+    <tr><td class="vs-rl">작동 방식</td><td><span class="vs-bad">외부 효소 공급</span> — 지금 이 식사만 보조</td><td><span class="vs-good">위산 분비 환경 회복</span> — 몸 스스로 소화하는 능력 복구</td></tr>
+    <tr><td class="vs-rl">복용 중단 시</td><td><span class="vs-bad">소화 문제 즉시 재발</span></td><td><span class="vs-good">개선된 소화 능력 유지</span></td></tr>
+    <tr><td class="vs-rl">다이어트 연결</td><td><span class="vs-bad">없음</span> — 소화제는 살 빠지는 제품이 아님</td><td><span class="vs-good">혈당 스파이크 → 지방 축적 사이클 직접 차단</span></td></tr>
+    <tr><td class="vs-rl">복용 타이밍</td><td>식후 — 이미 일어난 소화 문제 사후 처리</td><td>식전 — 소화 파이프라인 자체를 미리 준비</td></tr>
+    <tr><td class="vs-rl">소비자 인식</td><td>"속 불편할 때 먹는 것" — 치료제 이미지</td><td>"매 식사를 지방 안 찌게 먹게 해주는 것" — 다이어트 이미지</td></tr>
+  </tbody></table>
+  <div class="hbox hx-b" style="margin-top:12px"><strong>핵심 차단 문장:</strong> "소화제는 이미 들어온 음식을 처리하는 거고, 우리는 음식이 지방이 되는 파이프라인 자체를 끊습니다."</div>
+</div>
+
+<div class="div"></div>
+
+<!-- ──────────────────── 로직 C ──────────────────── -->
+<div class="lh lh-c">
+  <div class="lh-letter" style="color:var(--bm)">C</div>
+  <div class="lh-name" style="color:var(--bm)">렙틴 저항성 로직</div>
+  <div class="lh-title">"위 염증이 지방 연소 명령의 전선을 끊어버린다"</div>
+  <div class="lh-sub">타겟: 운동 열심히 하는데 살 안 빠지는 사람 | 차단 대안: 지방연소 부스터·대사촉진 제품</div>
+</div>
+<div class="ev-box">
+  <div class="ev-label" style="color:var(--bm)">📄 논문 근거</div>
+  <div class="ev-body">비만 환자에서 위 점막 만성 염증이 전신 사이토카인(IL-6, TNF-α) 분비를 유발하고, 이것이 SOCS3(Suppressor of Cytokine Signaling 3)를 과활성화시켜 <strong>렙틴 수용체 신호 전달을 차단</strong>한다는 기전이 보고됐습니다. 렙틴 저항성이 발생하면 지방 연소 명령이 세포에 닿지 않아, 운동과 식이요법 효과가 현저히 감소합니다.</div>
+  <div class="ev-cite">참조: Münzberg H, Myers MG Jr. "Molecular and anatomical determinants of central leptin resistance." Nat Neurosci. 2005 / Hotamisligil GS. "Inflammation and metabolic disorders." Nature 2006 — 위장관 염증과 전신 렙틴 저항성의 연관성.</div>
+</div>
+<div class="card" style="margin-bottom:10px">
+  <div class="sl">기전 핵심</div>
+  <div class="body">렙틴은 지방세포에서 분비되어 뇌와 근육에 "지방을 태우라"는 명령을 전달하는 호르몬입니다. 위 점막 염증이 만성화되면 전신 저강도 염증이 지속되고, 이 염증이 렙틴 수용체를 둔감하게 만듭니다. <strong>명령은 계속 내려오지만 수신기(렙틴 수용체)가 고장난 상태</strong>입니다. 운동을 열심히 해도, 식단을 지켜도 살이 안 빠지는 이유가 바로 여기 있습니다.</div>
+</div>
+<div class="quote" style="border-left:3px solid var(--bm)">"운동해도 살이 안 빠진다면,<br>문제는 의지력이 아니라 렙틴 신호가 막힌 겁니다."</div>
+<div class="card card-c" style="margin-bottom:12px">
+  <div class="sl" style="margin-bottom:10px">핵심 설득 흐름 ①~⑤</div>
+  <div class="sr"><div class="sn sn-c">①</div><div class="st"><strong>공감:</strong> "운동·식단 열심히 하는데 살이 안 빠지고, 내 몸이 이상한 건지 걱정되셨나요?"</div></div>
+  <div class="sr"><div class="sn sn-c">②</div><div class="st"><strong>범인 지목:</strong> "지방을 태우라는 렙틴 호르몬 신호가 위 염증 때문에 차단돼 있기 때문입니다."</div></div>
+  <div class="sr"><div class="sn sn-c">③</div><div class="st"><strong>대안 차단:</strong> "지방연소 부스터는 신호 자체가 막혀 있으면 효과가 없습니다. 수신기부터 고쳐야 합니다."</div></div>
+  <div class="sr"><div class="sn sn-c">④</div><div class="st"><strong>해결책:</strong> "위 점막 염증을 잡으면 렙틴 저항성이 해소되고, 몸이 다시 지방을 태우기 시작합니다."</div></div>
+  <div class="sr" style="margin-bottom:0"><div class="sn sn-c">⑤</div><div class="st"><strong>제품:</strong> "[제품명] — 지방 연소 명령이 전달되게, 위부터 고치는 다이어트."</div></div>
+</div>
+<div class="g2" style="margin-bottom:12px">
+  <div class="card"><div class="sl">직관적 비유</div><div class="h3" style="margin-top:6px">끊긴 전선</div><div class="body" style="font-size:13px">"살을 태우라는 명령은 계속 내려오는데, 전선이 끊겨 있어서 근육 세포에 전달이 안 된다." 위 염증 = 끊긴 전선. 위를 고치는 것 = 전선 복구. 전선이 살아야 지방이 탄다.</div></div>
+  <div class="card card-r"><div class="sl">공포소구 메시지</div><div class="hbox hx-r" style="margin-top:6px;font-size:13px">"위 염증을 방치할수록 렙틴 저항성이 심해져 → 운동량을 늘려도, 더 굶어도 살이 안 빠지는 체질이 고착됩니다."</div></div>
+</div>
+<div class="hbox hx-dk"><strong>핵심 차단 문장 (C):</strong> "지방연소 제품은 명령을 더 크게 지르는 거고, 우리는 위 염증을 잡아 끊긴 전선을 잇습니다."</div>
+
+<div class="div"></div>
+
+<!-- ──────────────────── 로직 D ──────────────────── -->
+<div class="lh lh-d">
+  <div class="lh-letter" style="color:var(--dm)">D</div>
+  <div class="lh-name" style="color:var(--dm)">위 배출 속도 로직</div>
+  <div class="lh-title">"위 배출이 불규칙하면 혈당이 롤러코스터를 타고, 그 급락이 공복감을 만든다"</div>
+  <div class="lh-sub">타겟: 밥 먹고 2~3시간이면 또 배고픈 사람 | 차단 대안: 혈당 관리 식품·저GI 제품</div>
+</div>
+<div class="ev-box">
+  <div class="ev-label" style="color:var(--dm)">📄 논문 근거</div>
+  <div class="ev-body">위 배출 속도(gastric emptying rate)가 혈당 반응과 직접 연관된다는 연구가 다수 보고됐습니다. <strong>위 기능 저하로 인한 불규칙한 배출은 음식이 소장에 한꺼번에 쏟아지는 현상</strong>을 일으켜 혈당 급등-급락 패턴(혈당 롤러코스터)을 만들어냅니다. 혈당 급락 이후의 강렬한 공복감이 반복 과식을 구조화합니다.</div>
+  <div class="ev-cite">참조: Horowitz M et al. "Gastric emptying and glycaemia in health and diabetes mellitus." Diabetologia 2006 / Jones KL et al. "Gastric emptying in diabetes: techniques and findings." Diabet Med 2011 — 위 배출 속도와 혈당 패턴, 포만감의 연관성.</div>
+</div>
+<div class="card" style="margin-bottom:10px">
+  <div class="sl">기전 핵심</div>
+  <div class="body">정상적인 위는 음식을 일정한 속도로 소장에 내려보내며 혈당이 완만하게 오르고 내립니다. 위 기능이 저하되면 이 조절이 깨져 음식이 한꺼번에 쏟아집니다. 혈당이 급등한 뒤 급락하면 <strong>뇌는 극심한 공복 신호를 보내고</strong>, 먹은 지 2~3시간도 안 돼 또 배가 고픈 상태가 됩니다. 이것이 반복될수록 인슐린 과분비가 누적되고 지방 저장 패턴이 고착됩니다.</div>
+</div>
+<div class="quote" style="border-left:3px solid var(--dm)">"밥 먹고 금방 배고픈 건 의지력 문제가 아닙니다.<br>위 배출 속도가 망가져 혈당이 롤러코스터를 탑니다."</div>
+<div class="card card-d" style="margin-bottom:12px">
+  <div class="sl" style="margin-bottom:10px">핵심 설득 흐름 ①~⑤</div>
+  <div class="sr"><div class="sn sn-d">①</div><div class="st"><strong>공감:</strong> "밥을 먹고 나서 2~3시간이면 또 배가 고프고, 식후에도 뭔가 허전하신가요?"</div></div>
+  <div class="sr"><div class="sn sn-d">②</div><div class="st"><strong>범인 지목:</strong> "위 배출 속도가 불규칙해 혈당이 급등했다가 급락하고, 그 급락이 강렬한 공복감을 만듭니다."</div></div>
+  <div class="sr"><div class="sn sn-d">③</div><div class="st"><strong>대안 차단:</strong> "혈당 낮은 음식만 먹어도, 위 배출 속도가 망가지면 결과는 똑같습니다. 수문부터 고쳐야 합니다."</div></div>
+  <div class="sr"><div class="sn sn-d">④</div><div class="st"><strong>해결책:</strong> "위 기능을 회복해 배출 속도를 정상화하면 혈당 롤러코스터가 사라지고 공복감이 줄어듭니다."</div></div>
+  <div class="sr" style="margin-bottom:0"><div class="sn sn-d">⑤</div><div class="st"><strong>제품:</strong> "[제품명] — 밥 먹고 금방 배고픈 이유, 위 배출 속도에 있습니다."</div></div>
+</div>
+<div class="g2" style="margin-bottom:12px">
+  <div class="card"><div class="sl">직관적 비유</div><div class="h3" style="margin-top:6px">고장난 댐 수문</div><div class="body" style="font-size:13px">"댐 수문이 고장나 물이 한꺼번에 쏟아지면 아래 마을이 잠긴다." 위 배출 속도 = 수문. 수문이 망가지면 혈당이 쏟아져 몸이 감당 못 하고 지방으로 저장한다.</div></div>
+  <div class="card card-r"><div class="sl">공포소구 메시지</div><div class="hbox hx-r" style="margin-top:6px;font-size:13px">"매 식사마다 혈당 롤러코스터가 반복 → 인슐린 저항성 누적 → 나중엔 조금만 먹어도 살찌는 체질이 됩니다."</div></div>
+</div>
+<div class="hbox hx-dk"><strong>핵심 차단 문장 (D):</strong> "혈당 관리 식품은 혈당이 오르는 속도를 늦추는 거고, 우리는 혈당 롤러코스터를 만드는 위 배출 패턴 자체를 정상화합니다."</div>
+
+<div class="div"></div>
+
+<!-- ──────────────────── 로직 E ──────────────────── -->
+<div class="lh lh-e">
+  <div class="lh-letter" style="color:var(--em)">E</div>
+  <div class="lh-name" style="color:var(--ed)">코르티솔·뱃살 로직</div>
+  <div class="lh-title">"위 불편감은 하루 세 번 코르티솔을 만들고, 코르티솔은 뱃살을 직접 찍어낸다"</div>
+  <div class="lh-sub">타겟: 뱃살만 유독 안 빠지는 사람 | 차단 대안: 스트레스 관리 제품·복부지방 타겟 제품</div>
+</div>
+<div class="ev-box">
+  <div class="ev-label" style="color:var(--em)">📄 논문 근거</div>
+  <div class="ev-body">코르티솔은 복부 내장지방세포에 있는 수용체와 특이적으로 결합해 <strong>복부 지방 축적을 직접 촉진</strong>합니다. 만성 위장관 염증 및 위 불편감은 신체 스트레스 반응을 활성화시켜 HPA(시상하부-뇌하수체-부신) 축을 통한 코르티솔 분비를 유발한다는 연구가 보고됐습니다. 위가 나쁜 사람은 정신적 스트레스와 무관하게 신체 스트레스 만성화가 발생합니다.</div>
+  <div class="ev-cite">참조: Björntorp P. "Do stress reactions cause abdominal obesity and comorbidities?" Obes Rev. 2001 / Epel ES et al. "Stress and body shape: stress-induced cortisol secretion is consistently greater among women with central fat." Psychosom Med. 2000 — 코르티솔과 복부 내장지방 축적의 직접 연관성.</div>
+</div>
+<div class="card" style="margin-bottom:10px">
+  <div class="sl">기전 핵심</div>
+  <div class="body">"스트레스 받으면 살찐다"는 누구나 알지만, 그 스트레스의 원인을 정신적 스트레스로만 생각합니다. 위 불편감 자체도 신체에는 스트레스 신호입니다. 매 식사마다 속쓰림·더부룩함을 느끼면 <strong>하루 세 번 코르티솔 스파이크</strong>가 발생합니다. 코르티솔은 복부 내장지방세포에 특이적으로 결합해 지방을 직접 축적하고, 동시에 근육을 분해해 기초대사량을 낮춥니다. 운동해도 뱃살만 안 빠지는 이유가 바로 이것입니다.</div>
+</div>
+<div class="quote" style="border-left:3px solid var(--em)">"하루 세 번 밥 먹을 때마다 배가 불편하다면,<br>당신의 몸은 하루 세 번 코르티솔을 만들고 있습니다."</div>
+<div class="card card-e" style="margin-bottom:12px">
+  <div class="sl" style="margin-bottom:10px">핵심 설득 흐름 ①~⑤</div>
+  <div class="sr"><div class="sn sn-e">①</div><div class="st"><strong>공감:</strong> "스트레스를 많이 받는 것도 아닌데, 왜 유독 뱃살만 안 빠지실까요?"</div></div>
+  <div class="sr"><div class="sn sn-e">②</div><div class="st"><strong>범인 지목:</strong> "위 불편감 자체가 신체에는 스트레스 신호입니다. 코르티솔이 매 식사마다 분비되고 있습니다."</div></div>
+  <div class="sr"><div class="sn sn-e">③</div><div class="st"><strong>대안 차단:</strong> "스트레스 관리 영양제는 정신적 스트레스를 타겟으로 하지, 위에서 오는 신체 스트레스 신호는 해결하지 못합니다."</div></div>
+  <div class="sr"><div class="sn sn-e">④</div><div class="st"><strong>해결책:</strong> "위 기능을 회복하면 매 식사의 코르티솔 스파이크가 사라지고, 복부지방 축적 신호가 멈춥니다."</div></div>
+  <div class="sr" style="margin-bottom:0"><div class="sn sn-e">⑤</div><div class="st"><strong>제품:</strong> "[제품명] — 하루 세 번의 코르티솔을 없애는, 위부터 고치는 다이어트."</div></div>
+</div>
+<div class="g2" style="margin-bottom:12px">
+  <div class="card"><div class="sl">직관적 비유</div><div class="h3" style="margin-top:6px">하루 세 번의 넘어짐</div><div class="body" style="font-size:13px">"매 끼니 속 쓰리고 더부룩한 것은, 몸에게는 매일 세 번 넘어지는 것과 같다. 몸은 비상경보를 울리고 지방을 복부에 비축한다."</div></div>
+  <div class="card card-r"><div class="sl">공포소구 메시지</div><div class="hbox hx-r" style="margin-top:6px;font-size:13px">"위가 나쁜 채로 방치하면 → 매 식사가 코르티솔을 만들고 → 복부 내장지방 + 근육 분해 → 살찌기 쉬운 체질로 굳어집니다."</div></div>
+</div>
+<div class="hbox hx-dk"><strong>핵심 차단 문장 (E):</strong> "스트레스 관리 제품은 마음의 스트레스를 다루고, 우리는 위에서 오는 신체 스트레스 신호 자체를 없앱니다."</div>
+
+<div class="div"></div>
+
+<!-- ──────────────────── 로직 F ──────────────────── -->
+<div class="lh lh-f">
+  <div class="lh-letter" style="color:var(--fm)">F</div>
+  <div class="lh-name" style="color:var(--fm)">역발상 로직 — 위가 좋아서 살찐다</div>
+  <div class="lh-title">"소화가 너무 잘 돼서 문제 — 위가 빨리 비워지면 포만감이 쌓이지 않는다"</div>
+  <div class="lh-sub">타겟: 소화 잘 됨·먹성 좋음·식욕 강한 사람 | 차단 대안: 곤약·GLP-1 식욕억제</div>
+</div>
+<div class="ev-box">
+  <div class="ev-label" style="color:var(--fm)">📄 논문 근거 (역발상의 과학적 근거)</div>
+  <div class="ev-body">비만 환자를 대상으로 한 연구에서 <strong>빠른 위 배출 속도(accelerated gastric emptying)가 비만을 유발하는 경로</strong>가 실제로 보고됐습니다. 위가 음식을 너무 빨리 소장으로 보내면 포만 신호(CCK, PYY 등)가 형성되기 전에 위가 비어버려, 뇌가 "아직 배고프다"고 판단해 과식이 구조화됩니다. 또한 빠른 위 배출이 젊은 성인의 체중 증가와 유의미하게 연관된다는 데이터도 보고됐습니다.</div>
+  <div class="ev-cite">참조: "Several studies reported accelerated gastric emptying in patients with obesity, potentially leading to disrupted satiety signaling, to increased food consumption and contributing to the pathogenesis of obesity and its related complications. Supporting this hypothesis, recent findings have associated faster gastric emptying with significant weight gain in younger adults." — biorxiv.org 2024, Obesity Phenotypic Switching Study</div>
+</div>
+<div class="card" style="margin-bottom:10px">
+  <div class="sl">기전 핵심 — 역발상의 논리</div>
+  <div class="body">A~E 로직이 모두 "위가 나빠서 살찐다"였다면, F는 완전히 반대입니다. 위가 음식을 <strong>너무 빨리 처리</strong>해서 포만감이 형성될 시간이 없는 것이 문제입니다. 포만감은 음식이 위에 머무는 동안 위벽이 늘어나고, CCK·PYY 같은 포만 호르몬이 분비되면서 서서히 만들어집니다. 위 배출이 과속이면 뇌가 포만 신호를 받기 전에 위가 비어버려 구조적 과식이 반복됩니다. "소화가 잘 되고 먹성이 좋다"는 것이 사실은 위 배출 과속의 증상일 수 있습니다.</div>
+</div>
+
+<div class="div-sm" style="margin:14px 0"></div>
+
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:12px"><span class="b b-f" style="font-size:11px;padding:4px 12px">마케팅 방향 F-1</span><div class="h2" style="margin-bottom:0">포만감 형성 실패 언어</div></div>
+<p class="muted" style="margin-bottom:10px">먹어도 배부른 느낌이 약한 사람. "왜 먹어도 배가 안 찰까"가 핵심 공감 포인트. 기존 위 건강 제품 광고에서 자신을 발견하지 못했던 완전히 새로운 타겟입니다.</p>
+<div class="quote" style="border-left:3px solid var(--fm)">"소화가 잘 되는 게 오히려 문제입니다.<br>위가 너무 빨리 비어버려서 뇌가 배부름을 느낄 틈이 없습니다."</div>
+<div class="card card-f" style="margin-bottom:12px">
+  <div class="sl" style="margin-bottom:10px">핵심 설득 흐름 ①~⑤ (F-1)</div>
+  <div class="sr"><div class="sn sn-f">①</div><div class="st"><strong>공감:</strong> "밥을 먹고 나서도 뭔가 더 먹고 싶고, 배가 찬 느낌이 잘 안 오시나요?"</div></div>
+  <div class="sr"><div class="sn sn-f">②</div><div class="st"><strong>범인 지목:</strong> "소화가 너무 빠르면 위가 음식을 붙잡아두는 시간이 부족해서, 뇌에 '배불러' 신호가 제때 못 갑니다."</div></div>
+  <div class="sr"><div class="sn sn-f">③</div><div class="st"><strong>대안 차단:</strong> "식사량을 줄여도 포만감 자체가 잘 안 오는 체질이라면, 의지력으로는 한계가 있습니다."</div></div>
+  <div class="sr"><div class="sn sn-f">④</div><div class="st"><strong>해결책:</strong> "위가 음식을 적절한 속도로 처리하도록 조절하면, 같은 양을 먹어도 포만감이 제대로 옵니다."</div></div>
+  <div class="sr" style="margin-bottom:0"><div class="sn sn-f">⑤</div><div class="st"><strong>제품:</strong> "[제품명] — 잘 먹는데 살찌는 당신, 위의 속도를 조절해야 합니다."</div></div>
+</div>
+<div class="g2" style="margin-bottom:12px">
+  <div class="card"><div class="sl">직관적 비유 (F-1)</div><div class="h3" style="margin-top:6px">물 빠짐 빠른 욕조</div><div class="body" style="font-size:13px">"물 빠짐이 너무 빠른 욕조에서는 아무리 물을 채워도 늘 비어있다." 위 = 욕조. 빠른 위 배출 = 빠른 물 빠짐. 포만감 = 욕조에 찬 물. 위가 빨리 비워지면 배부름이 쌓이지 않는다.</div></div>
+  <div class="card card-r"><div class="sl">공포소구 (F-1)</div><div class="hbox hx-r" style="margin-top:6px;font-size:13px">"이 패턴이 반복될수록 뇌는 더 강한 포만 신호를 요구하게 되고 → 먹는 양은 점점 늘어납니다. 먹성이 좋아지는 게 아니라, 포만감 역치가 올라가는 겁니다."</div></div>
+</div>
+<div class="card" style="margin-bottom:16px">
+  <div class="sl" style="margin-bottom:4px">포만감 보충제(곤약·식이섬유)와의 차별점</div>
+  <table class="vs"><thead><tr><th style="width:20%">항목</th><th style="width:40%">곤약·식이섬유 포만감 제품</th><th style="width:40%">이 제품 — F-1</th></tr></thead>
+  <tbody>
+    <tr><td class="vs-rl">작동 방식</td><td><span class="vs-bad">위 공간을 물리적으로 채움</span> — 부피로 배를 차게 만들 뿐</td><td><span class="vs-good">위 배출 속도 자체를 조절</span> — 포만 신호 형성 시간 확보</td></tr>
+    <tr><td class="vs-rl">복용 중단 시</td><td><span class="vs-bad">즉시 원래대로</span> — 위 배출 속도는 그대로</td><td><span class="vs-good">위 기능 개선 효과 지속</span></td></tr>
+    <tr><td class="vs-rl">소비자 체감</td><td>"배는 찼는데 뭔가 허전해" — 가짜 포만감</td><td>"밥 먹고 나서 진짜 오래 배부르다" — 자연스러운 포만감</td></tr>
+    <tr><td class="vs-rl">소비자 메시지</td><td>"배를 채워드립니다"</td><td>"포만감이 제대로 만들어지게 합니다"</td></tr>
+  </tbody></table>
+</div>
+
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:12px"><span class="b b-f" style="font-size:11px;padding:4px 12px">마케팅 방향 F-2</span><div class="h2" style="margin-bottom:0">위에 브레이크 없는 차 — 속도 조절 언어</div></div>
+<p class="muted" style="margin-bottom:10px">먹성이 좋다는 걸 스스로 인식하는 사람. "식욕이 강하다"는 자기인식을 "소화 속도"라는 새로운 프레임으로 재정의해 납득시킵니다.</p>
+<div class="quote" style="border-left:3px solid var(--fm)">"식욕이 강한 게 아니라,<br>위에 브레이크가 없는 겁니다."</div>
+<div class="card card-f" style="margin-bottom:12px">
+  <div class="sl" style="margin-bottom:10px">핵심 설득 흐름 ①~⑤ (F-2)</div>
+  <div class="sr"><div class="sn sn-f">①</div><div class="st"><strong>공감:</strong> "식욕이 강하고, 조금만 시간이 지나면 또 배고픈 편이신가요?"</div></div>
+  <div class="sr"><div class="sn sn-f">②</div><div class="st"><strong>범인 지목:</strong> "식욕이 강한 게 아니라 위가 음식을 너무 빠르게 처리해서 항상 배고픈 상태를 만드는 겁니다."</div></div>
+  <div class="sr"><div class="sn sn-f">③</div><div class="st"><strong>대안 차단:</strong> "GLP-1 계열 식욕억제는 뇌에서 작동하지만, 위가 너무 빨리 비워지는 근본 원인은 바뀌지 않습니다."</div></div>
+  <div class="sr"><div class="sn sn-f">④</div><div class="st"><strong>해결책:</strong> "위가 음식을 적절한 속도로 소장에 내려보내도록 조절하면, 포만감이 자연스럽게 오래 유지됩니다."</div></div>
+  <div class="sr" style="margin-bottom:0"><div class="sn sn-f">⑤</div><div class="st"><strong>제품:</strong> "[제품명] — 위에 브레이크를 달아주는 다이어트."</div></div>
+</div>
+<div class="g2" style="margin-bottom:12px">
+  <div class="card"><div class="sl">직관적 비유 (F-2)</div><div class="h3" style="margin-top:6px">브레이크 없는 차</div><div class="body" style="font-size:13px">"브레이크 없는 차는 속도를 낼수록 더 위험해진다." 위 배출 속도 = 브레이크 없는 엔진. 먹으면 먹을수록 더 빨리 비워지고 더 빨리 배고파진다. 브레이크를 달아야 안전하게 달릴 수 있다.</div></div>
+  <div class="card card-r"><div class="sl">공포소구 (F-2)</div><div class="hbox hx-r" style="margin-top:6px;font-size:13px">"지금 이 패턴을 방치하면 위 배출 속도가 점점 더 빨라지고 → 더 많이 먹어야 포만감을 느끼는 상태가 고착됩니다."</div></div>
+</div>
+<div class="card">
+  <div class="sl" style="margin-bottom:4px">GLP-1·식욕억제 제품과의 차별점</div>
+  <table class="vs"><thead><tr><th style="width:20%">항목</th><th style="width:40%">GLP-1·식욕억제 제품</th><th style="width:40%">이 제품 — F-2</th></tr></thead>
+  <tbody>
+    <tr><td class="vs-rl">작동 위치</td><td><span class="vs-bad">뇌(시상하부)</span> — 식욕 신호를 중추에서 억제</td><td><span class="vs-good">위(배출 속도)</span> — 포만감이 만들어지는 리듬 정상화</td></tr>
+    <tr><td class="vs-rl">복용 중단 시</td><td><span class="vs-bad">식욕 즉시 반등</span></td><td><span class="vs-good">위 리듬 개선 지속</span></td></tr>
+    <tr><td class="vs-rl">근본 원인</td><td>뇌의 식욕 신호 과다로만 해석</td><td>위 배출 속도 이상 → 포만 신호 형성 실패로 재해석</td></tr>
+    <tr><td class="vs-rl">소비자 메시지</td><td>"식욕을 억눌러드립니다"</td><td>"식욕이 덜 나게 하는 환경을 위에서부터 만듭니다"</td></tr>
+  </tbody></table>
+  <div class="hbox hx-f" style="margin-top:12px"><strong>F-1 핵심 차단:</strong> "곤약은 배를 채우는 거고, 우리는 위가 음식을 내려보내는 속도를 조절해서 포만 신호가 제때 오게 합니다."<br><strong>F-2 핵심 차단:</strong> "GLP-1은 뇌에서 식욕을 억제하는 거고, 우리는 위의 처리 속도 자체를 정상화해서 식욕이 덜 생기는 환경을 만듭니다."</div>
+</div>
+
+<div class="div"></div>
+
+<div class="ch"><span class="ch-n">Step 4</span><h1 class="ch-t">타겟 소비자 & 소구 방향 도출</h1></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+  <div class="tc"><span class="b b-a" style="margin-bottom:6px;display:inline-block">방향 A 추천</span><div class="tc-n">야식·폭식 반복자</div><div class="tc-s">밤마다 배고픔 통제 불가 / 식욕억제제 써봤지만 효과 없음</div><div class="tc-m">후킹: "밤에 배고픔 못 참는 건 의지력 문제가 아닙니다 — 그렐린 호르몬이 오작동하는 거예요"</div></div>
+  <div class="tc"><span class="b b-b" style="margin-bottom:6px;display:inline-block">방향 B 추천</span><div class="tc-n">식단 조절 해도 안 빠지는 사람</div><div class="tc-s">저탄고지·칼로리 제한 해봤지만 체중 불변 / 더부룩함 동반</div><div class="tc-m">후킹: "먹는 것도 없는데 살이 찌는 이유, 소화 효율에 있습니다"</div></div>
+  <div class="tc"><span class="b b-c" style="margin-bottom:6px;display:inline-block">방향 C 추천</span><div class="tc-n">운동·식단 모두 하는데 살 안 빠지는 사람</div><div class="tc-s">PT 다니고 식단 조절하는데 체중 변화 없음 / 다이어트 제품 피로도 극도로 높음</div><div class="tc-m">후킹: "실패한 건 노력 부족이 아니라 지방 연소 신호가 위 염증에 막힌 것"</div></div>
+  <div class="tc"><span class="b b-d" style="margin-bottom:6px;display:inline-block">방향 D 추천</span><div class="tc-n">밥 먹고 금방 또 배고픈 사람</div><div class="tc-s">식후 2~3시간이면 또 허기 / 간식 없이는 버티기 힘든 패턴</div><div class="tc-m">후킹: "점심 먹고 3시에 또 배고픈 이유, 위 배출 속도에 있습니다"</div></div>
+  <div class="tc"><span class="b b-e" style="margin-bottom:6px;display:inline-block">방향 E 추천</span><div class="tc-n">뱃살만 유독 안 빠지는 사람</div><div class="tc-s">전반적 체중은 줄어도 복부만 그대로 / 식후 더부룩함 일상화</div><div class="tc-m">후킹: "하루 세 번 밥 먹을 때마다 코르티솔이 뱃살을 만들고 있습니다"</div></div>
+  <div class="tc"><span class="b b-f" style="margin-bottom:6px;display:inline-block">방향 F 추천</span><div class="tc-n">소화 잘 되고 먹성 좋은 사람</div><div class="tc-s">소화불량 없음 / 식욕이 강하다고 스스로 생각 / 먹어도 배부름 약함</div><div class="tc-m">후킹: "위가 좋아서 살찌는 사람도 있습니다 — 위에 브레이크가 없는 겁니다"</div></div>
+</div>
+<div class="card">
+  <div class="sl" style="margin-bottom:10px">타겟 증상별 마케팅 언어 전환 가이드</div>
+  <table class="vs" style="margin-top:0">
+    <thead><tr><th style="width:22%">타겟 증상</th><th style="width:10%">추천</th><th style="width:36%">후킹 메시지</th><th style="width:32%">차단 경쟁 제품</th></tr></thead>
+    <tbody>
+      <tr><td>야식·폭식 반복</td><td><span class="b b-a">A</span></td><td>"밤에 배고픔 못 참는 건 의지력 문제가 아닙니다"</td><td>식욕억제제, 공복감 관리 제품</td></tr>
+      <tr><td>식단 조절해도 안 빠짐</td><td><span class="b b-b">B</span></td><td>"먹는 것도 없는데 살이 찌는 이유, 소화에 있습니다"</td><td>저탄고지, 혈당 관리, 소화제</td></tr>
+      <tr><td>운동해도 살 안 빠짐</td><td><span class="b b-c">C</span></td><td>"전선이 끊겨 지방 연소 명령이 전달이 안 됩니다"</td><td>지방연소 부스터, 대사촉진 제품</td></tr>
+      <tr><td>밥 먹고 금방 또 배고픔</td><td><span class="b b-d">D</span></td><td>"혈당 롤러코스터가 반복 공복감을 만드는 겁니다"</td><td>혈당 관리 식품, 저GI 제품</td></tr>
+      <tr><td>뱃살만 안 빠짐</td><td><span class="b b-e">E</span></td><td>"하루 세 번 코르티솔이 뱃살을 직접 만들고 있습니다"</td><td>스트레스 관리, 복부지방 타겟</td></tr>
+      <tr><td>소화 잘 됨·먹성 좋음</td><td><span class="b b-f">F</span></td><td>"위에 브레이크가 없어서 포만감이 안 쌓이는 겁니다"</td><td>곤약·식이섬유, GLP-1 식욕억제</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="div"></div>
+
+<div class="ch"><span class="ch-n">Step 5</span><h1 class="ch-t">원료 설계 — 단일 제품으로 6가지 기전 커버</h1></div>
+<p class="muted">하나의 제품이 A~F 전 로직을 커버합니다. 콘텐츠 방향에 따라 특정 원료를 전면에 내세우는 방식으로 언어를 전환합니다.</p>
+
+<div style="margin-bottom:8px;display:flex;align-items:center;gap:10px"><span class="b b-k" style="font-size:10px;padding:4px 12px">주원료 — 기능성 원료</span><span style="font-size:12px;color:var(--ink3)">위 기능 회복 + 로직별 핵심 기전 직접 담당</span></div>
+<div class="card" style="padding:0;overflow:hidden;margin-bottom:18px">
+<table class="ing">
+<thead><tr><th style="width:18%">원료명</th><th style="width:28%">주요 기전</th><th style="width:17%">담당 로직</th><th style="width:37%">선택 근거 & 비고</th></tr></thead>
+<tbody>
+<tr class="ing-m"><td>생강 추출물<br><span class="ing-role">Zingiber officinale / 진저롤 5% 표준화</span></td><td>위 배출 속도 <strong>양방향 정상화</strong> (느리면 촉진·빠르면 억제), 위 운동성 조절, 항구역·항염</td><td><div class="ing-lg"><span class="b b-a">A</span><span class="b b-b">B</span><span class="b b-d">D</span><span class="b b-f">F</span></div><div style="margin-top:6px"><span class="ing-anc">앵커 원료</span></div></td><td>A~F 전 로직을 단일 제품으로 커버하는 과학적 근거. 위 배출 속도 양방향 조절이 확인된 핵심 원료. 식약처 위 기능성 원료 검토 대상.</td></tr>
+<tr class="ing-m"><td>아티초크 추출물<br><span class="ing-role">Cynara scolymus / 시나린 3% 표준화</span></td><td>위 점막 보호·재생, 그렐린 분비 세포 안정화, 담즙 분비 촉진, 항염</td><td><div class="ing-lg"><span class="b b-a">A</span><span class="b b-b">B</span><span class="b b-c">C</span></div></td><td>유럽 EMA 위 기능 전통 허브 공식 인정. 그렐린 안정화 연구 다수. A 로직 콘텐츠의 전면 소구 원료.</td></tr>
+<tr class="ing-m"><td>감초 추출물<br><span class="ing-role">Glycyrrhiza glabra / 글리시리진 10% 표준화</span></td><td>위 점막 항염·재생, H.pylori 억제, 위산 분비 환경 정상화, 코르티솔 조절 보조</td><td><div class="ing-lg"><span class="b b-b">B</span><span class="b b-c">C</span><span class="b b-e">E</span></div></td><td>식약처 고시형 위 기능 원료 검토 대상. <strong>주의:</strong> 과다 섭취 시 혈압 상승 가능 — 1일 글리시리진 100mg 이하 준수.</td></tr>
+<tr class="ing-m"><td>인진쑥 추출물<br><span class="ing-role">Artemisia capillaris / 스코파론 0.1% 이상</span></td><td>위·간 염증 억제, IL-6·TNF-α 분비 감소, 렙틴 저항성 완화, 코르티솔 반응 보조 억제</td><td><div class="ing-lg"><span class="b b-c">C</span><span class="b b-e">E</span></div></td><td>간 기능성 원료 사용 전례 다수. 위-간 연계 염증 억제. C·E 로직의 항염·렙틴·코르티솔 경로 보강.</td></tr>
+<tr class="ing-m"><td>펙틴 (사과 유래)<br><span class="ing-role">Apple Pectin, 80% 이상</span></td><td>위 내 점도 증가로 배출 속도 물리적 조절, 혈당 흡수 속도 완화, 포만감 연장</td><td><div class="ing-lg"><span class="b b-d">D</span><span class="b b-f">F</span></div></td><td>F 로직 핵심 원료. 식이섬유 기능성 원료 인정 가능. 위 내 겔 형성으로 배출 속도 감소 + 혈당 스파이크 완화 동시 달성.</td></tr>
+</tbody>
+</table>
+</div>
+
+<div style="margin-bottom:8px;display:flex;align-items:center;gap:10px"><span class="b" style="background:var(--paper3);color:var(--ink2);font-size:10px;padding:4px 12px">부원료 — 즉각 효능감 & 보완</span><span style="font-size:12px;color:var(--ink3)">복용 즉시 체감되는 효과 + 다이어트 제품 신뢰도 보강</span></div>
+<div class="card" style="padding:0;overflow:hidden;margin-bottom:18px">
+<table class="ing">
+<thead><tr><th style="width:18%">원료명</th><th style="width:28%">주요 기전</th><th style="width:17%">담당 로직</th><th style="width:37%">역할 & 비고</th></tr></thead>
+<tbody>
+<tr class="ing-s"><td>소화효소 복합체<br><span class="ing-role">아밀라아제·프로테아제·리파아제</span></td><td>단백질·탄수화물·지방 즉각 소화 보조, 식후 더부룩함 빠른 해소</td><td><div class="ing-lg"><span class="b b-b">B</span></div></td><td><strong>즉각 효능감 핵심 원료.</strong> 복용 당일부터 식후 더부룩함 감소 체감. "소화가 된다"는 즉각 리뷰 유도.</td></tr>
+<tr class="ing-s"><td>베타인 HCl<br><span class="ing-role">Betaine Hydrochloride</span></td><td>위산 pH 정상화, 단백질 소화 효율 향상, 혈당 스파이크 완화</td><td><div class="ing-lg"><span class="b b-b">B</span><span class="b b-d">D</span></div></td><td>위산 부족 타겟의 즉각 소화 개선. <strong>주의:</strong> 단독 고용량 시 위 자극 — 생강·감초와 배합 완화.</td></tr>
+<tr class="ing-s"><td>가르시니아 캄보지아<br><span class="ing-role">HCA 50% 표준화</span></td><td>지방 합성 억제, 식욕 억제 보조, 체지방 감소 보조</td><td><div class="ing-lg"><span class="b b-a">A</span><span class="b b-b">B</span></div></td><td><strong>"다이어트 원료도 있다"는 소비자 안심 기능.</strong> 식약처 고시형 체지방 감소 기능성 원료.</td></tr>
+<tr class="ing-s"><td>녹차 추출물<br><span class="ing-role">EGCG 45% 표준화 / 디카페인 처리 권장</span></td><td>대사 촉진, 항산화, 지방 산화 보조, 항염으로 렙틴·코르티솔 반응 완화 보조</td><td><div class="ing-lg"><span class="b b-c">C</span><span class="b b-e">E</span></div></td><td>C·E 로직 염증 억제 보조. 식약처 체지방 감소 기능성 원료 인정. 디카페인 처리 추출물 사용 권장.</td></tr>
+<tr class="ing-s"><td>복합 프로바이오틱스<br><span class="ing-role">L. acidophilus + B. longum / 각 10억 CFU 이상</span></td><td>장-위 마이크로바이옴 정상화, 장내 염증 완화, 위-장-뇌축 신호 개선</td><td><div class="ing-lg"><span class="b b-b">B</span><span class="b b-c">C</span></div></td><td>위-장-뇌축 기전 보완. 장 기능 개선으로 위 기능 회복 시너지. "위·장 동시 케어" 소구 가능.</td></tr>
+<tr class="ing-s"><td>베타글루칸<br><span class="ing-role">귀리 유래, 70% 이상</span></td><td>위 내 점도 증가, 혈당 흡수 속도 완화, 포만감 지속 연장, 콜레스테롤 개선 보조</td><td><div class="ing-lg"><span class="b b-d">D</span><span class="b b-f">F</span></div></td><td>F 로직 보조. 펙틴과 함께 "포만감 유지" 기전 강화. 식약처 콜레스테롤 개선 고시형 기능성 원료로 추가 기능성 표현 가능.</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="card card-dash">
+  <div class="sl" style="margin-bottom:12px">원료 설계 핵심 포인트</div>
+  <div class="g2" style="gap:16px">
+    <div><div class="h3" style="margin-bottom:7px">생강 추출물 — 이 제품의 앵커 원료</div><p class="body" style="font-size:12.5px">위 배출 속도를 양방향으로 정상화하는 원료입니다. 느린 배출(A·B·C·E 타겟)은 촉진하고, 빠른 배출(F 타겟)은 억제합니다. A~F 모든 로직을 하나의 제품으로 커버할 수 있는 과학적 근거가 바로 이 원료에 있습니다.</div></div>
+    <div><div class="h3" style="margin-bottom:7px">콘텐츠 방향별 전면 원료</div>
+      <div style="font-size:12.5px;color:var(--ink2);line-height:2">
+        <span class="b b-a" style="margin-right:6px">A</span><strong>아티초크</strong> — 그렐린 세포 안정화<br>
+        <span class="b b-b" style="margin-right:6px">B</span><strong>소화효소 + 베타인 HCl</strong> — 즉각 소화 개선<br>
+        <span class="b b-c" style="margin-right:6px">C</span><strong>감초 + 인진쑥</strong> — 항염·렙틴 저항성<br>
+        <span class="b b-d" style="margin-right:6px">D</span><strong>생강 + 펙틴</strong> — 위 배출 조절<br>
+        <span class="b b-e" style="margin-right:6px">E</span><strong>감초 + 인진쑥 + 녹차</strong> — 코르티솔 완화<br>
+        <span class="b b-f" style="margin-right:6px">F</span><strong>펙틴 + 베타글루칸</strong> — 포만감 유지
+      </div>
+    </div>
+  </div>
+  <div class="div-sm" style="margin:14px 0"></div>
+  <div class="sl" style="margin-bottom:7px;color:var(--dm)">SKU 전략 검토 포인트</div>
+  <p class="body" style="font-size:12.5px">F 로직의 펙틴·베타글루칸은 위 배출을 <em>늦추는</em> 방향이고, A·B 로직의 소화효소·베타인 HCl은 소화를 <em>촉진</em>하는 방향입니다. 동일 SKU 단일 배합 시 기전 상충 가능성이 있으므로, <strong>원료팀과 배합비 협의 후 단일 SKU 가능 여부 확인 필수.</strong> 불가 시 F 로직 타겟 전용 별도 SKU 분리 검토.</p>
+</div>
+<div class="div"></div>
+
+<div class="ch"><span class="ch-n">아이데이션</span><h1 class="ch-t">제형 & 섭취 TPO 기획</h1></div>
+<p class="muted">제품 기전의 설득력을 제형과 섭취 경험으로 연장합니다. "위 영양제답다"는 직관적 인식을 패키지 형태에서부터 만들어냅니다.</p>
+
+<div class="h2" style="margin-bottom:12px">스퀴즈젤(Squeeze Gel) 제형</div>
+<div class="g2" style="margin-bottom:12px">
+  <div class="card card-k">
+    <div class="sl">레퍼런스 포지셔닝</div>
+    <div style="display:flex;align-items:center;gap:12px;margin:12px 0 14px">
+      <div style="background:var(--paper2);border:.5px solid var(--rule);border-radius:6px;padding:10px 14px;text-align:center">
+        <div style="font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink)">겔포스</div>
+        <div style="font-size:11px;color:var(--ink3);margin-top:2px">레퍼런스 제형</div>
+      </div>
+      <div style="font-size:20px;color:var(--ink4)">→</div>
+      <div style="background:var(--ink);border-radius:6px;padding:10px 14px;text-align:center">
+        <div style="font-family:var(--serif);font-size:18px;font-weight:700;color:var(--paper)">[제품명]</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:2px">우리 제품</div>
+      </div>
+    </div>
+    <div class="body" style="font-size:13px">겔포스·인사돌 같은 <strong>스퀴즈 파우치(포) 젤 제형</strong>은 소비자가 "위 전문 제품"으로 즉각 인식합니다. 알약·캡슐이 아닌 젤 타입은 <strong>"위에 직접 닿는 느낌"</strong>을 주어 기전 설득을 제형에서부터 시작합니다.</div>
+  </div>
+  <div class="card" style="display:flex;align-items:center;justify-content:center;background:var(--paper2)">
+    <svg viewBox="0 0 200 220" width="155" xmlns="http://www.w3.org/2000/svg">
+      <rect x="55" y="38" width="90" height="140" rx="16" fill="white" stroke="#1a1a18" stroke-width="1.5"/>
+      <rect x="55" y="38" width="90" height="18" rx="4" fill="#1a1a18"/>
+      <rect x="88" y="176" width="24" height="22" rx="4" fill="#1a1a18"/>
+      <rect x="94" y="198" width="12" height="10" rx="3" fill="#3d3d38"/>
+      <rect x="63" y="62" width="74" height="106" rx="10" fill="#e1f5ee" opacity=".7"/>
+      <text x="100" y="100" text-anchor="middle" font-family="sans-serif" font-size="10.5" font-weight="700" fill="#085041">위부터</text>
+      <text x="100" y="116" text-anchor="middle" font-family="sans-serif" font-size="10.5" font-weight="700" fill="#085041">고치는</text>
+      <text x="100" y="132" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#0f6e56">다이어트</text>
+      <text x="30" y="120" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#9b9b92">squeeze</text>
+      <line x1="42" y1="118" x2="54" y2="118" stroke="#9b9b92" stroke-width=".8" marker-end="url(#ag)"/>
+      <defs><marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#9b9b92" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+    </svg>
+  </div>
+</div>
+
+<div class="g3" style="margin-bottom:16px">
+  <div class="sc"><div class="sc-l">제형 전략 1</div><div class="sc-v">즉각 인식</div><div class="sc-d">스퀴즈젤 = "위장 전문 제품" 카테고리 연상. 설명 없이도 포지셔닝 전달.</div></div>
+  <div class="sc"><div class="sc-l">제형 전략 2</div><div class="sc-v">체감 효능감</div><div class="sc-d">"젤이 위벽에 직접 닿는 느낌" — 알약보다 강한 복용 경험. 리뷰·후기 콘텐츠 강점.</div></div>
+  <div class="sc"><div class="sc-l">제형 전략 3</div><div class="sc-v">휴대·간편성</div><div class="sc-d">1회분 개별 파우치 → 외식 전 가방에서 꺼내 먹는 TPO 루틴 형성. 콘텐츠 촬영 친화적.</div></div>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <div class="sl" style="margin-bottom:8px">겔포스(위장약) 대비 포지셔닝 분리 전략</div>
+  <div class="body" style="font-size:13px;margin-bottom:10px">같은 스퀴즈젤 제형이지만 <strong>소비자 인식 포지션은 완전히 다르게</strong> 가야 합니다. 겔포스는 "아플 때 먹는 약", 우리 제품은 "밥 먹기 전에 챙기는 다이어트 루틴"입니다.</div>
+  <table class="vs" style="margin-top:0">
+    <thead><tr><th style="width:22%">항목</th><th style="width:39%">겔포스 류 (위장약 이미지)</th><th style="width:39%">우리 제품 (다이어트 루틴 이미지)</th></tr></thead>
+    <tbody>
+      <tr><td class="vs-rl">복용 타이밍</td><td>속이 아플 때 (사후 처치)</td><td><span class="vs-good">식전 30분 (사전 준비 루틴)</span></td></tr>
+      <tr><td class="vs-rl">복용 맥락</td><td>약국·집 서랍 (치료제)</td><td><span class="vs-good">가방·파우치·책상 위 (뷰티·웰니스 루틴)</span></td></tr>
+      <tr><td class="vs-rl">패키지 무드</td><td>흰색·파란색, 의약품 느낌</td><td><span class="vs-good">미니멀·세련된 컬러, 뷰티 제품 무드</span></td></tr>
+      <tr><td class="vs-rl">소비자 셀프 이미지</td><td>"나는 위가 안 좋은 사람"</td><td><span class="vs-good">"나는 건강하게 다이어트하는 사람"</span></td></tr>
+    </tbody>
+  </table>
+  <div class="hbox hx-dk" style="margin-top:12px"><strong>핵심 포지셔닝 문장:</strong> "겔포스처럼 생겼지만 목적이 다릅니다 — 위를 달래러 먹는 게 아니라, 살이 안 찌게 먹으러 먹는 겁니다."</div>
+</div>
+
+<div class="h2" style="margin-bottom:12px">식전 1포 — 섭취 TPO 시나리오</div>
+<p class="muted" style="margin-bottom:14px">언제, 어디서, 어떤 상황에서 꺼내 먹는지가 루틴화의 핵심입니다. 각 TPO는 마케팅 콘텐츠 소재로 직결됩니다.</p>
+<div class="g2" style="margin-bottom:12px">
+  <div class="card card-a"><span class="b b-a" style="margin-bottom:8px;display:inline-block">TPO 1 — 직장인 점심</span><div class="h3">회사 근처 식당 가기 전</div><div class="body" style="font-size:13px;margin-bottom:10px">자리에서 일어나며 서랍이나 파우치에서 1포 꺼내 스퀴즈. "오늘 점심도 위부터 준비."</div><div class="hbox hx-a" style="font-size:12px"><strong>콘텐츠 소재:</strong> 직장인 POV 숏폼 — 책상 서랍에서 꺼내 먹고 식당 걸어가는 컷</div></div>
+  <div class="card card-b"><span class="b b-b" style="margin-bottom:8px;display:inline-block">TPO 2 — 외식·회식</span><div class="h3">식당 테이블에 앉자마자</div><div class="body" style="font-size:13px;margin-bottom:10px">가방에서 꺼내 메뉴 보기 전에 먼저 섭취. "오늘 뭘 먹어도 위가 먼저 준비됐다."</div><div class="hbox hx-b" style="font-size:12px"><strong>콘텐츠 소재:</strong> 회식 자리 가방 속 → 테이블 위 → "나만 아는 루틴" 내레이션</div></div>
+  <div class="card card-a"><span class="b b-a" style="margin-bottom:8px;display:inline-block">TPO 3 — 야식 전</span><div class="h3">야식 시키기 전 / 냉장고 열기 전</div><div class="body" style="font-size:13px;margin-bottom:10px">야식 욕구가 올라오는 순간 1포 먼저 섭취. 그렐린 리셋 후 야식량 자연 감소 유도.</div><div class="hbox hx-a" style="font-size:12px"><strong>콘텐츠 소재:</strong> 밤 11시 배고픔 → "이거 먼저" → 배달앱 닫기 스토리 형식</div></div>
+  <div class="card card-f"><span class="b b-f" style="margin-bottom:8px;display:inline-block">TPO 4 — 뷔페·외식 대비</span><div class="h3">뷔페 입장 or 많이 먹을 예정인 식사 전</div><div class="body" style="font-size:13px;margin-bottom:10px">F 로직 타겟 전용. 빠른 위 배출에 브레이크 선제 설치. "오늘은 이성적으로 먹는다."</div><div class="hbox hx-f" style="font-size:12px"><strong>콘텐츠 소재:</strong> 뷔페 입구 → 1포 → "위에 브레이크 달고 들어간다" 콘텐츠</div></div>
+</div>
+<div class="card card-dash">
+  <div class="sl" style="margin-bottom:10px">TPO 통합 — 루틴화 메시지 설계</div>
+  <div class="body" style="font-size:13px;margin-bottom:12px">모든 TPO의 공통 행동 패턴은 <strong>"식사 전 1포 스퀴즈"</strong>입니다. 겔포스가 "속 쓰릴 때 → 짜 먹는다"는 반응적 루틴이라면, 우리 제품은 <strong>"밥 먹기 전 → 먼저 준비한다"는 능동적 루틴</strong>입니다.</div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+    <div style="background:var(--ink);color:var(--paper);border-radius:4px;padding:6px 12px;font-size:12px;font-weight:500">식사 예정 30분 전</div>
+    <div style="font-size:18px;color:var(--ink4)">→</div>
+    <div style="background:var(--bl);color:var(--bd);border-radius:4px;padding:6px 12px;font-size:12px;font-weight:500">파우치에서 1포 꺼내기</div>
+    <div style="font-size:18px;color:var(--ink4)">→</div>
+    <div style="background:var(--bl);color:var(--bd);border-radius:4px;padding:6px 12px;font-size:12px;font-weight:500">스퀴즈해서 섭취</div>
+    <div style="font-size:18px;color:var(--ink4)">→</div>
+    <div style="background:var(--al);color:var(--ad);border-radius:4px;padding:6px 12px;font-size:12px;font-weight:500">위 준비 완료 → 식사</div>
+  </div>
+</div>
+<div class="div"></div>
+
+<div class="ch"><span class="ch-n">Step 6</span><h1 class="ch-t">기획안 최종 정리</h1></div>
+
+<div class="card card-dash" style="margin-bottom:14px">
+  <div class="sl" style="margin-bottom:8px">제품 한 줄 요약</div>
+  <div class="hbox hx-dk" style="font-family:var(--serif);font-size:17px;font-weight:600;line-height:1.55;margin-top:0">"위부터 고쳐야 살이 빠진다" — 6가지 위 기전 정상화로 식욕·소화·호르몬·지방 대사를 동시에 회복하는 위 건강 다이어트</div>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <div class="sl" style="margin-bottom:7px">기획 의도</div>
+  <div class="body">다이어트 실패의 진짜 원인을 <strong>"위 기능 저하 또는 이상"</strong>으로 재정의함으로써, 기존 식욕억제·지방분해·소화보조·혈당관리·스트레스·포만감 보충 6개 카테고리와 완전히 다른 카테고리를 창출합니다. 소비자가 몰랐던 생리 기전을 설득력 있게 전달해 "왜 내가 노력해도 살이 안 빠졌는지"를 납득시키는 것이 핵심입니다. 타겟 증상에 따라 A~F 6가지 언어로 전환하되, 제품은 하나입니다.</div>
+</div>
+
+<div class="g2" style="margin-bottom:14px">
+  <div class="card card-a"><span class="b b-a" style="margin-bottom:8px;display:inline-block">A + C + E 언어군</span><div class="h3">호르몬·염증 계열</div><div class="body" style="font-size:12px;margin-bottom:8px">타겟: 야식 반복자 / 운동해도 안 빠짐 / 뱃살만 안 빠짐</div><div class="body" style="font-size:13px;font-style:italic">"배고픔·지방연소·뱃살은 모두 호르몬 문제 — 위가 원인"</div></div>
+  <div class="card card-b"><span class="b b-b" style="margin-bottom:8px;display:inline-block">B + D 언어군</span><div class="h3">소화·혈당 계열</div><div class="body" style="font-size:12px;margin-bottom:8px">타겟: 더부룩함 / 식단 조절 실패 / 밥 먹고 금방 배고픔</div><div class="body" style="font-size:13px;font-style:italic">"소화가 불완전하면 매 식사가 지방이 된다"</div></div>
+  <div class="card card-f" style="grid-column:1/-1"><span class="b b-f" style="margin-bottom:8px;display:inline-block">F 역발상 언어군</span><div class="h3">빠른 위 배출 계열 — 완전히 새로운 타겟층</div><div class="body" style="font-size:12px;margin-bottom:8px">타겟: 소화 잘 됨 / 먹성 좋음 / 위가 안 좋다는 인식 없음</div><div class="body" style="font-size:13px;font-style:italic">"위가 좋아서 살찌는 사람도 있다 — 위에 브레이크가 없는 것"</div></div>
+</div>
+
+<div class="card card-dash">
+  <div class="sl" style="color:var(--dm);margin-bottom:8px">추가로 확인이 필요한 사항</div>
+  <div class="chk"><span class="chk-ic">①</span><div><div class="chk-t">메인 원료 최종 확정</div>생강·아티초크·감초·인진쑥·펙틴 배합비 확정. 원료팀 협의 필요. 보유 원료 있으면 공유 시 설계 구체화 가능.</div></div>
+  <div class="chk"><span class="chk-ic">②</span><div><div class="chk-t">건강기능식품 vs. 일반식품 카테고리 결정</div>"위 기능 개선" 기능성 표현 가능 여부 — 식약처 기준 검토 필요. 카테고리에 따라 허용 표현 범위가 달라짐.</div></div>
+  <div class="chk"><span class="chk-ic">③</span><div><div class="chk-t">논문 근거 자료 확보</div>그렐린·렙틴·코르티솔·위 배출 속도 기전 관련 국내 또는 한국인 대상 연구 데이터 확보 시 콘텐츠 신뢰도 대폭 향상.</div></div>
+  <div class="chk"><span class="chk-ic">④</span><div><div class="chk-t">F 로직 SKU 분리 여부</div>F 로직 원료(펙틴·베타글루칸)와 A·B 로직 원료(소화효소·베타인 HCl) 기전 충돌 가능성 원료팀 검토 후 단일 SKU vs. 분리 SKU 결정.</div></div>
+  <div class="chk"><span class="chk-ic">⑤</span><div><div class="chk-t">A~F 방향 콘텐츠 소재 A/B 테스트</div>6개 로직 중 CPP(전환당 비용) 최저 로직 확인 위한 숏폼 소재 동시 집행 계획 수립. 초기에는 A·B·F 3개 방향으로 먼저 테스트 권장.</div></div>
+</div>
+
+<div class="footer">
+  <span class="fl">위 건강 다이어트 최종 완성 기획안 · 내부 검토용 · Rev. Final</span>
+  <span class="fl">미디어커머스 상품기획팀</span>
+</div>
+
+</div>
+</body>
+</html>
