@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useRef } from 'react'
 
 export type NotionItem = { title: string; text: string }
 
@@ -11,9 +11,7 @@ export function FileAttachSection({
   notionItems = [],
   onAddFiles,
   onRemoveFile,
-  onAddNotion,
   onRemoveNotion,
-  notionDisabled = false,
   accept = '.pdf,.html',
 }: {
   title: string
@@ -28,36 +26,6 @@ export function FileAttachSection({
   accept?: string
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const [showNotionInput, setShowNotionInput] = useState(false)
-  const [notionUrl, setNotionUrl] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [notionError, setNotionError] = useState('')
-
-  const handleNotionLoad = async () => {
-    if (!notionUrl.trim()) return
-    setIsLoading(true)
-    setNotionError('')
-    try {
-      const res = await fetch('/api/notion', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: notionUrl }),
-      })
-      const data = await res.json()
-      if (!res.ok) {
-        setNotionError(data.error ?? '오류가 발생했습니다.')
-        return
-      }
-      onAddNotion?.(data as NotionItem)
-      setNotionUrl('')
-      setShowNotionInput(false)
-    } catch {
-      setNotionError('네트워크 오류가 발생했습니다.')
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   const hasItems = files.length > 0 || notionItems.length > 0
 
   return (
