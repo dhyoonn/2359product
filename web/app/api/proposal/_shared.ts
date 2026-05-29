@@ -88,7 +88,7 @@ export async function handleProposalStream(
           messages: claudeMessages,
           // Anthropic 내장 웹 검색 도구 — 논문·연구 자료 실시간 검색
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          tools: [{ type: 'web_search_20250305' } as any],
+          tools: [{ type: 'web_search_20250305', name: 'web_search' } as any],
         })
         for await (const event of stream) {
           if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
