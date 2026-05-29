@@ -25,8 +25,20 @@ export async function POST(request: NextRequest) {
   try {
     const notionUrls: string[] = JSON.parse(notionUrlsJson)
     if (notionUrls.length > 0) {
-      const notionTexts = await Promise.all(notionUrls.map((url) => fetchNotionPageText(url).then((r) => r.text).catch(() => '')))
-      notionContent = notionTexts.filter(Boolean).join('\n\n')
+      const results = await Promise.all(
+        notionUrls.map((url) =>
+          fetchNotionPageText(url)
+            .then((r) => ({ text: r.text, error: null }))
+            .catch((e: unknown) => ({ text: '', error: e instanceof Error ? e.message : '알 수 없는 오류' }))
+        )
+      )
+      const failed = results.filter((r) => r.error)
+      if (failed.length > 0) {
+        return NextResponse.json({
+          error: `노션 페이지를 읽을 수 없습니다. 해당 페이지가 Integration에 공유되어 있는지 확인해주세요.\n오류: ${failed[0].error}`,
+        }, { status: 400 })
+      }
+      notionContent = results.map((r) => r.text).filter(Boolean).join('\n\n')
     }
   } catch { /* JSON 파싱 실패 시 무시 */ }
 
