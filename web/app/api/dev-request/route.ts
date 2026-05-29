@@ -60,6 +60,7 @@ export async function POST(request: NextRequest) {
 
   if (file) {
     const isPdf = file.type === 'application/pdf' || file.name.endsWith('.pdf')
+    const isImage = file.type.startsWith('image/') || /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name)
 
     if (isPdf) {
       const buffer = await file.arrayBuffer()
@@ -69,6 +70,17 @@ export async function POST(request: NextRequest) {
           type: 'document',
           source: { type: 'base64', media_type: 'application/pdf', data: base64 },
         } as Anthropic.DocumentBlockParam,
+        { type: 'text', text: prompt },
+      ]
+    } else if (isImage) {
+      const buffer = await file.arrayBuffer()
+      const base64 = Buffer.from(buffer).toString('base64')
+      const mediaType = (file.type || 'image/jpeg') as 'image/jpeg' | 'image/png' | 'image/gif' | 'image/webp'
+      messageContent = [
+        {
+          type: 'image',
+          source: { type: 'base64', media_type: mediaType, data: base64 },
+        } as Anthropic.ImageBlockParam,
         { type: 'text', text: prompt },
       ]
     } else {

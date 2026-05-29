@@ -277,7 +277,7 @@ export default function DevRequestPage() {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".pdf,.html"
+                accept=".pdf,.html,.jpg,.jpeg,.png,.webp,.gif"
                 className="hidden"
                 onChange={(e) => setAttachedFile(e.target.files?.[0] ?? null)}
               />
@@ -302,7 +302,7 @@ export default function DevRequestPage() {
                 className="px-5 py-3 bg-slate-500 text-white rounded-xl text-sm font-medium hover:bg-slate-600 transition-colors text-center leading-tight"
               >
                 <span className="block">파일첨부</span>
-                <span className="block text-[10px] text-slate-300 mt-0.5">pdf, html</span>
+                <span className="block text-[10px] text-slate-300 mt-0.5">pdf, html, 이미지</span>
               </button>
 
               {/* 자동 입력 시작 */}
