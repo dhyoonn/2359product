@@ -24,23 +24,7 @@ export default function DevRequestPage() {
   const [error, setError] = useState('')
   const [fields, setFields] = useState<Record<string, string>>({})
   const [isGenerated, setIsGenerated] = useState(false)
-  const [showNotionInput, setShowNotionInput] = useState(false)
-  const [notionUrl, setNotionUrl] = useState('')
-  const [notionError, setNotionError] = useState('')
-  const [notionUrls, setNotionUrls] = useState<string[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
-
-  const handleNotionAdd = useCallback(() => {
-    if (!notionUrl.trim()) return
-    if (!notionUrl.includes('notion.so') && !notionUrl.includes('notion.com')) {
-      setNotionError('올바른 노션 페이지 URL을 입력해주세요.')
-      return
-    }
-    setNotionUrls((prev) => [...prev, notionUrl.trim()])
-    setNotionUrl('')
-    setNotionError('')
-    setShowNotionInput(false)
-  }, [notionUrl])
 
   const handleProductTypeChange = useCallback((type: ProductType) => {
     setProductType(type)
@@ -61,8 +45,8 @@ export default function DevRequestPage() {
   }, [productType])
 
   const handleGenerate = useCallback(async () => {
-    if (!planningContent.trim() && !attachedFile && notionUrls.length === 0) {
-      setError('기획안 내용을 입력하거나 파일 또는 노션 링크를 첨부해주세요.')
+    if (!planningContent.trim() && !attachedFile) {
+      setError('기획안 내용을 입력하거나 파일을 첨부해주세요.')
       return
     }
     setIsLoading(true)
@@ -72,7 +56,6 @@ export default function DevRequestPage() {
     formData.append('productType', productType)
     formData.append('planningContent', planningContent)
     if (attachedFile) formData.append('file', attachedFile)
-    if (notionUrls.length > 0) formData.append('notionUrls', JSON.stringify(notionUrls))
 
     try {
       const res = await fetch('/api/dev-request', {
@@ -99,7 +82,7 @@ export default function DevRequestPage() {
     } finally {
       setIsLoading(false)
     }
-  }, [productType, planningContent, attachedFile, notionUrls])
+  }, [productType, planningContent, attachedFile])
 
   const handleFieldChange = useCallback((key: string, value: string) => {
     setFields((prev) => ({ ...prev, [key]: value }))
@@ -288,47 +271,6 @@ export default function DevRequestPage() {
               </div>
             )}
 
-            {notionUrls.map((url, idx) => (
-              <div key={idx} className="mt-2 flex items-center gap-2 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl">
-                <span className="text-xs text-gray-700 flex-1 truncate">📄 {url}</span>
-                <button
-                  onClick={() => setNotionUrls((prev) => prev.filter((_, i) => i !== idx))}
-                  className="text-xs text-gray-400 hover:text-gray-600"
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
-
-            {showNotionInput && (
-              <div className="mt-2 flex flex-col gap-1.5">
-                <div className="flex gap-2">
-                  <input
-                    type="url"
-                    value={notionUrl}
-                    onChange={(e) => setNotionUrl(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleNotionAdd()}
-                    placeholder="노션 페이지 URL을 붙여넣으세요"
-                    className="flex-1 px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  <button
-                    onClick={handleNotionAdd}
-                    disabled={!notionUrl.trim()}
-                    className="px-4 py-2 bg-gray-900 text-white rounded-xl text-sm font-medium hover:bg-gray-700 disabled:opacity-40 transition-colors"
-                  >
-                    첨부
-                  </button>
-                  <button
-                    onClick={() => { setShowNotionInput(false); setNotionUrl(''); setNotionError('') }}
-                    className="px-3 py-2 text-gray-400 hover:text-gray-600 text-sm"
-                  >
-                    취소
-                  </button>
-                </div>
-                {notionError && <p className="text-xs text-red-500">{notionError}</p>}
-              </div>
-            )}
-
             {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
 
             <div className="mt-3 flex justify-end gap-2">
@@ -340,16 +282,19 @@ export default function DevRequestPage() {
                 onChange={(e) => setAttachedFile(e.target.files?.[0] ?? null)}
               />
 
-              {/* 노션 불러오기 */}
-              {!showNotionInput && (
+              {/* 노션 불러오기 - 개발예정 */}
+              <div className="relative">
                 <button
-                  onClick={() => setShowNotionInput(true)}
-                  className="px-5 py-3 bg-gray-900 text-white rounded-xl text-sm font-medium hover:bg-gray-700 transition-colors text-center leading-tight"
+                  disabled
+                  className="px-5 py-3 bg-gray-900 text-white rounded-xl text-sm font-medium opacity-40 cursor-not-allowed text-center leading-tight"
                 >
                   <span className="block">노션불러오기</span>
                   <span className="block text-[10px] text-gray-400 mt-0.5">notion</span>
                 </button>
-              )}
+                <span className="absolute -top-2 -right-2 text-[10px] font-medium bg-amber-400 text-amber-900 px-1.5 py-0.5 rounded-full leading-none">
+                  개발예정
+                </span>
+              </div>
 
               {/* 파일 첨부 */}
               <button

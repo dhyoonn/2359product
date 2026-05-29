@@ -85,35 +85,6 @@ export function FileAttachSection({
         )}
       </div>
 
-      {showNotionInput && (
-        <div className="mt-3 flex flex-col gap-2">
-          <div className="flex gap-2">
-            <input
-              type="url"
-              value={notionUrl}
-              onChange={(e) => setNotionUrl(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleNotionLoad()}
-              placeholder="노션 페이지 URL을 붙여넣으세요"
-              className="flex-1 px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-              onClick={handleNotionLoad}
-              disabled={isLoading || !notionUrl.trim()}
-              className="px-4 py-2 bg-gray-900 text-white rounded-xl text-sm font-medium hover:bg-gray-700 disabled:opacity-40 transition-colors"
-            >
-              {isLoading ? '불러오는 중...' : '불러오기'}
-            </button>
-            <button
-              onClick={() => { setShowNotionInput(false); setNotionUrl(''); setNotionError('') }}
-              className="px-3 py-2 text-gray-400 hover:text-gray-600 text-sm"
-            >
-              취소
-            </button>
-          </div>
-          {notionError && <p className="text-xs text-red-500">{notionError}</p>}
-        </div>
-      )}
-
       <div className="mt-3 flex justify-end gap-2">
         <input
           ref={fileInputRef}
@@ -126,23 +97,18 @@ export function FileAttachSection({
             e.target.value = ''
           }}
         />
-        {notionDisabled ? (
+        <div className="relative">
           <button
             disabled
-            className="relative px-5 py-3 bg-gray-900 text-white rounded-xl text-sm font-medium opacity-40 cursor-not-allowed text-center leading-tight"
-          >
-            <span className="block">노션불러오기</span>
-            <span className="block text-[10px] text-gray-400 mt-0.5">개발 중</span>
-          </button>
-        ) : (onAddNotion && !showNotionInput && (
-          <button
-            onClick={() => setShowNotionInput(true)}
-            className="px-5 py-3 bg-gray-900 text-white rounded-xl text-sm font-medium hover:bg-gray-700 transition-colors text-center leading-tight"
+            className="px-5 py-3 bg-gray-900 text-white rounded-xl text-sm font-medium opacity-40 cursor-not-allowed text-center leading-tight"
           >
             <span className="block">노션불러오기</span>
             <span className="block text-[10px] text-gray-400 mt-0.5">notion</span>
           </button>
-        ))}
+          <span className="absolute -top-2 -right-2 text-[10px] font-medium bg-amber-400 text-amber-900 px-1.5 py-0.5 rounded-full leading-none">
+            개발예정
+          </span>
+        </div>
         <button
           onClick={() => fileInputRef.current?.click()}
           className="px-5 py-3 bg-slate-500 text-white rounded-xl text-sm font-medium hover:bg-slate-600 transition-colors text-center leading-tight"
