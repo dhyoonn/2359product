@@ -32,7 +32,7 @@ export default function DevRequestPage() {
 
   const handleNotionAdd = useCallback(() => {
     if (!notionUrl.trim()) return
-    if (!notionUrl.includes('notion.so')) {
+    if (!notionUrl.includes('notion.so') && !notionUrl.includes('notion.com')) {
       setNotionError('올바른 노션 페이지 URL을 입력해주세요.')
       return
     }
