@@ -38,12 +38,22 @@ const EDITOR_SCRIPT = `(function() {
       box-sizing: border-box !important;
     }
     .__edit-add:hover { background: #f0faf8 !important; }
+    [contenteditable]:hover {
+      outline: 2px dashed rgba(59,130,246,0.45) !important;
+      border-radius: 3px !important; cursor: text !important;
+    }
+    [contenteditable]:focus {
+      outline: 2px solid rgba(59,130,246,0.8) !important;
+      border-radius: 3px !important;
+    }
   \`;
   document.head.appendChild(style);
 
   /* ── 텍스트 편집 가능하게 ── */
   const TEXT_SELS = [
-    'h1','h2','h3','h4','h5','p',
+    /* 표준 태그 (기본 모드 + 레퍼런스 모드 공통) */
+    'h1','h2','h3','h4','h5','h6','p','li','dt','dd','figcaption','blockquote','label',
+    /* 기본(AKKBELL) 컴포넌트 클래스 */
     '.s-eyebrow','.s-desc','.big-quote',
     '.hero-sub','.hero-cat','.brand-name','.hero-eyebrow',
     '.trust-card .lbl','.trust-card .val',
@@ -71,6 +81,20 @@ const EDITOR_SCRIPT = `(function() {
     if (el.closest('.__edit-del') || el.closest('.__edit-add')) return;
     el.contentEditable = 'true';
     el.spellcheck = false;
+  });
+
+  /* ── 레퍼런스 모드 대응: 텍스트만 포함하는 div/span도 편집 가능하게 ── */
+  var BLOCK_TAGS = new Set(['div','section','article','header','footer','ul','ol','table','tbody','tr','form']);
+  document.querySelectorAll('div, span').forEach(function(el) {
+    if (el.contentEditable === 'true') return;
+    if (el.closest('.__edit-del') || el.closest('.__edit-add')) return;
+    var hasBlockChild = Array.from(el.children).some(function(c) {
+      return BLOCK_TAGS.has(c.tagName.toLowerCase());
+    });
+    if (!hasBlockChild && el.textContent.trim().length > 0 && el.children.length === 0) {
+      el.contentEditable = 'true';
+      el.spellcheck = false;
+    }
   });
 
   /* ── 삭제 버튼 추가 ── */
@@ -224,12 +248,24 @@ function parseHtmlToSections(fullHtml: string): {
   const parser = new DOMParser()
   const doc = parser.parseFromString(fullHtml, 'text/html')
 
+  const wrapper = doc.querySelector('.detail-wrap')
+
+  // wrapper의 직접 자식 <style> 태그를 head로 추출 (레퍼런스 모드 대응)
+  let floatingStyles = ''
+  if (wrapper) {
+    for (const child of Array.from(wrapper.children)) {
+      if (child.tagName.toLowerCase() === 'style') {
+        floatingStyles += child.outerHTML + '\n'
+      }
+    }
+  }
+
   const head =
     `<!DOCTYPE html>\n<html lang="ko">\n<head>\n` +
     doc.head.innerHTML +
+    (floatingStyles ? `\n${floatingStyles}` : '') +
     `\n</head>\n<body>\n<div class="detail-wrap">\n`
 
-  const wrapper = doc.querySelector('.detail-wrap')
   if (!wrapper) return { head, sections: [{ id: 'sec-0', name: '전체', html: fullHtml }], stickyHtml: '' }
 
   const stickyEl = wrapper.querySelector('.sticky-cta, .cta-bar')
@@ -238,6 +274,8 @@ function parseHtmlToSections(fullHtml: string): {
   const sections: Section[] = []
   let i = 0
   for (const child of Array.from(wrapper.children)) {
+    const tagName = child.tagName.toLowerCase()
+    if (tagName === 'style' || tagName === 'script') continue  // head로 이동됨
     const cls = (child as HTMLElement).className ?? ''
     if (cls.includes('sticky-cta') || cls.includes('cta-bar')) continue
     sections.push({
@@ -306,6 +344,28 @@ export default function PageFlowPage() {
   const hasResult = sections.length > 0
   const isReady = planFiles.length > 0 || planNotion.length > 0
 
+  /* ── 섹션 클릭 시 미리보기에서 해당 섹션으로 스크롤 + 하이라이트 ── */
+  const scrollToSection = useCallback((idx: number) => {
+    const iframe = iframeRef.current
+    if (!iframe?.contentDocument) return
+    const wrapper = iframe.contentDocument.querySelector('.detail-wrap')
+    if (!wrapper) return
+    const children = Array.from(wrapper.children).filter((c) => {
+      const tag = c.tagName.toLowerCase()
+      return tag !== 'style' && tag !== 'script'
+    })
+    const target = children[idx] as HTMLElement | undefined
+    if (!target) return
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    const prev = target.style.outline
+    target.style.outline = '3px solid rgba(59,130,246,0.7)'
+    target.style.borderRadius = '4px'
+    setTimeout(() => {
+      target.style.outline = prev
+      target.style.borderRadius = ''
+    }, 1400)
+  }, [])
+
   // 조립된 HTML (섹션 상태 기준)
   const getAssembledHtml = useCallback(() => {
     return assembleHtml(headHtml, sections, stickyHtml)
@@ -330,13 +390,15 @@ export default function PageFlowPage() {
     const updated: Section[] = []
     let i = 0
     for (const child of Array.from(wrapper.children)) {
+      const tagName = child.tagName.toLowerCase()
+      if (tagName === 'style' || tagName === 'script') continue  // head로 이동된 스타일 제외
       const cls = (child as HTMLElement).className ?? ''
       if (cls.includes('sticky-cta') || cls.includes('cta-bar')) continue
       const prev = sections[i]
       updated.push({
         id: prev?.id ?? `sec-sync-${i}`,
         name: getSectionName(child as HTMLElement),
-        html: getCleanHtml(child),  // 에디터 컨트롤 제거된 깨끗한 HTML
+        html: getCleanHtml(child),
       })
       i++
     }
@@ -590,23 +652,24 @@ export default function PageFlowPage() {
                 <div className="space-y-1">
                   {sections.map((sec, idx) => (
                     <div key={sec.id}
-                      className="group flex items-center gap-1.5 px-3 py-2.5 bg-gray-50 border border-gray-100 rounded-xl hover:border-gray-300 hover:bg-white transition-colors">
+                      className="group flex items-center gap-1.5 px-3 py-2.5 bg-gray-50 border border-gray-100 rounded-xl hover:border-blue-200 hover:bg-blue-50 transition-colors cursor-pointer"
+                      onClick={() => scrollToSection(idx)}>
                       <span className="text-[11px] text-gray-400 w-4 shrink-0 text-center font-mono">{idx + 1}</span>
-                      <span className="flex-1 text-xs text-gray-700 truncate">{sec.name}</span>
+                      <span className="flex-1 text-xs text-gray-700 truncate" title="클릭하면 미리보기에서 해당 섹션으로 이동">{sec.name}</span>
                       <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
-                        <button onClick={() => moveUp(idx)} disabled={idx === 0} title="위로"
+                        <button onClick={(e) => { e.stopPropagation(); moveUp(idx) }} disabled={idx === 0} title="위로"
                           className="p-1 rounded hover:bg-gray-200 text-gray-500 disabled:opacity-25 disabled:cursor-not-allowed">
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="18 15 12 9 6 15"/></svg>
                         </button>
-                        <button onClick={() => moveDown(idx)} disabled={idx === sections.length - 1} title="아래로"
+                        <button onClick={(e) => { e.stopPropagation(); moveDown(idx) }} disabled={idx === sections.length - 1} title="아래로"
                           className="p-1 rounded hover:bg-gray-200 text-gray-500 disabled:opacity-25 disabled:cursor-not-allowed">
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                         </button>
-                        <button onClick={() => addSectionAfter(idx)} title="아래에 섹션 추가"
+                        <button onClick={(e) => { e.stopPropagation(); addSectionAfter(idx) }} title="아래에 섹션 추가"
                           className="p-1 rounded hover:bg-blue-100 text-gray-400 hover:text-blue-600">
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         </button>
-                        <button onClick={() => deleteSection(idx)} title="섹션 삭제"
+                        <button onClick={(e) => { e.stopPropagation(); deleteSection(idx) }} title="섹션 삭제"
                           className="p-1 rounded hover:bg-red-100 text-gray-400 hover:text-red-500">
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                         </button>
@@ -644,7 +707,7 @@ export default function PageFlowPage() {
                 <span className="text-sm font-medium text-gray-700">미리보기</span>
                 {hasResult && (
                   <span className="text-[11px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
-                    텍스트 클릭 → 수정 · 항목 위 마우스 → ✕ 삭제 · 목록 하단 → + 추가
+                    텍스트 클릭 → 문안 직접 수정 · 항목 위 마우스 → ✕ 삭제 · 왼쪽 섹션 클릭 → 해당 위치로 이동
                   </span>
                 )}
               </div>
