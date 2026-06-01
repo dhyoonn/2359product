@@ -105,7 +105,7 @@ export default function HomePage() {
                   <p className="text-sm text-gray-500">저장된 HTML 문서를 불러와 텍스트를 직접 수정하고 다시 저장합니다.</p>
                 </div>
               </div>
-              <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 shrink-0">
+              <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-green-100 text-green-700 shrink-0">
                 사용 가능
               </span>
             </div>
