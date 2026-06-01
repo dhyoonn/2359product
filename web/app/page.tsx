@@ -84,6 +84,33 @@ export default function HomePage() {
             </Link>
           ))}
         </div>
+
+        {/* ── 문서 수정 ── */}
+        <div className="mt-8 pt-8 border-t border-gray-200">
+          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">유틸리티</p>
+          <Link
+            href="/doc-edit"
+            className="block bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-md transition-shadow"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5 p-2 bg-gray-100 rounded-xl shrink-0">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-600">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">문서 수정</h3>
+                  <p className="text-sm text-gray-500">저장된 HTML 문서를 불러와 텍스트를 직접 수정하고 다시 저장합니다.</p>
+                </div>
+              </div>
+              <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 shrink-0">
+                사용 가능
+              </span>
+            </div>
+          </Link>
+        </div>
       </main>
     </div>
   )
