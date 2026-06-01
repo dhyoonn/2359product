@@ -118,9 +118,21 @@ export async function POST(request: NextRequest) {
 
     const raw = message.content[0].type === 'text' ? message.content[0].text : ''
 
-    // JSON 파싱 (마크다운 코드블록 제거)
-    const cleaned = raw.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
-    const aiContent = JSON.parse(cleaned) as FinalPlanAiContent
+    const delimIdx = raw.indexOf(DELIMITER)
+    let aiContent: FinalPlanAiContent
+
+    if (delimIdx !== -1) {
+      // 구분자 방식: JSON + ---HTML--- + HTML
+      const jsonPart = raw.slice(0, delimIdx).trim()
+      const htmlPart = raw.slice(delimIdx + DELIMITER.length).trim()
+      const cleanedJson = jsonPart.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
+      const partial = JSON.parse(cleanedJson) as Omit<FinalPlanAiContent, 'design_html'>
+      aiContent = { ...partial, design_html: htmlPart }
+    } else {
+      // 폴백: JSON에 design_html이 포함된 구 방식
+      const cleaned = raw.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
+      aiContent = JSON.parse(cleaned) as FinalPlanAiContent
+    }
 
     const html = assembleFinalPlanHtml(aiContent, specFields, currentDate)
     return NextResponse.json({ html })
