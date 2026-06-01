@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import Link from 'next/link'
 
 const TEXT_SELS = [
@@ -78,6 +78,13 @@ export default function DocEditPage() {
       }
     })
   }, [])
+
+  /* ── srcDoc 변경 시 onLoad 타이밍 놓쳤을 경우 보완 ── */
+  useEffect(() => {
+    if (!srcDoc) return
+    const raf = requestAnimationFrame(() => injectEditor())
+    return () => cancelAnimationFrame(raf)
+  }, [srcDoc, injectEditor])
 
   const loadFile = useCallback(async (file: File) => {
     if (!file.name.endsWith('.html')) {
