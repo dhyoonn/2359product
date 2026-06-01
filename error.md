@@ -225,6 +225,60 @@ AKKBELL 클래스 기반 로직 + 범용 로직 병행:
 
 ---
 
+### ERR-011 | 상세페이지 생성 후 디자인 전체 사라짐 (CSS 손실)
+
+**발생 기능:** 상세 페이지 플로우 + 문안 — 생성 직후 미리보기
+
+**증상:**
+섹션 목록은 정상 표시되는데, 오른쪽 미리보기에서 디자인이 모두 사라지고 텍스트만 나열됨.
+
+**원인:**
+`parseHtmlToSections`의 코드 실행 순서 문제.
+AI가 모든 섹션을 단일 래퍼 div로 감쌌을 때 언래핑하는 과정에서 래퍼 내부의 `<style>` 태그를 버림.
+`head` 구성이 스타일 수집보다 먼저 실행되어 CSS가 통째로 손실됨.
+
+```
+❌ 잘못된 순서:
+wrapper 직접자식 <style> 수집 → head 구성 → 언래핑(이때 내부 style 버림)
+
+✅ 올바른 순서:
+wrapper 직접자식 <style> 수집 + 래퍼 내부 <style> 수집 → 언래핑 → head 구성
+```
+
+**해결책:**
+`parseHtmlToSections`에서 스타일 수집(wrapper 직접자식 + 단일 래퍼 div 내부 모두)을 먼저 완료한 뒤 `head`를 구성하도록 순서 변경.
+
+**재발 방지:**
+`parseHtmlToSections`를 수정할 때 반드시 아래 순서를 지킨다:
+1. `<style>` 태그 전체 수집 (wrapper 직접자식 + 잠재적 래퍼 내부)
+2. 언래핑 결정 및 sectionEls 확정
+3. head 구성 (floatingStyles 포함)
+4. sections 배열 생성
+
+---
+
+### ERR-012 | 섹션 레이아웃 내 불필요한 편집 버튼 생성
+
+**발생 기능:** 상세 페이지 플로우 + 문안 — 미리보기 편집 모드
+
+**증상:**
+페이지 레이아웃 섹션(`<section class="s">` 등)에 삭제/추가 버튼이 붙어 레이아웃 교란.
+
+**원인:**
+EDITOR_SCRIPT의 generic 반복 요소 탐지가 `.detail-wrap`의 직접 자식 섹션에도 적용됨.
+`<section class="s">`가 여러 개 있으면 같은 tag+class 반복 요소로 인식해서 각 섹션에 삭제 버튼 추가.
+
+**해결책:**
+generic 반복 요소 탐지에서 `.detail-wrap`의 직접 자식은 제외.
+```javascript
+if (parent.classList.contains('detail-wrap')) return;
+```
+
+**재발 방지:**
+EDITOR_SCRIPT에서 반복 요소 탐지 시 페이지 최상위 레이아웃 컨테이너의 직접 자식은 항상 제외.
+
+---
+
 ## 오류 발생 시 기록 양식
 
 새 오류를 발견하면 아래 형식으로 이 파일에 추가한다.
