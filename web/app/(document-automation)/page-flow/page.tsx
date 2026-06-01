@@ -144,13 +144,15 @@ const EDITOR_SCRIPT = `(function() {
     });
   });
 
-  /* ── 레퍼런스 모드: 같은 클래스 반복 요소도 삭제/추가 ── */
+  /* ── 레퍼런스 모드: 섹션 내부의 반복 요소만 삭제/추가 (section·div 직접 자식 제외) ── */
   var seenGeneric = new WeakSet();
   document.querySelectorAll('[class]').forEach(function(el) {
     if (el.closest('.__edit-del') || el.closest('.__edit-add')) return;
     if (el.classList.contains('__edit-host') || el.classList.contains('__edit-del') || el.classList.contains('__edit-add')) return;
     var parent = el.parentElement;
     if (!parent || seenGeneric.has(parent)) return;
+    /* detail-wrap 직접 자식은 제외 — 섹션 자체에 삭제 버튼 붙으면 레이아웃 파괴 */
+    if (parent.classList.contains('detail-wrap')) return;
     var tag = el.tagName;
     var cls = el.getAttribute('class') || '';
     if (!cls.trim()) return;
@@ -233,19 +235,47 @@ function parseHtmlToSections(fullHtml: string): {
 } {
   const parser = new DOMParser()
   const doc = parser.parseFromString(fullHtml, 'text/html')
-
   const wrapper = doc.querySelector('.detail-wrap')
 
-  // wrapper의 직접 자식 <style> 태그를 head로 추출 (레퍼런스 모드 대응)
+  // ── 스타일 수집과 섹션 추출을 head 구성 전에 먼저 처리 ──
   let floatingStyles = ''
+  let sectionEls: Element[] = []
+
   if (wrapper) {
-    for (const child of Array.from(wrapper.children)) {
-      if (child.tagName.toLowerCase() === 'style') {
-        floatingStyles += child.outerHTML + '\n'
+    const stickyClasses = ['sticky-cta', 'cta-bar']
+
+    // 1. wrapper 직접 자식 <style> 수집
+    for (const c of Array.from(wrapper.children)) {
+      if (c.tagName.toLowerCase() === 'style') floatingStyles += c.outerHTML + '\n'
+    }
+
+    // 2. style/script/sticky 제외한 직접 자식
+    const visibleChildren = Array.from(wrapper.children).filter((c) => {
+      const tag = c.tagName.toLowerCase()
+      if (tag === 'style' || tag === 'script') return false
+      return !stickyClasses.some((s) => (c as HTMLElement).className?.includes(s))
+    })
+
+    sectionEls = visibleChildren
+
+    // 3. 단일 래퍼 div일 때: 내부 <style>도 수집한 뒤 언래핑
+    if (visibleChildren.length === 1) {
+      const only = visibleChildren[0]
+      if (['div', 'main', 'article'].includes(only.tagName.toLowerCase())) {
+        for (const c of Array.from(only.children)) {
+          if (c.tagName.toLowerCase() === 'style') floatingStyles += c.outerHTML + '\n'
+        }
+        const inner = Array.from(only.children).filter((c) => {
+          const tag = c.tagName.toLowerCase()
+          return tag !== 'style' && tag !== 'script' &&
+            !stickyClasses.some((s) => (c as HTMLElement).className?.includes(s))
+        })
+        if (inner.length > 1) sectionEls = inner
       }
     }
   }
 
+  // head는 모든 스타일 수집이 끝난 뒤 구성
   const head =
     `<!DOCTYPE html>\n<html lang="ko">\n<head>\n` +
     doc.head.innerHTML +
@@ -256,28 +286,6 @@ function parseHtmlToSections(fullHtml: string): {
 
   const stickyEl = wrapper.querySelector('.sticky-cta, .cta-bar')
   const stickyHtml = stickyEl?.outerHTML ?? ''
-
-  // style/script/sticky 제외한 직접 자식 목록
-  const visibleChildren = Array.from(wrapper.children).filter((c) => {
-    const tag = c.tagName.toLowerCase()
-    if (tag === 'style' || tag === 'script') return false
-    const cls = (c as HTMLElement).className ?? ''
-    return !cls.includes('sticky-cta') && !cls.includes('cta-bar')
-  })
-
-  // AI가 단일 래퍼 div로 모든 섹션을 묶었을 때 한 단계 더 들어감
-  let sectionEls = visibleChildren
-  if (visibleChildren.length === 1) {
-    const only = visibleChildren[0]
-    const onlyTag = only.tagName.toLowerCase()
-    if (onlyTag === 'div' || onlyTag === 'main' || onlyTag === 'article') {
-      const inner = Array.from(only.children).filter((c) => {
-        const tag = c.tagName.toLowerCase()
-        return tag !== 'style' && tag !== 'script'
-      })
-      if (inner.length > 1) sectionEls = inner
-    }
-  }
 
   const sections: Section[] = sectionEls.map((child, i) => ({
     id: `sec-${i}-${Math.random().toString(36).slice(2, 7)}`,
