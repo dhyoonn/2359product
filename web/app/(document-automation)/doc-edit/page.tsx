@@ -63,14 +63,6 @@ const EDITOR_SCRIPT = `(function() {
   });
 })();`
 
-// 편집 스크립트를 HTML 문자열에 삽입 (dynamic injection 대신 srcdoc에 포함)
-function injectEditorIntoHtml(html: string): string {
-  const tag = `<script>\n${EDITOR_SCRIPT}\n</script>`
-  return html.includes('</body>')
-    ? html.replace(/<\/body>/i, `${tag}\n</body>`)
-    : html + tag
-}
-
 export default function DocEditPage() {
   const [srcDoc, setSrcDoc] = useState('')
   const [fileName, setFileName] = useState('')
@@ -78,13 +70,22 @@ export default function DocEditPage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const hasDoc = !!srcDoc
 
+  /* ── iframe 로드 후 에디터 주입 (page-flow와 동일한 방식) ── */
+  const injectEditor = useCallback(() => {
+    const iframe = iframeRef.current
+    if (!iframe?.contentDocument?.body) return
+    const script = iframe.contentDocument.createElement('script')
+    script.textContent = EDITOR_SCRIPT
+    iframe.contentDocument.body.appendChild(script)
+  }, [])
+
   const loadFile = useCallback(async (file: File) => {
     if (!file.name.endsWith('.html')) {
       alert('HTML 파일만 첨부할 수 있습니다.')
       return
     }
     const text = await file.text()
-    setSrcDoc(injectEditorIntoHtml(text))
+    setSrcDoc(text)
     setFileName(file.name)
   }, [])
 
@@ -202,6 +203,7 @@ export default function DocEditPage() {
         <iframe
           ref={iframeRef}
           srcDoc={srcDoc}
+          onLoad={injectEditor}
           className="flex-1 w-full border-0"
           title="문서 편집"
         />
