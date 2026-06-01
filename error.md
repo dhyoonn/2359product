@@ -279,6 +279,31 @@ EDITOR_SCRIPT에서 반복 요소 탐지 시 페이지 최상위 레이아웃 �
 
 ---
 
+### ERR-013 | srcdoc iframe에 DOM 조작 시 대용량 HTML 파싱 전에 실행됨
+
+**발생 기능:** 문서 수정 — 상세페이지 HTML 첨부 시 편집 기능 미작동
+
+**증상:**
+개발의뢰서·최종기획안은 편집이 되는데 상세페이지만 안 됨.
+
+**원인:**
+`requestAnimationFrame(~16ms)`은 브라우저의 다음 렌더 프레임에 실행되는데,
+상세페이지 HTML은 870줄의 AKKBELL CSS를 포함해 파싱 시간이 길어
+raf이 실행되는 시점에 `iframe.contentDocument`가 아직 빈 문서 상태임.
+빈 문서에 guard(`data-edit-init`)를 세팅하고 끝나버려 실제 문서엔 적용 안 됨.
+
+**해결책:**
+`requestAnimationFrame` → `setTimeout(500)`으로 교체.
+500ms면 어떤 크기의 HTML이라도 파싱이 완료되므로 안정적으로 동작.
+guard도 `data-edit-init` 대신 `getElementById('__edit-style')`로 변경
+(문서가 교체될 때 이전 문서의 flag가 남아있는 문제 방지).
+
+**재발 방지:**
+srcdoc iframe에 DOM을 조작할 때는 requestAnimationFrame 대신 setTimeout(500) 사용.
+대용량 HTML일수록 파싱 시간이 길어지므로 여유 있는 지연 시간 필요.
+
+---
+
 ## 오류 발생 시 기록 양식
 
 새 오류를 발견하면 아래 형식으로 이 파일에 추가한다.
