@@ -3,65 +3,37 @@
 import { useState, useCallback, useRef } from 'react'
 import Link from 'next/link'
 
-// ── 편집 스크립트: 텍스트 클릭 수정만 (삭제/추가 없음) ──────────
-const EDITOR_SCRIPT = `(function() {
-  if (document.body.dataset.editInit) return;
-  document.body.dataset.editInit = '1';
+const TEXT_SELS = [
+  /* 표준 태그 */
+  'h1','h2','h3','h4','h5','h6','p','li','td','th','dt','dd','blockquote','figcaption',
+  /* page-flow AKKBELL */
+  '.s-eyebrow','.s-desc','.big-quote','.hero-sub','.hero-cat','.brand-name','.hero-eyebrow',
+  '.trust-card .lbl','.trust-card .val',
+  '.big-stat','.big-stat-lbl','.big-stat-src',
+  '.faq-q','.faq-a',
+  '.tl-week .num','.tl-week .unit','.tl-content h5','.tl-content p',
+  '.bar-label','.pct','.authority-card .src',
+  '.ingredient-head .info .role','.ingredient-dose','.badge',
+  '.pain-item > div',
+  '.review-stars','.review-user','.review-card h5','.review-card p',
+  '.price-option .info h5','.price-option .info .pack',
+  '.price-option .info .save','.price-option .price .original','.price-option .price .now',
+  '.cert-card .name','.layer-box h4','.layer-chain .node',
+  '.step h3','.step p','.quote-box p','.cite','.tag',
+  '.vs-bad h3','.vs-bad p','.vs-good h3','.vs-good p',
+  '.synergy-final p','.synergy-final .lbl',
+  '.compare-row .col',
+  '.sticky-cta .price-info .lbl','.sticky-cta .price-info .amount',
+  /* 최종 기획안 */
+  '.section-title','.section-desc','.card h3','.card p','.card-label',
+  '.evidence p','.evidence-title','.callout p','.callout-label',
+  '.hero-meta-item strong','.stat-val','.stat-label',
+  '.formula-name','.formula-role',
+].join(',')
 
-  var style = document.createElement('style');
-  style.id = '__edit-style';
-  style.textContent = [
-    '[contenteditable]:hover { outline: 2px dashed rgba(59,130,246,0.5) !important; border-radius: 3px !important; cursor: text !important; }',
-    '[contenteditable]:focus { outline: 2px solid rgba(59,130,246,0.85) !important; border-radius: 3px !important; outline-offset: 1px !important; }',
-  ].join('');
-  document.head.appendChild(style);
-
-  var TEXT_SELS = [
-    /* 표준 태그 */
-    'h1','h2','h3','h4','h5','h6','p','li','td','th','dt','dd','blockquote','figcaption',
-    /* page-flow AKKBELL */
-    '.s-eyebrow','.s-desc','.big-quote','.hero-sub','.hero-cat','.brand-name','.hero-eyebrow',
-    '.trust-card .lbl','.trust-card .val',
-    '.big-stat','.big-stat-lbl','.big-stat-src',
-    '.faq-q','.faq-a',
-    '.tl-week .num','.tl-week .unit','.tl-content h5','.tl-content p',
-    '.bar-label','.pct','.authority-card .src',
-    '.ingredient-head .info .role','.ingredient-dose','.badge',
-    '.pain-item > div',
-    '.review-stars','.review-user','.review-card h5','.review-card p',
-    '.price-option .info h5','.price-option .info .pack',
-    '.price-option .info .save','.price-option .price .original','.price-option .price .now',
-    '.cert-card .name','.layer-box h4','.layer-chain .node',
-    '.step h3','.step p','.quote-box p','.cite','.tag',
-    '.vs-bad h3','.vs-bad p','.vs-good h3','.vs-good p',
-    '.synergy-final p','.synergy-final .lbl',
-    '.compare-row .col',
-    '.sticky-cta .price-info .lbl','.sticky-cta .price-info .amount',
-    /* 최종 기획안 */
-    '.section-title','.section-desc','.card h3','.card p','.card-label',
-    '.evidence p','.evidence-title','.callout p','.callout-label',
-    '.hero-meta-item strong','.stat-val','.stat-label',
-    '.formula-name','.formula-role',
-  ].join(',');
-
-  document.querySelectorAll(TEXT_SELS).forEach(function(el) {
-    if (el.closest('button,input,select,textarea,a[href]')) return;
-    el.contentEditable = 'true';
-    el.spellcheck = false;
-  });
-
-  /* 리프 div/span: 레퍼런스 모드·제안서 커스텀 요소 대응 */
-  var BLOCK_TAGS = new Set(['div','section','article','header','footer','ul','ol','table','tbody','tr','form','nav']);
-  document.querySelectorAll('div, span').forEach(function(el) {
-    if (el.contentEditable === 'true') return;
-    if (el.closest('button,input,select,textarea')) return;
-    var hasBlock = Array.from(el.children).some(function(c) { return BLOCK_TAGS.has(c.tagName.toLowerCase()); });
-    if (!hasBlock && el.children.length === 0 && el.textContent.trim().length > 0) {
-      el.contentEditable = 'true';
-      el.spellcheck = false;
-    }
-  });
-})();`
+const BLOCK_TAGS = new Set([
+  'div','section','article','header','footer','ul','ol','table','tbody','tr','form','nav',
+])
 
 export default function DocEditPage() {
   const [srcDoc, setSrcDoc] = useState('')
@@ -70,13 +42,41 @@ export default function DocEditPage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const hasDoc = !!srcDoc
 
-  /* ── iframe 로드 후 에디터 주입 (page-flow와 동일한 방식) ── */
+  /* ── 스크립트 주입 없이 부모에서 직접 iframe DOM 조작 ── */
   const injectEditor = useCallback(() => {
     const iframe = iframeRef.current
-    if (!iframe?.contentDocument?.body) return
-    const script = iframe.contentDocument.createElement('script')
-    script.textContent = EDITOR_SCRIPT
-    iframe.contentDocument.body.appendChild(script)
+    const doc = iframe?.contentDocument
+    if (!doc?.body) return
+    if (doc.body.dataset.editInit) return
+    doc.body.dataset.editInit = '1'
+
+    // hover/focus 시각 표시 스타일 추가
+    const style = doc.createElement('style')
+    style.id = '__edit-style'
+    style.textContent = [
+      '[contenteditable]:hover{outline:2px dashed rgba(59,130,246,0.5)!important;border-radius:3px!important;cursor:text!important}',
+      '[contenteditable]:focus{outline:2px solid rgba(59,130,246,0.85)!important;border-radius:3px!important;outline-offset:1px!important}',
+    ].join('')
+    doc.head.appendChild(style)
+
+    // 텍스트 요소 contentEditable 적용
+    doc.querySelectorAll(TEXT_SELS).forEach((el) => {
+      if (el.closest('button,input,select,textarea,a[href]')) return
+      ;(el as HTMLElement).contentEditable = 'true'
+      ;(el as HTMLElement).spellcheck = false
+    })
+
+    // 리프 div/span (레퍼런스 모드·제안서 커스텀 요소)
+    doc.querySelectorAll('div, span').forEach((el) => {
+      const h = el as HTMLElement
+      if (h.contentEditable === 'true') return
+      if (el.closest('button,input,select,textarea')) return
+      const hasBlock = Array.from(el.children).some((c) => BLOCK_TAGS.has(c.tagName.toLowerCase()))
+      if (!hasBlock && el.children.length === 0 && el.textContent?.trim()) {
+        h.contentEditable = 'true'
+        h.spellcheck = false
+      }
+    })
   }, [])
 
   const loadFile = useCallback(async (file: File) => {
