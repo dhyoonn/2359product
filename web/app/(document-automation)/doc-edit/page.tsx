@@ -42,13 +42,14 @@ export default function DocEditPage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const hasDoc = !!srcDoc
 
-  /* ── 스크립트 주입 없이 부모에서 직접 iframe DOM 조작 ── */
+  /* ── 부모에서 직접 iframe DOM 조작 (스크립트 주입 없음) ── */
   const injectEditor = useCallback(() => {
     const iframe = iframeRef.current
     const doc = iframe?.contentDocument
     if (!doc?.body) return
-    if (doc.body.dataset.editInit) return
-    doc.body.dataset.editInit = '1'
+
+    // 이미 스타일이 주입된 문서면 건너뜀 (idempotent guard)
+    if (doc.getElementById('__edit-style')) return
 
     // hover/focus 시각 표시 스타일 추가
     const style = doc.createElement('style')
@@ -79,11 +80,12 @@ export default function DocEditPage() {
     })
   }, [])
 
-  /* ── srcDoc 변경 시 onLoad 타이밍 놓쳤을 경우 보완 ── */
+  /* ── 파일 크기가 클 때 requestAnimationFrame으론 파싱 완료 전에 실행될 수 있음
+     500ms 지연으로 어떤 HTML이라도 완전히 파싱된 후 실행 보장 ── */
   useEffect(() => {
     if (!srcDoc) return
-    const raf = requestAnimationFrame(() => injectEditor())
-    return () => cancelAnimationFrame(raf)
+    const timer = setTimeout(() => injectEditor(), 500)
+    return () => clearTimeout(timer)
   }, [srcDoc, injectEditor])
 
   const loadFile = useCallback(async (file: File) => {
