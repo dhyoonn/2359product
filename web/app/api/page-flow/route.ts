@@ -175,14 +175,18 @@ export async function POST(request: NextRequest) {
 
     const raw = message.content[0].type === 'text' ? message.content[0].text : ''
 
-    // 코드블록 마커 제거
-    const sectionsOnly = raw
+    // 코드블록 마커 및 전체 HTML 껍데기 제거
+    let sectionsOnly = raw
       .replace(/^```html\s*/i, '')
       .replace(/^```\s*/i, '')
       .replace(/```\s*$/i, '')
       .replace(/<!DOCTYPE[\s\S]*?<body[^>]*>/i, '')
       .replace(/<\/body>[\s\S]*<\/html>/i, '')
       .trim()
+
+    // AI가 <div class="detail-wrap">을 직접 감쌌을 경우 제거
+    const dwMatch = sectionsOnly.match(/^<div[^>]+class="[^"]*detail-wrap[^"]*"[^>]*>([\s\S]*)<\/div>\s*$/i)
+    if (dwMatch) sectionsOnly = dwMatch[1].trim()
 
     if (!sectionsOnly) {
       return NextResponse.json({ error: 'AI가 내용을 생성하지 못했습니다. 다시 시도해주세요.' }, { status: 500 })

@@ -13,47 +13,38 @@ const EDITOR_SCRIPT = `(function() {
   document.body.dataset.editInit = '1';
 
   /* ── 에디터 CSS ── */
-  const style = document.createElement('style');
+  var style = document.createElement('style');
   style.id = '__edit-style';
-  style.textContent = \`
-    .__edit-host { position: relative !important; }
-    .__edit-del {
-      position: absolute !important; top: 6px !important; right: 6px !important;
-      width: 22px !important; height: 22px !important;
-      background: #ef4444 !important; color: #fff !important;
-      border: none !important; border-radius: 50% !important;
-      font-size: 11px !important; cursor: pointer !important;
-      display: none !important; align-items: center !important;
-      justify-content: center !important; z-index: 9999 !important;
-      line-height: 1 !important; font-family: sans-serif !important;
-    }
-    .__edit-host:hover > .__edit-del { display: flex !important; }
-    .__edit-add {
-      display: block !important; width: 100% !important;
-      padding: 8px 12px !important; margin-top: 8px !important;
-      background: transparent !important; color: #0d9488 !important;
-      border: 1.5px dashed #0d9488 !important; border-radius: 10px !important;
-      font-size: 12px !important; cursor: pointer !important;
-      text-align: center !important; font-family: sans-serif !important;
-      box-sizing: border-box !important;
-    }
-    .__edit-add:hover { background: #f0faf8 !important; }
-    [contenteditable]:hover {
-      outline: 2px dashed rgba(59,130,246,0.45) !important;
-      border-radius: 3px !important; cursor: text !important;
-    }
-    [contenteditable]:focus {
-      outline: 2px solid rgba(59,130,246,0.8) !important;
-      border-radius: 3px !important;
-    }
-  \`;
+  style.textContent = [
+    '.__edit-host { position: relative !important; }',
+    '.__edit-del {',
+    '  position: absolute !important; top: 6px !important; right: 6px !important;',
+    '  width: 22px !important; height: 22px !important;',
+    '  background: #ef4444 !important; color: #fff !important;',
+    '  border: none !important; border-radius: 50% !important;',
+    '  font-size: 11px !important; cursor: pointer !important;',
+    '  display: none; align-items: center !important;',
+    '  justify-content: center !important; z-index: 9999 !important;',
+    '  line-height: 1 !important; font-family: sans-serif !important; padding: 0 !important;',
+    '}',
+    '.__edit-add {',
+    '  display: block !important; width: 100% !important;',
+    '  padding: 8px 12px !important; margin-top: 8px !important;',
+    '  background: transparent !important; color: #0d9488 !important;',
+    '  border: 1.5px dashed #0d9488 !important; border-radius: 10px !important;',
+    '  font-size: 12px !important; cursor: pointer !important;',
+    '  text-align: center !important; font-family: sans-serif !important;',
+    '  box-sizing: border-box !important;',
+    '}',
+    '.__edit-add:hover { background: #f0faf8 !important; }',
+    '[contenteditable]:hover { outline: 2px dashed rgba(59,130,246,0.45) !important; border-radius: 3px !important; cursor: text !important; }',
+    '[contenteditable]:focus { outline: 2px solid rgba(59,130,246,0.8) !important; border-radius: 3px !important; }',
+  ].join('');
   document.head.appendChild(style);
 
-  /* ── 텍스트 편집 가능하게 ── */
-  const TEXT_SELS = [
-    /* 표준 태그 (기본 모드 + 레퍼런스 모드 공통) */
-    'h1','h2','h3','h4','h5','h6','p','li','dt','dd','figcaption','blockquote','label',
-    /* 기본(AKKBELL) 컴포넌트 클래스 */
+  /* ── 텍스트 편집 가능 선택자 ── */
+  var TEXT_SELS = [
+    'h1','h2','h3','h4','h5','h6','p','li','dt','dd','figcaption','blockquote',
     '.s-eyebrow','.s-desc','.big-quote',
     '.hero-sub','.hero-cat','.brand-name','.hero-eyebrow',
     '.trust-card .lbl','.trust-card .val',
@@ -67,119 +58,114 @@ const EDITOR_SCRIPT = `(function() {
     '.review-stars','.review-user','.review-card h5','.review-card p',
     '.price-option .info h5','.price-option .info .pack',
     '.price-option .info .save','.price-option .price .original','.price-option .price .now',
-    '.cert-card .name',
-    '.layer-box h4','.layer-chain .node',
-    '.step h3','.step p',
-    '.quote-box p','.cite','.tag',
+    '.cert-card .name','.layer-box h4','.layer-chain .node',
+    '.step h3','.step p','.quote-box p','.cite','.tag',
     '.vs-bad h3','.vs-bad p','.vs-good h3','.vs-good p',
     '.synergy-final p','.synergy-final .lbl',
     '.sticky-cta .price-info .lbl','.sticky-cta .price-info .amount',
     '.compare-row .col',
   ].join(',');
 
+  /* ── contentEditable 적용 ── */
   document.querySelectorAll(TEXT_SELS).forEach(function(el) {
     if (el.closest('.__edit-del') || el.closest('.__edit-add')) return;
-    el.contentEditable = 'true';
-    el.spellcheck = false;
+    el.contentEditable = 'true'; el.spellcheck = false;
   });
 
-  /* ── 레퍼런스 모드 대응: 텍스트만 포함하는 div/span도 편집 가능하게 ── */
+  /* ── 레퍼런스 모드: 텍스트만 담은 leaf div/span도 편집 가능 ── */
   var BLOCK_TAGS = new Set(['div','section','article','header','footer','ul','ol','table','tbody','tr','form']);
   document.querySelectorAll('div, span').forEach(function(el) {
     if (el.contentEditable === 'true') return;
     if (el.closest('.__edit-del') || el.closest('.__edit-add')) return;
-    var hasBlockChild = Array.from(el.children).some(function(c) {
-      return BLOCK_TAGS.has(c.tagName.toLowerCase());
-    });
-    if (!hasBlockChild && el.textContent.trim().length > 0 && el.children.length === 0) {
-      el.contentEditable = 'true';
-      el.spellcheck = false;
+    var hasBlock = Array.from(el.children).some(function(c) { return BLOCK_TAGS.has(c.tagName.toLowerCase()); });
+    if (!hasBlock && el.children.length === 0 && el.textContent.trim().length > 0) {
+      el.contentEditable = 'true'; el.spellcheck = false;
     }
   });
 
-  /* ── 삭제 버튼 추가 ── */
-  const DELETABLE = [
-    '.pain-item','.faq-item','.tl-item','.authority-card',
-    '.ingredient','.review-card','.price-option',
-    '.compare-row:not(.head)','.bar-row','.cert-card','.stat-box','.step',
-  ].join(',');
-
+  /* ── 삭제 버튼 (CSS hover 대신 JS mouseenter/leave — iframe에서 안정적) ── */
   function addDeleteBtn(el) {
     if (el.querySelector(':scope > .__edit-del')) return;
     el.classList.add('__edit-host');
-    const btn = document.createElement('button');
+    var btn = document.createElement('button');
     btn.className = '__edit-del';
-    btn.innerHTML = '✕';
+    btn.textContent = '✕';
     btn.title = '이 항목 삭제';
-    btn.addEventListener('mousedown', function(e) {
-      e.preventDefault(); e.stopPropagation();
-      el.remove();
+    btn.addEventListener('mousedown', function(e) { e.preventDefault(); e.stopPropagation(); el.remove(); });
+    /* JS로 hover 제어 — CSS :hover는 iframe 안에서 신뢰성 낮음 */
+    el.addEventListener('mouseenter', function() { btn.style.display = 'flex'; });
+    el.addEventListener('mouseleave', function(e) {
+      if (!el.contains(e.relatedTarget)) btn.style.display = 'none';
     });
     el.appendChild(btn);
   }
 
-  document.querySelectorAll(DELETABLE).forEach(addDeleteBtn);
-
   /* ── 항목 추가 버튼 ── */
-  const ITEM_CLASSES = [
-    'pain-item','faq-item','tl-item','authority-card',
-    'ingredient','review-card','price-option',
-    'compare-row','bar-row','cert-card','stat-box','step',
-  ];
-
-  ITEM_CLASSES.forEach(function(cls) {
-    var seen = new WeakSet();
-    document.querySelectorAll('.' + cls).forEach(function(el) {
-      var parent = el.parentElement;
-      if (!parent || seen.has(parent)) return;
-      seen.add(parent);
-
-      // 헤더 행은 제외
-      var items = function() {
-        return Array.from(parent.querySelectorAll(':scope > .' + cls)).filter(function(e) {
-          return !e.classList.contains('head');
-        });
-      };
-      if (items().length === 0) return;
-
-      var addBtn = document.createElement('button');
-      addBtn.className = '__edit-add';
-      addBtn.textContent = '+ ' + getItemLabel(cls) + ' 추가';
-      addBtn.addEventListener('mousedown', function(e) {
-        e.preventDefault(); e.stopPropagation();
-        var allItems = items();
-        if (allItems.length === 0) return;
-        var last = allItems[allItems.length - 1];
-        var clone = last.cloneNode(true);
-        // 기존 에디터 요소 제거 후 새로 붙이기
-        clone.querySelectorAll('.__edit-del, .__edit-add').forEach(function(b) { b.remove(); });
-        clone.classList.remove('__edit-host');
-        // 텍스트 초기화
-        clone.querySelectorAll('[contenteditable]').forEach(function(t) {
-          if (!t.closest('.__edit-del')) t.textContent = '내용을 입력하세요';
-        });
-        // contenteditable 재적용
-        clone.querySelectorAll(TEXT_SELS).forEach(function(t) {
-          if (!t.closest('.__edit-del')) { t.contentEditable = 'true'; t.spellcheck = false; }
-        });
-        addDeleteBtn(clone);
-        parent.insertBefore(clone, addBtn);
-        var first = clone.querySelector('[contenteditable]');
-        if (first) { first.focus(); document.execCommand('selectAll'); }
+  function addPlusBtn(parent, getItems, label) {
+    var addBtn = document.createElement('button');
+    addBtn.className = '__edit-add';
+    addBtn.textContent = '+ ' + label + ' 추가';
+    addBtn.addEventListener('mousedown', function(e) {
+      e.preventDefault(); e.stopPropagation();
+      var items = getItems();
+      if (!items.length) return;
+      var clone = items[items.length - 1].cloneNode(true);
+      clone.querySelectorAll('.__edit-del, .__edit-add').forEach(function(b) { b.remove(); });
+      clone.classList.remove('__edit-host');
+      clone.querySelectorAll('[contenteditable]').forEach(function(t) { t.textContent = '내용을 입력하세요'; });
+      clone.querySelectorAll(TEXT_SELS).forEach(function(t) {
+        if (!t.closest('.__edit-del')) { t.contentEditable = 'true'; t.spellcheck = false; }
       });
-      parent.appendChild(addBtn);
+      addDeleteBtn(clone);
+      parent.insertBefore(clone, addBtn);
+      var first = clone.querySelector('[contenteditable]');
+      if (first) { first.focus(); document.execCommand('selectAll'); }
+    });
+    parent.appendChild(addBtn);
+  }
+
+  /* ── AKKBELL 기본 모드: 클래스 기반 삭제/추가 ── */
+  var AKKBELL_MAP = {
+    'pain-item':'체크 항목','faq-item':'FAQ','tl-item':'타임라인 항목',
+    'authority-card':'연구 카드','ingredient':'성분 카드','review-card':'후기',
+    'price-option':'가격 옵션','compare-row':'비교 행','bar-row':'차트 항목',
+    'cert-card':'인증 항목','stat-box':'통계 항목','step':'스텝',
+  };
+  var seenAkkbell = new WeakSet();
+  Object.keys(AKKBELL_MAP).forEach(function(cls) {
+    document.querySelectorAll('.' + cls + ':not(.head)').forEach(function(el) {
+      addDeleteBtn(el);
+      var parent = el.parentElement;
+      if (!parent || seenAkkbell.has(parent)) return;
+      seenAkkbell.add(parent);
+      addPlusBtn(parent, function() {
+        return Array.from(parent.querySelectorAll(':scope > .' + cls)).filter(function(e) { return !e.classList.contains('head'); });
+      }, AKKBELL_MAP[cls]);
     });
   });
 
-  function getItemLabel(cls) {
-    var labels = {
-      'pain-item': '체크 항목', 'faq-item': 'FAQ', 'tl-item': '타임라인 항목',
-      'authority-card': '연구 카드', 'ingredient': '성분 카드', 'review-card': '후기',
-      'price-option': '가격 옵션', 'compare-row': '비교 행', 'bar-row': '차트 항목',
-      'cert-card': '인증 항목', 'stat-box': '통계 항목', 'step': '스텝',
-    };
-    return labels[cls] || '항목';
-  }
+  /* ── 레퍼런스 모드: 같은 클래스 반복 요소도 삭제/추가 ── */
+  var seenGeneric = new WeakSet();
+  document.querySelectorAll('[class]').forEach(function(el) {
+    if (el.closest('.__edit-del') || el.closest('.__edit-add')) return;
+    if (el.classList.contains('__edit-host') || el.classList.contains('__edit-del') || el.classList.contains('__edit-add')) return;
+    var parent = el.parentElement;
+    if (!parent || seenGeneric.has(parent)) return;
+    var tag = el.tagName;
+    var cls = el.getAttribute('class') || '';
+    if (!cls.trim()) return;
+    var siblings = Array.from(parent.children).filter(function(c) {
+      return c.tagName === tag && (c.getAttribute('class') || '') === cls;
+    });
+    if (siblings.length < 2) return;
+    seenGeneric.add(parent);
+    siblings.forEach(addDeleteBtn);
+    addPlusBtn(parent, function() {
+      return Array.from(parent.children).filter(function(c) {
+        return c.tagName === tag && (c.getAttribute('class') || '') === cls;
+      });
+    }, '항목');
+  });
 })();`
 
 // ── 레퍼런스 이미지 클라이언트 압축 ──────────────────────────────
@@ -271,19 +257,33 @@ function parseHtmlToSections(fullHtml: string): {
   const stickyEl = wrapper.querySelector('.sticky-cta, .cta-bar')
   const stickyHtml = stickyEl?.outerHTML ?? ''
 
-  const sections: Section[] = []
-  let i = 0
-  for (const child of Array.from(wrapper.children)) {
-    const tagName = child.tagName.toLowerCase()
-    if (tagName === 'style' || tagName === 'script') continue  // head로 이동됨
-    const cls = (child as HTMLElement).className ?? ''
-    if (cls.includes('sticky-cta') || cls.includes('cta-bar')) continue
-    sections.push({
-      id: `sec-${i++}-${Math.random().toString(36).slice(2, 7)}`,
-      name: getSectionName(child as HTMLElement),
-      html: child.outerHTML,
-    })
+  // style/script/sticky 제외한 직접 자식 목록
+  const visibleChildren = Array.from(wrapper.children).filter((c) => {
+    const tag = c.tagName.toLowerCase()
+    if (tag === 'style' || tag === 'script') return false
+    const cls = (c as HTMLElement).className ?? ''
+    return !cls.includes('sticky-cta') && !cls.includes('cta-bar')
+  })
+
+  // AI가 단일 래퍼 div로 모든 섹션을 묶었을 때 한 단계 더 들어감
+  let sectionEls = visibleChildren
+  if (visibleChildren.length === 1) {
+    const only = visibleChildren[0]
+    const onlyTag = only.tagName.toLowerCase()
+    if (onlyTag === 'div' || onlyTag === 'main' || onlyTag === 'article') {
+      const inner = Array.from(only.children).filter((c) => {
+        const tag = c.tagName.toLowerCase()
+        return tag !== 'style' && tag !== 'script'
+      })
+      if (inner.length > 1) sectionEls = inner
+    }
   }
+
+  const sections: Section[] = sectionEls.map((child, i) => ({
+    id: `sec-${i}-${Math.random().toString(36).slice(2, 7)}`,
+    name: getSectionName(child as HTMLElement),
+    html: child.outerHTML,
+  }))
 
   return { head, sections, stickyHtml }
 }
@@ -291,15 +291,17 @@ function parseHtmlToSections(fullHtml: string): {
 function getSectionName(el: HTMLElement): string {
   const eyebrow = el.querySelector('.s-eyebrow, .label, .hero-eyebrow')
   if (eyebrow?.textContent?.trim()) return eyebrow.textContent.trim()
-  const h = el.querySelector('h1, h2')
+  const h = el.querySelector('h1, h2, h3')
   if (h?.textContent) {
     const t = h.textContent.trim()
-    return t.length > 16 ? t.slice(0, 16) + '…' : t
+    return t.length > 20 ? t.slice(0, 20) + '…' : t
   }
   const cls = el.className ?? ''
   if (cls.includes('hero')) return '메인 배너'
   if (cls.includes('section-divider')) return '── 구분선'
   if (cls.includes('divider-dot')) return '• • •'
+  const text = el.textContent?.trim()
+  if (text && text.length > 0) return text.length > 20 ? text.slice(0, 20) + '…' : text
   return '섹션'
 }
 
