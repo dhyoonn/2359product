@@ -218,6 +218,51 @@ async function compressImage(file: File): Promise<File> {
   })
 }
 
+// ── 섹션에서 텍스트 라인 추출 (텍스트 추출하기 기능용) ──────────
+function extractSectionLines(section: Element): string[] {
+  const SEL = [
+    'h1','h2','h3','h4','h5','h6','p','li',
+    '.s-eyebrow','.hero-eyebrow','.s-desc','.big-quote',
+    '.big-stat','.big-stat-lbl','.big-stat-src',
+    '.faq-q','.faq-a',
+    '.tl-content h5','.tl-content p',
+    '.step h3','.step p',
+    '.authority-card h4','.authority-card p',
+    '.layer-box h4','.quote-box p',
+    '.vs-bad h3','.vs-bad p','.vs-good h3','.vs-good p',
+    '.review-card h5','.review-card p',
+  ].join(',')
+
+  const allEls = Array.from(section.querySelectorAll(SEL))
+  const processed = new Set<Element>()
+  const lines: string[] = []
+
+  for (const el of allEls) {
+    // 이미 처리된 조상 요소가 있으면 건너뜀 (중복 방지)
+    let skip = false
+    let anc = el.parentElement
+    while (anc && anc !== section) {
+      if (processed.has(anc)) { skip = true; break }
+      anc = anc.parentElement
+    }
+    if (skip) continue
+    processed.add(el)
+
+    const text = el.textContent?.trim()
+    if (!text) continue
+
+    const tag = el.tagName.toLowerCase()
+    const cls = el.className || ''
+
+    if (cls.includes('faq-q'))                                   lines.push(`Q. ${text}`)
+    else if (cls.includes('faq-a'))                              lines.push(`A. ${text}`)
+    else if (cls.includes('s-eyebrow') || cls.includes('hero-eyebrow')) lines.push(`[${text.toUpperCase()}]`)
+    else if (tag === 'li')                                       lines.push(`• ${text}`)
+    else                                                         lines.push(text)
+  }
+  return lines
+}
+
 // ── 에디터 컨트롤 제거 (저장·싱크 시 사용) ──────────────────────
 function getCleanHtml(el: Element): string {
   const clone = el.cloneNode(true) as Element
@@ -553,6 +598,64 @@ export default function PageFlowPage() {
     URL.revokeObjectURL(url)
   }, [getAssembledHtml])
 
+  /* ── 텍스트만 추출 → .doc 다운로드 ── */
+  const handleExtractText = useCallback(() => {
+    const iframe = iframeRef.current
+    if (!iframe?.contentDocument) return
+    const wrapper = iframe.contentDocument.querySelector('.detail-wrap')
+    if (!wrapper) return
+
+    const sectionEls = Array.from(wrapper.children).filter((c) => {
+      const tag = c.tagName.toLowerCase()
+      const cls = (c as HTMLElement).className || ''
+      return tag !== 'style' && tag !== 'script' &&
+             !cls.includes('sticky-cta') && !cls.includes('cta-bar')
+    })
+
+    const allLines: string[][] = []
+    sectionEls.forEach((sec) => {
+      const clone = sec.cloneNode(true) as Element
+      clone.querySelectorAll('.__edit-del, .__edit-add').forEach((e) => e.remove())
+      const lines = extractSectionLines(clone)
+      if (lines.length > 0) allLines.push(lines)
+    })
+    if (allLines.length === 0) return
+
+    // 섹션별 Word HTML 조립
+    const bodyContent = allLines.map((lines, idx) => {
+      const sep = idx > 0 ? '<p style="border-top:1px solid #ddd;margin:12pt 0">&nbsp;</p>' : ''
+      const rows = lines.map((line) => {
+        if (line.startsWith('Q. '))                       return `<p><strong>${line}</strong></p>`
+        if (line.startsWith('A. '))                       return `<p style="margin-left:16pt">${line}</p>`
+        if (line.startsWith('[') && line.endsWith(']'))   return `<p style="font-size:8pt;color:#888;letter-spacing:2px">${line}</p>`
+        if (line.startsWith('• '))                        return `<p style="margin-left:16pt">${line}</p>`
+        return `<p>${line}</p>`
+      }).join('\n')
+      return sep + rows
+    }).join('\n')
+
+    const wordHtml = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head><meta charset="utf-8">
+<style>
+body{font-family:'맑은 고딕',sans-serif;font-size:10pt;line-height:1.75;margin:2cm}
+p{margin:3pt 0}strong{font-weight:bold}
+</style></head>
+<body>${bodyContent}</body></html>`
+
+    const d = new Date()
+    const yy = String(d.getFullYear()).slice(2)
+    const mm = String(d.getMonth() + 1).padStart(2, '0')
+    const dd = String(d.getDate()).padStart(2, '0')
+
+    const blob = new Blob(['﻿' + wordHtml], { type: 'application/msword' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${yy}${mm}${dd}_상세페이지_문안.doc`
+    a.click()
+    URL.revokeObjectURL(url)
+  }, [])
+
   /* ── 렌더 ── */
   return (
     <div className="min-h-screen">
@@ -722,15 +825,28 @@ export default function PageFlowPage() {
                 )}
               </div>
               {hasResult && !isLoading && (
-                <button onClick={handleDownload}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-medium hover:bg-blue-700 transition-colors">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/>
-                    <line x1="12" y1="15" x2="12" y2="3"/>
-                  </svg>
-                  HTML 저장
-                </button>
+                <div className="flex items-center gap-2">
+                  <button onClick={handleExtractText}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-300 text-gray-700 rounded-lg text-xs font-medium hover:bg-gray-50 transition-colors">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                      <polyline points="14 2 14 8 20 8"/>
+                      <line x1="8" y1="13" x2="16" y2="13"/>
+                      <line x1="8" y1="17" x2="16" y2="17"/>
+                      <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                    텍스트만 추출하기
+                  </button>
+                  <button onClick={handleDownload}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-medium hover:bg-blue-700 transition-colors">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                      <polyline points="7 10 12 15 17 10"/>
+                      <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    HTML 저장
+                  </button>
+                </div>
               )}
             </div>
 
