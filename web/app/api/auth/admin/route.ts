@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getTodayTempCode } from '@/lib/temp-code'
 
 export async function POST(request: NextRequest) {
   const { password } = await request.json()
-  const isProposalPassword = password === process.env.PROPOSAL_PASSWORD
-  const isTempCode = !!getTodayTempCode() && password === getTodayTempCode()
-  if (!isProposalPassword && !isTempCode) {
+  if (password !== process.env.ADMIN_PASSWORD) {
     return NextResponse.json({ error: '비밀번호가 틀렸습니다.' }, { status: 401 })
   }
   return NextResponse.json({ success: true })
