@@ -1,3 +1,71 @@
+## 2026-06-01
+
+### 완료한 작업
+
+**최종 기획안 — JSON 파싱 오류 수정**
+- 원인: `design_html` 필드를 JSON 안에 HTML로 담으면 쌍따옴표가 JSON을 깨뜨림
+- 해결: `---HTML---` 구분자로 JSON과 HTML 분리 출력하도록 프롬프트 + 파싱 로직 변경
+- `final-plan/route.ts`, `lib/prompts/final-plan.ts` 수정
+
+**상세 페이지 플로우 — 섹션 파싱 오류 수정**
+- 원인 A: AI가 `<div class="detail-wrap">` 래퍼를 추가 생성 → 섹션이 1개로 뭉침
+- 원인 B: `<style>` 태그가 섹션으로 카운트됨 → 목록에 의미없는 항목 표시
+- 원인 C: 단일 래퍼 div 안에 섹션이 묶임 → 파싱 실패
+- 해결: route.ts에서 `detail-wrap` 래퍼 자동 제거 + parseHtmlToSections에서 style/script 건너뜀 + 단일 래퍼 div 언래핑
+
+**상세 페이지 플로우 — 편집 기능 수정**
+- 원인: CSS `:hover`가 iframe 안에서 신뢰성 없음 → 삭제/추가 버튼이 나타나지 않음
+- 해결: CSS `:hover` → JS `mouseenter`/`mouseleave` 이벤트로 교체
+- 레퍼런스 모드 대응: 같은 태그+클래스 반복 요소도 자동으로 삭제/추가 버튼 생성
+- 섹션 목록 클릭 → 미리보기에서 해당 섹션으로 스크롤 + 파란 하이라이트 추가
+
+**문서 관리 체계 수립**
+- CLAUDE.md 전면 개편: 오류 방지 원칙, iframe 편집 원칙, JSON+HTML 분리 원칙 추가
+- error.md 신규 생성: 오류 10개 기록 (ERR-001 ~ ERR-010)
+- plan.md 신규 생성: 현재 상태, Phase 3 계획, 보류 사항 정리
+- education.md 신규 생성: AI 활용 가이드 (효과적인 소통 방법)
+
+### 현재 상태
+- Phase 1·2 완료, Vercel 배포 중
+- 상세 페이지 플로우: 섹션 파싱 + 편집 기능 수정 완료, 재테스트 필요
+- 문서 관리 체계: CLAUDE.md / progress.md / error.md / plan.md / education.md 5개 파일 운영
+
+### 다음 작업
+- 상세 페이지 플로우 재테스트 (기본 모드 + 레퍼런스 모드 각각)
+- 발견된 추가 버그 error.md에 기록 후 수정
+- Phase 3 Notion 연동 논의
+
+### 특이사항 / 결정 사항
+- iframe 안 인터랙션은 CSS 의사 클래스 대신 항상 JS 이벤트로 처리 (CLAUDE.md에 원칙 추가)
+- AI에게 JSON 안에 HTML 포함 요청 금지 (CLAUDE.md에 원칙 추가)
+- 문서 파일 역할 분리: CLAUDE.md(규칙) / progress.md(이력) / error.md(오류) / plan.md(계획) / education.md(소통 가이드)
+
+---
+
+## 2026-05-29
+
+### 완료한 작업
+- GitHub 저장소 생성 및 첫 push (https://github.com/dhyoonn/2359product)
+  - `.gitignore` 설정 (`.env.local`, `node_modules`, `.next` 제외)
+  - git 사용자 정보 등록, 초기 커밋 생성
+- 노션 불러오기 URL 검증 버그 수정
+  - `dev-request/page.tsx`: `notion.so`만 허용 → `app.notion.com` 형식도 허용
+  - `page-flow`, `final-plan`은 처음부터 문제 없음 확인
+
+### 현재 상태
+- GitHub 연동 완료, 이후 수정 사항은 commit + push로 관리
+- Phase 1·2 전체 완료
+
+### 다음 작업
+- 서버 배포 방식 결정 (Vercel vs Railway)
+- 민원수리함(피드백 수집) 기능 방식 결정 중 (Notion DB 저장 유력)
+- Phase 3: Notion 저장 연동 (선택)
+
+### 특이사항 / 결정 사항
+- Notion 불러오기: `lib/notion.ts`의 `extractPageId`는 도메인 무관하게 페이지 ID 추출 — 추가 수정 불필요
+
+---
+
 ## 2026-05-27 (4차 - 최종)
 
 ### 완료한 작업
