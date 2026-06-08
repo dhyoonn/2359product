@@ -2,9 +2,16 @@
 
 import { useState, useCallback, useRef } from 'react'
 import Link from 'next/link'
+import type { ReviewSource } from '@/lib/prompts/review-analysis'
+
+const SOURCE_CONFIG: Record<ReviewSource, { label: string; accept: string; hint: string }> = {
+  oliveyoung: { label: '올리브영', accept: '.xlsx,.xls', hint: '.xlsx, .xls' },
+  amazon:     { label: '아마존',   accept: '.csv',       hint: '.csv' },
+}
 
 export default function ReviewAnalysisPage() {
   const [productName, setProductName] = useState('')
+  const [source, setSource] = useState<ReviewSource>('oliveyoung')
   const [attachedFile, setAttachedFile] = useState<File | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -12,15 +19,22 @@ export default function ReviewAnalysisPage() {
   const [reviewCount, setReviewCount] = useState(0)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const handleSourceChange = useCallback((s: ReviewSource) => {
+    setSource(s)
+    setAttachedFile(null)
+    setError('')
+    setResultHtml('')
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }, [])
+
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0] ?? null
-    setAttachedFile(f)
+    setAttachedFile(e.target.files?.[0] ?? null)
     setError('')
   }, [])
 
   const handleAnalyze = useCallback(async () => {
     if (!attachedFile) {
-      setError('엑셀 파일을 첨부해주세요.')
+      setError('파일을 첨부해주세요.')
       return
     }
     setIsLoading(true)
@@ -30,6 +44,7 @@ export default function ReviewAnalysisPage() {
     const formData = new FormData()
     formData.append('file', attachedFile)
     formData.append('productName', productName)
+    formData.append('source', source)
 
     try {
       const res = await fetch('/api/review-analysis', { method: 'POST', body: formData })
@@ -45,7 +60,7 @@ export default function ReviewAnalysisPage() {
     } finally {
       setIsLoading(false)
     }
-  }, [attachedFile, productName])
+  }, [attachedFile, productName, source])
 
   const handleDownload = useCallback(() => {
     if (!resultHtml) return
@@ -63,6 +78,8 @@ export default function ReviewAnalysisPage() {
     URL.revokeObjectURL(url)
   }, [resultHtml, productName])
 
+  const cfg = SOURCE_CONFIG[source]
+
   return (
     <div className="min-h-screen">
       <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center gap-3">
@@ -73,7 +90,6 @@ export default function ReviewAnalysisPage() {
 
       <main className="max-w-3xl mx-auto px-6 py-10 space-y-8">
 
-        {/* 입력 섹션 */}
         <section className="bg-white rounded-2xl border border-gray-200 p-6 space-y-5">
           <div>
             <h2 className="text-sm font-medium text-gray-700 mb-1.5">경쟁 제품명 <span className="text-gray-400 font-normal">(선택)</span></h2>
@@ -89,26 +105,28 @@ export default function ReviewAnalysisPage() {
           <div>
             <h2 className="text-sm font-medium text-gray-700 mb-1.5">리뷰 출처</h2>
             <div className="flex gap-2">
-              <button className="px-5 py-2 rounded-xl text-sm font-medium border bg-blue-600 text-white border-blue-600">
-                올리브영
-              </button>
-              <div className="relative">
-                <button disabled className="px-5 py-2 rounded-xl text-sm font-medium border bg-white text-gray-400 border-gray-200 cursor-not-allowed">
-                  아마존
+              {(Object.keys(SOURCE_CONFIG) as ReviewSource[]).map((s) => (
+                <button
+                  key={s}
+                  onClick={() => handleSourceChange(s)}
+                  className={`px-5 py-2 rounded-xl text-sm font-medium border transition-colors ${
+                    source === s
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'bg-white text-gray-700 border-gray-200 hover:border-blue-400'
+                  }`}
+                >
+                  {SOURCE_CONFIG[s].label}
                 </button>
-                <span className="absolute -top-2 -right-2 text-[10px] font-medium bg-amber-400 text-amber-900 px-1.5 py-0.5 rounded-full leading-none">
-                  준비 중
-                </span>
-              </div>
+              ))}
             </div>
           </div>
 
           <div>
-            <h2 className="text-sm font-medium text-gray-700 mb-1.5">리뷰 엑셀 파일 첨부</h2>
+            <h2 className="text-sm font-medium text-gray-700 mb-1.5">리뷰 파일 첨부</h2>
             <input
               ref={fileInputRef}
               type="file"
-              accept=".xlsx,.xls"
+              accept={cfg.accept}
               className="hidden"
               onChange={handleFileChange}
             />
@@ -131,7 +149,7 @@ export default function ReviewAnalysisPage() {
                 onClick={() => fileInputRef.current?.click()}
                 className="w-full px-4 py-8 border-2 border-dashed border-gray-200 rounded-xl text-sm text-gray-400 hover:border-blue-400 hover:text-blue-500 transition-colors"
               >
-                클릭하여 파일 선택 (.xlsx, .xls)
+                클릭하여 파일 선택 ({cfg.hint})
               </button>
             )}
           </div>
@@ -147,7 +165,6 @@ export default function ReviewAnalysisPage() {
           </button>
         </section>
 
-        {/* 로딩 */}
         {isLoading && (
           <div className="bg-white rounded-2xl border border-gray-200 p-8 text-center">
             <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
@@ -156,7 +173,6 @@ export default function ReviewAnalysisPage() {
           </div>
         )}
 
-        {/* 결과 */}
         {resultHtml && !isLoading && (
           <section className="space-y-4">
             <div className="flex items-center justify-between">
