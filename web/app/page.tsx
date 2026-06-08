@@ -2,6 +2,14 @@ import Link from 'next/link'
 
 const FEATURES = [
   {
+    href: '/review-analysis',
+    title: '리뷰 분석',
+    description: '경쟁 제품 리뷰 엑셀 파일을 첨부하면 주요 장단점과 신제품 기획 인사이트를 정리합니다.',
+    badge: '사용 가능',
+    badgeColor: 'bg-green-100 text-green-700',
+    enabled: true,
+  },
+  {
     href: '/proposal',
     title: '제안서 작성',
     description: '아이디어·원료를 입력하면 3단계 AI 대화로 상품 기획안을 완성합니다.',
