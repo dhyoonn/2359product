@@ -1,8 +1,9 @@
-export type ReviewSource = 'oliveyoung' | 'amazon'
+export type ReviewSource = 'oliveyoung' | 'amazon' | 'qutenjp'
 
 const SOURCE_LABEL: Record<ReviewSource, string> = {
   oliveyoung: '올리브영',
   amazon: '아마존',
+  qutenjp: '큐텐JP',
 }
 
 export function buildReviewAnalysisPrompt(
@@ -16,6 +17,9 @@ export function buildReviewAnalysisPrompt(
   }))
   const avgRating = (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
   const isEnglish = source === 'amazon'
+  const isJapanese = source === 'qutenjp'
+  const needsTranslation = isEnglish || isJapanese
+  const translationLang = isJapanese ? '일본어' : '영어'
 
   const reviewText = reviews
     .map((r, i) => `[${i + 1}] 별점 ${r.rating}점\n${r.content}`)
@@ -26,7 +30,7 @@ export function buildReviewAnalysisPrompt(
 [분석 데이터]
 - 플랫폼: ${SOURCE_LABEL[source]}${productName ? `\n- 제품명: ${productName}` : ''}
 - 총 리뷰 수: ${reviews.length}개 / 평균 별점: ${avgRating}점
-- 별점 분포: ${ratingCounts.map((r) => `${r.score}점 ${r.count}개`).join(', ')}${isEnglish ? '\n- 리뷰 언어: 영어 (분석 결과는 한국어로 작성)' : ''}
+- 별점 분포: ${ratingCounts.map((r) => `${r.score}점 ${r.count}개`).join(', ')}${needsTranslation ? `\n- 리뷰 언어: ${translationLang} (분석 결과는 한국어로 작성)` : ''}
 
 [리뷰 원문]
 ${reviewText}
@@ -35,8 +39,8 @@ ${reviewText}
 
 [분석 지침]
 1. 별점 분포: 각 점수(1~5점) 비율(%)과 전체 평균, 한 줄 총평
-2. 주요 장점 최대 5개: 반복 언급된 긍정 요소. 키워드 + 설명 + 대표 리뷰 인용 1~2개${isEnglish ? ' (인용은 한국어로 번역)' : ''}
-3. 주요 단점 최대 5개: 반복 언급된 부정 요소. 키워드 + 설명 + 대표 리뷰 인용 1~2개${isEnglish ? ' (인용은 한국어로 번역)' : ''}
+2. 주요 장점 최대 5개: 반복 언급된 긍정 요소. 키워드 + 설명 + 대표 리뷰 인용 1~2개${needsTranslation ? ' (인용은 한국어로 번역)' : ''}
+3. 주요 단점 최대 5개: 반복 언급된 부정 요소. 키워드 + 설명 + 대표 리뷰 인용 1~2개${needsTranslation ? ' (인용은 한국어로 번역)' : ''}
 4. 소비자 미충족 니즈: 직접 언급 또는 불만에서 유추된 해결되지 않은 욕구 3~5개
 5. 신제품 기획 인사이트
    - 유지할 요소: 경쟁 제품 강점으로 신제품도 반드시 갖춰야 할 것

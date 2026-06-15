@@ -7,6 +7,7 @@ import type { ReviewSource } from '@/lib/prompts/review-analysis'
 const SOURCE_CONFIG: Record<ReviewSource, { label: string; accept: string; hint: string }> = {
   oliveyoung: { label: '올리브영', accept: '.xlsx,.xls', hint: '.xlsx, .xls' },
   amazon:     { label: '아마존',   accept: '.csv',       hint: '.csv' },
+  qutenjp:    { label: '큐텐JP',  accept: '.xlsx,.xls', hint: '.xlsx, .xls' },
 }
 
 export default function ReviewAnalysisPage() {

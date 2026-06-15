@@ -12,6 +12,7 @@ const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 const COLS: Record<ReviewSource, { rating: number; content: number }> = {
   oliveyoung: { rating: 1, content: 4 },
   amazon:     { rating: 2, content: 7 },
+  qutenjp:    { rating: 2, content: 3 },
 }
 
 // CSV 한 줄 파싱 (따옴표 안의 쉼표 처리)
