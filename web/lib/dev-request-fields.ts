@@ -37,6 +37,7 @@ export const DISTRIBUTION_COUNTRY_OPTIONS = [
   '동남아(필리핀·말레이시아·베트남·태국·싱가포르·인도네시아)',
   '영국(SCPN)',
   'EU(CPNP)',
+  'GCC(중동)',
 ]
 
 const PRODUCT_TYPE_FIELD: Partial<Record<ProductType, Field>> = {

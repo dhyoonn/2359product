@@ -23,7 +23,7 @@ const SCREENING_GROUPS: Group[] = [
       },
     ],
   },
-  { type: 'simple', countries: ['영국(SCPN)', 'EU(CPNP)'], cols: 2 },
+  { type: 'simple', countries: ['영국(SCPN)', 'EU(CPNP)', 'GCC(중동)'], cols: 2 },
 ]
 
 export const SCREENING_STATUSES = [
