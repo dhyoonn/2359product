@@ -372,13 +372,13 @@ export default function DevRequestPage() {
                       { num: 1, label: '기본 사항', content: '수출 스크리닝을 하는 브랜드는 수출 브랜드에 한함 (셀라딕스, 락토메디, 시옷, 엑스퍼트리션)' },
                       { num: 2, label: '기본 스크리닝 국가', content: '일본, 대만, 홍콩, 북미, 동남아(필리핀·말레이시아·베트남·태국·싱가포르·인도네시아)' },
                       { num: 3, label: '추가 스크리닝 국가', content: '화장품 — 영국(SCPN), EU(CPNP), GCC(중동)' },
-                      { num: 4, label: '기타 참고 사항', content: '영국·EU의 경우 인허가까지 디폴트로 진행하며, GCC(중동)의 경우 셀라딕스·락토메디 화장품 품목에 한해 진행' },
+                      { num: 4, label: '기타 참고 사항', content: '영국·EU의 경우 인허가까지 디폴트로 진행하며, GCC(중동)의 경우 셀라딕스·락토메디 화장품 품목에 한해 진행\nGCC(중동)의 경우 권역으로 구분이 불가능하다면 UAE와 사우디아라비아로 진행' },
                     ] as { num: number; label: string; content: string }[]).map(({ num, label, content }) => (
                       <div key={num} className="flex gap-3 items-start">
                         <span className="shrink-0 w-5 h-5 bg-amber-400 text-white text-[10px] font-bold rounded-full flex items-center justify-center mt-0.5">{num}</span>
                         <p className="text-xs text-amber-900 leading-relaxed">
                           <span className="font-semibold">{label}</span>
-                          <span className="text-amber-700 ml-1.5">{content}</span>
+                          <span className="text-amber-700 ml-1.5 whitespace-pre-line">{content}</span>
                         </p>
                       </div>
                     ))}
