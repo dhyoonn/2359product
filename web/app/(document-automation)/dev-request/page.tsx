@@ -25,9 +25,6 @@ export default function DevRequestPage() {
   const [fields, setFields] = useState<Record<string, string>>({})
   const [isGenerated, setIsGenerated] = useState(false)
   const [isGuideOpen, setIsGuideOpen] = useState(false)
-  const [guideContent, setGuideContent] = useState(
-    '[수출 스크리닝 시 참고]\n1. 기본 사항 : 수출 스크리닝을 하는 브랜드는 수출 브랜드에 한함 (셀라딕스, 락토메디, 시옷, 엑스퍼트리션)\n2. 기본 스크리닝 국가 : 일본, 대만, 홍콩, 북미, 동남아(필리핀,말레이시아,베트남,태국,싱가포르,인도네시아)\n3. 제품 카테고리에 따른 추가 스크리닝 국가 : 화장품 - 영국(SCPN), EU(CPNP), GCC(중동)\n4. 기타 참고 사항 : 영국,EU의 경우 인허가까지 디폴트로 진행하며, GCC(중동)의 경우 셀라딕스,락토메디 화장품 품목에 한해 진행'
-  )
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleProductTypeChange = useCallback((type: ProductType) => {
@@ -368,13 +365,25 @@ export default function DevRequestPage() {
                 <span>{isGuideOpen ? '▲' : '▼'} 설명란</span>
               </button>
               {isGuideOpen && (
-                <textarea
-                  value={guideContent}
-                  onChange={(e) => setGuideContent(e.target.value)}
-                  placeholder="작성 설명이나 내부 메모를 입력하세요. 이 내용은 내보내기에 포함되지 않습니다."
-                  rows={4}
-                  className="mt-2 w-full px-4 py-3 border border-gray-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 bg-amber-50 placeholder-gray-400"
-                />
+                <div className="mt-2 bg-amber-50 border border-amber-200 rounded-xl p-4">
+                  <p className="text-[11px] font-bold text-amber-800 mb-3 tracking-wide">수출 스크리닝 시 참고</p>
+                  <div className="space-y-2.5">
+                    {([
+                      { num: 1, label: '기본 사항', content: '수출 스크리닝을 하는 브랜드는 수출 브랜드에 한함 (셀라딕스, 락토메디, 시옷, 엑스퍼트리션)' },
+                      { num: 2, label: '기본 스크리닝 국가', content: '일본, 대만, 홍콩, 북미, 동남아(필리핀·말레이시아·베트남·태국·싱가포르·인도네시아)' },
+                      { num: 3, label: '추가 스크리닝 국가', content: '화장품 — 영국(SCPN), EU(CPNP), GCC(중동)' },
+                      { num: 4, label: '기타 참고 사항', content: '영국·EU의 경우 인허가까지 디폴트로 진행하며, GCC(중동)의 경우 셀라딕스·락토메디 화장품 품목에 한해 진행' },
+                    ] as { num: number; label: string; content: string }[]).map(({ num, label, content }) => (
+                      <div key={num} className="flex gap-3 items-start">
+                        <span className="shrink-0 w-5 h-5 bg-amber-400 text-white text-[10px] font-bold rounded-full flex items-center justify-center mt-0.5">{num}</span>
+                        <p className="text-xs text-amber-900 leading-relaxed">
+                          <span className="font-semibold">{label}</span>
+                          <span className="text-amber-700 ml-1.5">{content}</span>
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
 
