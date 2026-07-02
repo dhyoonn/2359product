@@ -7,7 +7,7 @@
 - `app/(document-automation)/product-spec/page.tsx` — UI (파일 첨부, 생성 결과 확인, 내보내기)
 - `app/api/product-spec/route.ts` — API 라우트 (Claude 호출, xlsx 생성)
 - `lib/prompts/product-spec.ts` — 자동입력 프롬프트
-- `제품 사양서 기본 양식.xlsx` — 루트 폴더에 위치. 원본 양식 (절대 덮어쓰지 말 것)
+- `제품 사양서 기본 양식.xlsx` — `web/` 폴더 최상위(Next.js 프로젝트 루트, `process.cwd()` 기준)에 위치. 원본 양식 (절대 덮어쓰지 말 것)
 
 ## 자동 생성 규칙
 

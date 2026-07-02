@@ -7,27 +7,20 @@
 
 ---
 
-## 핵심 기능 (개발 우선순위 순)
+## 핵심 기능
 
-### Phase 1 — 문서 자동화
-
-| 문서 | 입력 | 출력 | 상태 |
+| 기능 | 입력 | 출력 | 상태 |
 |------|------|------|------|
-| 개발의뢰서 | 기획안 텍스트 / 파일 첨부 | 제품 유형별 개발의뢰서 (HTML) | ✅ 완료 |
-| 제품 사양서 | 최종 SPEC HTML 파일 | 제품 사양서 기본 양식 기입 (xlsx) | ✅ 완료 |
-| 최종 기획안 | 초기 기획안 + 최종 SPEC | 최종 기획안 문서 (HTML) | ✅ 완료 |
-| 상세 페이지 플로우 + 문안 | 기획안 + 레퍼런스(JPG/PDF) | 페이지 플로우 + 카피 초안 (HTML) | ✅ 완료 |
-
-### Phase 2 — 기획안 자동생성
-
-✅ **완료** (제안서 작성으로 구현됨)
-- 6단계 프로세스: 기전분석→체크리스트→차별성로직→타겟→원료설계→HTML출력
-- 3단계 분리 UI: 로직 발굴 / 마케팅 방향성 / 제안서 작성
-- 별도 비밀번호 인증 (235900)
-
-### Phase 3 — Notion 연동
-
-[ ] **미개발** — 생성된 문서를 Notion 페이지로 자동 저장
+| 개발의뢰서 | 기획안 텍스트 / 파일 첨부 | 제품 유형별(화장품·식품건기식·공산품·의료기기) 개발의뢰서 (HTML) | ✅ |
+| 제품 사양서 | 최종 SPEC HTML 파일 | 제품 사양서 기본 양식 기입 (xlsx) | ✅ |
+| 최종 기획안 | 초기 기획안 + 최종 SPEC | 최종 기획안 (HTML), AI 대화형 수정, PPT 내보내기 | ✅ |
+| 상세 페이지 플로우 + 문안 | 기획안 + 레퍼런스(JPG/PDF, 선택) | 페이지 플로우 + 카피 초안 (HTML) | ✅ |
+| 제안서 작성 | 기획 아이디어 | 로직발굴 → 마케팅방향성 → 최종제안서 3단계 대화형 HTML, 별도 비밀번호(`PROPOSAL_PASSWORD`) | ✅ |
+| 리뷰 분석 | 올리브영·아마존·큐텐JP 리뷰 파일 | 별점분포·장단점·미충족니즈 등 분석 (xlsx) | ✅ |
+| 문서 수정 (doc-edit) | 이미 생성된 HTML 문서 | 위 기능들과 무관하게 업로드한 HTML을 직접 편집 | ✅ |
+| 관리자 페이지 | - | 제안서 임시 접근 코드(매일 자동 갱신) 확인 | ✅ |
+| Notion 불러오기 | 노션 페이지 URL | 텍스트 추출 후 각 기능의 입력으로 사용 | ✅ |
+| Notion 저장 | 생성된 문서 | Notion 페이지로 자동 저장 | ⬜ 미개발 |
 
 ---
 
@@ -46,13 +39,13 @@ xlsx:      xlsx-populate (스타일 보존 xlsx 편집)
 
 ```
 MODEL_STANDARD (claude-sonnet-4-5): 개발의뢰서, 제품사양서 — 출력량 적음
-MODEL_LARGE (claude-sonnet-4-6):    제안서, 최종기획안, 상세페이지 — 대용량 HTML 생성
+MODEL_LARGE (claude-sonnet-4-6):    제안서, 최종기획안, 상세페이지, 리뷰분석 — 대용량 출력
 ```
 
 모델명은 `web/lib/constants.ts`에서만 관리. 변경 시 이 파일 한 곳만 수정.
 
 ### 선택하지 않은 이유가 있는 스택
-- **별도 DB:** Phase 1~2는 상태 저장 불필요. 문서 생성 결과는 웹 편집 후 다운로드 또는 Notion 저장.
+- **별도 DB:** 상태 저장 불필요. 문서 생성 결과는 웹 편집 후 다운로드.
 - **복잡한 인증:** 팀 내부 도구이므로 환경변수 비밀번호로 충분.
 - **Tiptap 에디터:** 폼 기반 필드 입력으로 충분하여 미사용.
 - **SheetJS:** xlsx-populate 사용 — SheetJS는 xlsx 스타일(서식) 파괴함.
@@ -63,48 +56,47 @@ MODEL_LARGE (claude-sonnet-4-6):    제안서, 최종기획안, 상세페이지 
 
 ```
 /
-├── 제품 사양서 기본 양식.xlsx     ⚠️ 절대 덮어쓰지 말 것 (원본 양식)
-├── CLAUDE.md                      # 작업 규칙·지침 (이 파일)
-├── progress.md                    # 작업 이력
-├── error.md                       # 오류 관리
-├── plan.md                        # 작업 계획
-├── education.md                   # AI 활용 가이드
-└── web/
+├── CLAUDE.md / progress.md / error.md / plan.md / education.md
+├── reference/                      # 참고자료(레퍼런스 샘플, 원본 리뷰 데이터) — git 미추적, 코드 미참조
+└── web/                            # 실제 Next.js 앱 (배포 대상)
+    ├── 제품 사양서 기본 양식.xlsx    ⚠️ 절대 덮어쓰지 말 것 (원본 양식)
+    ├── 최종기획안 양식.pptx          ⚠️ 절대 덮어쓰지 말 것 (PPT 내보내기 원본 양식)
     ├── app/
-    │   ├── layout.tsx
-    │   ├── page.tsx                         # 메인 대시보드
-    │   ├── login/                           # 비밀번호 인증
+    │   ├── page.tsx                          # 메인 대시보드
+    │   ├── login/                            # 앱 비밀번호 인증
+    │   ├── admin/                            # 제안서 임시 접근 코드 확인
     │   ├── api/
-    │   │   ├── auth/                        # 로그인/로그아웃
-    │   │   ├── dev-request/                 # 개발의뢰서 자동입력 API
-    │   │   ├── final-plan/                  # 최종기획안 생성 API
-    │   │   ├── page-flow/                   # 상세페이지 생성 API
-    │   │   └── product-spec/               # 제품사양서 생성 API
-    │   └── (document-automation)/
-    │       ├── dev-request/                # 개발의뢰서
-    │       ├── final-plan/                 # 최종 기획안
-    │       ├── product-spec/              # 제품 사양서
-    │       └── page-flow/                  # 상세 페이지 플로우 + 문안
+    │   │   ├── auth/                         # login / logout / admin / proposal 인증
+    │   │   ├── dev-request/                  # 개발의뢰서 생성
+    │   │   ├── final-plan/                   # 최종기획안 생성 (+ pptx/ = PPT 내보내기)
+    │   │   ├── page-flow/                    # 상세페이지 생성
+    │   │   ├── product-spec/                 # 제품사양서 생성
+    │   │   ├── proposal/                     # 제안서 3단계 (route.ts=초기, final/logic/marketing, _shared.ts=공통 스트리밍 로직)
+    │   │   ├── review-analysis/              # 리뷰 분석
+    │   │   ├── notion/                       # 노션 페이지 불러오기
+    │   │   └── admin/temp-code/              # 오늘의 제안서 임시 코드 발급
+    │   └── (document-automation)/            # 위 기능들의 화면 (라우트 그룹, URL엔 안 나타남)
+    │       ├── dev-request/ · final-plan/ · page-flow/ · product-spec/
+    │       ├── proposal/ (+ final/ logic/ marketing/)
+    │       ├── review-analysis/
+    │       └── doc-edit/                     # 독립 HTML 편집 유틸리티
     ├── components/
-    │   ├── FileAttachSection.tsx           # 파일 첨부 공통 컴포넌트
-    │   ├── FormSection.tsx                 # 공통 폼 컴포넌트
-    │   └── ScreeningStatusTable.tsx        # 수출 스크리닝 상태 표
+    │   ├── FileAttachSection.tsx             # 파일 첨부 + 노션 불러오기 공통 컴포넌트
+    │   ├── FormSection.tsx                   # 공통 폼 컴포넌트
+    │   ├── ScreeningStatusTable.tsx          # 수출 스크리닝 상태 표
+    │   └── ProposalChatUI.tsx                # 제안서 3단계 공통 채팅 UI
     ├── lib/
-    │   ├── constants.ts                    # 모델명·파일크기 상수
-    │   ├── rate-limit.ts                   # IP당 분당 요청 제한
-    │   ├── notion.ts                       # Notion API 헬퍼
-    │   ├── final-plan-template.ts          # 최종기획안 HTML 조립 템플릿
-    │   ├── dev-request-fields.ts
-    │   ├── final-plan-fields.ts
-    │   ├── product-spec-fields.ts
-    │   └── prompts/
-    │       ├── dev-request.ts
-    │       ├── final-plan.ts
-    │       ├── page-flow.ts
-    │       ├── product-spec.ts
-    │       └── proposal*.ts               # 제안서 3단계 프롬프트
+    │   ├── constants.ts                      # 모델명·파일크기·로깅
+    │   ├── rate-limit.ts                     # IP당 분당 요청 제한
+    │   ├── notion.ts                         # Notion 페이지 읽기 헬퍼
+    │   ├── temp-code.ts                      # 제안서 임시 접근 코드 생성
+    │   ├── final-plan-template.ts            # 최종기획안 HTML 조립 템플릿
+    │   ├── *-fields.ts                       # 기능별 폼 필드 정의
+    │   └── prompts/                          # 기능별 AI 프롬프트 (전부 여기서만 관리)
     └── .env.local
 ```
+
+기능별 세부 규칙(자동입력 규칙, 필드 매핑 등)은 `web/app/(document-automation)/<기능>/CLAUDE.md`에 별도 기록 (현재: `dev-request`, `product-spec`).
 
 ---
 
@@ -112,9 +104,12 @@ MODEL_LARGE (claude-sonnet-4-6):    제안서, 최종기획안, 상세페이지 
 
 ```env
 ANTHROPIC_API_KEY=sk-ant-...
-APP_PASSWORD=2359
-NOTION_TOKEN=             # Phase 3에서 추가
-NOTION_DATABASE_ID=       # Phase 3에서 추가
+APP_PASSWORD=              # 앱 전체 접근 비밀번호
+PROPOSAL_PASSWORD=         # 제안서 기능 별도 비밀번호
+ADMIN_PASSWORD=            # /admin 페이지 접근 비밀번호
+TEMP_PASSWORD_SECRET=      # 제안서 임시 접근 코드 생성용 시크릿 (일 단위 자동 갱신)
+NOTION_TOKEN=              # 노션 페이지 불러오기용 Integration 토큰
+NOTION_DATABASE_ID=        # Notion 저장(미개발) 구현 시 추가
 ```
 
 ---
@@ -141,24 +136,29 @@ HTML 내용
 코드에서는 `DELIMITER = '---HTML---'`로 분리 파싱.
 적용 사례: `final-plan` API (route.ts 참고)
 
-### 토큰 제한 대응
-- 48K 토큰 이상 요청 시 스트리밍 필수: `client.messages.stream().finalMessage()`
-- 일반 요청은 `client.messages.create()` 사용 가능
+### 응답 속도 — 스트리밍 & 프롬프트 캐싱 ⚠️ 중요
+
+- **출력이 큰 기능(제안서·최종기획안·상세페이지)은 반드시 화면까지 실시간 스트리밍할 것.** 서버에서 `client.messages.stream()`을 열어놓고 `finalMessage()`로 끝까지 기다렸다가 한 번에 응답하면 스트리밍을 쓰는 의미가 없다 — 실시간 델타를 그대로 클라이언트로 흘려보낼 것.
+- 후처리(JSON 파싱, 템플릿 조립 등)가 필요해 원문을 그대로 최종 결과로 쓸 수 없는 경우: 원문 델타를 진행 상황 표시용으로 먼저 흘려보내고, 완료 후 구분자(예: `---PAGEFLOW-FINAL---`)를 붙여 최종 결과를 이어서 전송 → 클라이언트가 구분자 기준으로 진행상태/최종결과를 분리해서 처리 (`page-flow`, `final-plan` route.ts 참고)
+- 48K 토큰 이상 요청은 스트리밍 없이는 타임아웃 발생 가능 — 항상 스트리밍 사용
+- 반복 요청마다 동일하게 재전송되는 정적 프롬프트(제안서 단계별 시스템 프롬프트, page-flow 컴포넌트 가이드 등)에는 `system: [{ type: 'text', text: ..., cache_control: { type: 'ephemeral' } }]` 형태로 캐싱 적용 — 같은 세션 내 대화형 수정 요청에서 응답 시작 속도가 개선됨
 
 ---
 
 ## 인증
 
 - 방식: 미들웨어(`proxy.ts`)에서 쿠키 확인 — `middleware.ts`와 이름 충돌 주의
-- 일반 비밀번호: `APP_PASSWORD` 환경변수 (`2359`)
-- 제안서 비밀번호: 별도 `235900` (매 접속마다 재인증)
+- 앱 전체: `APP_PASSWORD`
+- 제안서: `PROPOSAL_PASSWORD`(매 접속마다 재인증) 또는 당일 임시 코드(관리자 페이지에서 확인) 둘 다 허용
+- 관리자 페이지(`/admin`): `ADMIN_PASSWORD`로 별도 인증 — 오늘의 제안서 임시 코드 확인 용도
 
 ---
 
-## iframe 편집 기능 (상세페이지 플로우)
+## iframe 편집 기능 (상세페이지 플로우 · 문서 수정)
 
 ### 구조
 생성된 HTML을 섹션 배열로 파싱 → 왼쪽 목록에서 순서 조작 + 오른쪽 iframe에서 직접 편집.
+동일한 편집 방식을 독립 유틸리티인 `doc-edit`(임의의 업로드 HTML 편집)에서도 재사용.
 
 ### 편집 스크립트 주입 원칙 ⚠️ 중요
 - CSS `:hover`로 버튼 보이기/숨기기 → iframe 안에서 신뢰성 없음
@@ -178,7 +178,8 @@ HTML 내용
 3. **타입 안전:** TypeScript로 API 응답 타입 정의
 4. **프롬프트 분리:** AI 프롬프트는 `lib/prompts/`에만 위치
 5. **주석 최소화:** 필요한 경우만 한 줄 주석
-6. **원본 보호:** `제품 사양서 기본 양식.xlsx` 절대 덮어쓰지 않음
+6. **원본 보호:** `제품 사양서 기본 양식.xlsx`, `최종기획안 양식.pptx` (둘 다 `web/` 안에 있음) 절대 덮어쓰지 않음
+7. **응답 속도:** 출력이 큰 기능은 스트리밍으로 진행 상황을 보여줄 것 (위 "응답 속도" 참고)
 
 ---
 
@@ -236,4 +237,6 @@ HTML 내용
 - `error.md` — 오류 목록 및 해결책
 - `plan.md` — 현재 계획 및 우선순위
 - `education.md` — AI와 협업 시 효과적인 소통 방법
+- `reference/` — 레퍼런스 샘플 문서·원본 리뷰 데이터 (git 미추적, 로컬 보관용. 코드는 참조하지 않음)
+- `web/app/(document-automation)/<기능>/CLAUDE.md` — 기능별 세부 규칙
 - `DEPLOY.md` — 배포 가이드
