@@ -95,7 +95,7 @@ export async function handleProposalStream(
           if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
             controller.enqueue(encoder.encode(event.delta.text))
           }
-          // 웹 검색 시작 시 사용자에게 표시
+          // 웹 검색 시작 시 사용자에게 표시 — 채팅 본문과 섞이지 않도록 전용 마커로 전송 (클라이언트에서 별도 상태로 처리)
           if (
             event.type === 'content_block_start' &&
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -103,7 +103,7 @@ export async function handleProposalStream(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (event as any).content_block?.name === 'web_search'
           ) {
-            controller.enqueue(encoder.encode('\n\n🔍 *관련 논문·연구 자료 검색 중...*\n\n'))
+            controller.enqueue(encoder.encode('<<<SEARCHING>>>'))
           }
         }
         const finalMsg = await stream.finalMessage()

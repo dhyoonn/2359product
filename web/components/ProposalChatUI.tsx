@@ -6,6 +6,7 @@ import { useProposalAuth } from '@/lib/useProposalAuth'
 
 type ChatMessage = { role: 'user' | 'assistant'; content: string }
 const DELIMITER = '---HTML---'
+const SEARCH_MARKER = '<<<SEARCHING>>>'
 
 // ────────────────────────────────────────────────
 // 비밀번호 잠금 화면
@@ -76,6 +77,7 @@ function ChatPanel({ config }: { config: ProposalChatConfig }) {
   const [currentHtml, setCurrentHtml] = useState('')
   const [isStreaming, setIsStreaming] = useState(false)
   const [isGeneratingHtml, setIsGeneratingHtml] = useState(false)
+  const [isSearching, setIsSearching] = useState(false)
   const [input, setInput] = useState('')
   const [attachedFiles, setAttachedFiles] = useState<File[]>([])
   const [showPreview, setShowPreview] = useState(false)
@@ -120,6 +122,7 @@ function ChatPanel({ config }: { config: ProposalChatConfig }) {
 
     setInput('')
     setIsStreaming(true)
+    setIsSearching(false)
 
     const prevMessages = messages
     setMessages([...prevMessages, { role: 'user', content: userMsg || `파일 ${attachedFiles.map(f => f.name).join(', ')} 첨부` }, { role: 'assistant', content: '' }])
@@ -150,16 +153,23 @@ function ChatPanel({ config }: { config: ProposalChatConfig }) {
         const chunk = decoder.decode(value, { stream: true })
         buffer += chunk
 
+        if (buffer.includes(SEARCH_MARKER)) {
+          setIsSearching(true)
+          buffer = buffer.split(SEARCH_MARKER).join('')
+        }
+
         if (!htmlStarted) {
           const delimIdx = buffer.indexOf(DELIMITER)
           if (delimIdx !== -1) {
             htmlStarted = true
+            setIsSearching(false)
             setIsGeneratingHtml(true)
             const msgPart = buffer.slice(0, delimIdx).replace(/^MESSAGE:\s*/s, '').trim()
             htmlBuffer = buffer.slice(delimIdx + DELIMITER.length)
             setMessages((prev) => { const u = [...prev]; u[u.length - 1] = { role: 'assistant', content: msgPart }; return u })
           } else {
             const display = buffer.replace(/^MESSAGE:\s*/, '')
+            if (display.trim()) setIsSearching(false)
             setMessages((prev) => { const u = [...prev]; u[u.length - 1] = { role: 'assistant', content: display }; return u })
           }
         } else {
@@ -199,6 +209,7 @@ function ChatPanel({ config }: { config: ProposalChatConfig }) {
       abortControllerRef.current = null
       setIsStreaming(false)
       setIsGeneratingHtml(false)
+      setIsSearching(false)
     }
   }, [input, attachedFiles, messages, currentHtml, isStreaming, config.apiPath])
 
@@ -261,6 +272,11 @@ function ChatPanel({ config }: { config: ProposalChatConfig }) {
                       </div>
                     )}
                   </>
+                ) : idx === messages.length - 1 && isSearching ? (
+                  <div className="flex items-center gap-2 text-xs text-blue-500">
+                    <span className="w-3 h-3 border-2 border-blue-400 border-t-transparent rounded-full animate-spin shrink-0" />
+                    관련 논문·연구 자료 검색 중...
+                  </div>
                 ) : (
                   <div className="flex gap-1 items-center h-5">
                     <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
