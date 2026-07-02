@@ -93,7 +93,8 @@ export async function POST(request: NextRequest) {
         const stream = client.messages.stream({
           model: MODEL_LARGE,
           max_tokens: 32000,
-          system: buildProposalSystemPrompt(),
+          // 캐싱: 시스템 프롬프트는 대화 내내 동일 — 반복 요청(수정 등) 시 응답 시작 속도 개선
+          system: [{ type: 'text', text: buildProposalSystemPrompt(), cache_control: { type: 'ephemeral' } }],
           messages: claudeMessages,
           // Anthropic 내장 웹 검색 도구
           // eslint-disable-next-line @typescript-eslint/no-explicit-any

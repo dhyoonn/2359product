@@ -345,6 +345,7 @@ export default function PageFlowPage() {
 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [genStatus, setGenStatus] = useState('')
 
   const [headHtml, setHeadHtml] = useState('')
   const [sections, setSections] = useState<Section[]>([])
@@ -498,8 +499,10 @@ export default function PageFlowPage() {
   const removeRefPdf = useCallback((idx: number) => setRefPdfs((p) => p.filter((_, i) => i !== idx)), [])
 
   /* ── 생성 ── */
+  const FINAL_DELIMITER = '\n---PAGEFLOW-FINAL---\n'
+
   const handleGenerate = useCallback(async () => {
-    setIsLoading(true); setError('')
+    setIsLoading(true); setError(''); setGenStatus('AI가 작성을 준비하고 있습니다...')
     setSections([]); setHeadHtml(''); setStickyHtml('')
 
     const formData = new FormData()
@@ -514,14 +517,52 @@ export default function PageFlowPage() {
 
     try {
       const res = await fetch('/api/page-flow', { method: 'POST', body: formData })
-      const data = await res.json()
-      if (!res.ok) { setError(data.error ?? '오류가 발생했습니다.'); return }
-      const { head, sections: parsed, stickyHtml: sticky } = parseHtmlToSections(data.html)
+      if (!res.ok || !res.body) {
+        const data = await res.json().catch(() => ({}))
+        setError(data.error ?? '오류가 발생했습니다.')
+        return
+      }
+
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let buffer = ''
+      let htmlStarted = false
+      let htmlBuffer = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        const chunk = decoder.decode(value, { stream: true })
+        buffer += chunk
+
+        if (!htmlStarted) {
+          const idx = buffer.indexOf(FINAL_DELIMITER)
+          if (idx !== -1) {
+            htmlStarted = true
+            htmlBuffer = buffer.slice(idx + FINAL_DELIMITER.length)
+          } else {
+            setGenStatus(`AI가 작성 중입니다... (${buffer.length.toLocaleString()}자 생성됨)`)
+          }
+        } else {
+          htmlBuffer += chunk
+        }
+      }
+
+      if (htmlBuffer.startsWith('ERROR:')) {
+        setError(htmlBuffer.slice('ERROR:'.length))
+        return
+      }
+      if (!htmlBuffer) {
+        setError('오류가 발생했습니다.')
+        return
+      }
+
+      const { head, sections: parsed, stickyHtml: sticky } = parseHtmlToSections(htmlBuffer)
       setHeadHtml(head)
       setSections(parsed)
       setStickyHtml(sticky)
     } catch { setError('네트워크 오류가 발생했습니다.') }
-    finally { setIsLoading(false) }
+    finally { setIsLoading(false); setGenStatus('') }
   }, [planFiles, marketingFiles, refImages, refPdfs, planNotion])
 
   /* ── HTML 저장 (에디터 컨트롤 제거 후 다운로드) ── */
@@ -738,7 +779,7 @@ export default function PageFlowPage() {
             {isLoading && (
               <div className="flex-1 flex flex-col items-center justify-center gap-3">
                 <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
-                <p className="text-sm text-gray-500">AI가 상세 페이지 플로우와 문안을 작성하고 있습니다...</p>
+                <p className="text-sm text-gray-500">{genStatus || 'AI가 상세 페이지 플로우와 문안을 작성하고 있습니다...'}</p>
                 <p className="text-xs text-gray-400">레퍼런스 분석 포함 시 1~2분 소요될 수 있습니다</p>
               </div>
             )}

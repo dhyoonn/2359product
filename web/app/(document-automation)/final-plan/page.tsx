@@ -10,6 +10,7 @@ import { type Field } from '@/lib/dev-request-fields'
 
 const SCREENING_KEY = '수출_스크리닝_상태'
 const REVISION_DELIMITER = '---HTML---'
+const RESULT_DELIMITER = '\n---FINALPLAN-RESULT---\n'
 
 export default function FinalPlanPage() {
   const [initialPlanFiles, setInitialPlanFiles] = useState<File[]>([])
@@ -102,21 +103,67 @@ export default function FinalPlanPage() {
     return docEl ? '<!DOCTYPE html>\n' + docEl.outerHTML : currentHtml
   }, [currentHtml])
 
-  // 최초 생성: JSON 응답 방식
+  // 최초 생성: 스트리밍 방식
   const handleGenerateFetch = useCallback(async (formData: FormData) => {
+    const controller = new AbortController()
+    abortControllerRef.current = controller
     setGenerateError('')
+    setStatusMsg('AI가 최종 기획안을 작성하고 있습니다...')
+
     try {
-      const res = await fetch('/api/final-plan', { method: 'POST', body: formData })
-      const data = await res.json()
-      if (!res.ok) {
+      const res = await fetch('/api/final-plan', { method: 'POST', body: formData, signal: controller.signal })
+      if (!res.ok || !res.body) {
+        const data = await res.json().catch(() => ({}))
         setGenerateError(data.error ?? '오류가 발생했습니다.')
         return
       }
-      setCurrentHtml(data.html)
+
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let buffer = ''
+      let resultStarted = false
+      let resultBuffer = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        const chunk = decoder.decode(value, { stream: true })
+        buffer += chunk
+
+        if (!resultStarted) {
+          const idx = buffer.indexOf(RESULT_DELIMITER)
+          if (idx !== -1) {
+            resultStarted = true
+            resultBuffer = buffer.slice(idx + RESULT_DELIMITER.length)
+          } else {
+            setStatusMsg(`AI가 최종 기획안을 작성하고 있습니다... (${buffer.length.toLocaleString()}자 생성됨)`)
+          }
+        } else {
+          resultBuffer += chunk
+        }
+      }
+
+      if (resultBuffer.startsWith('ERROR:')) {
+        setGenerateError(resultBuffer.slice('ERROR:'.length))
+        return
+      }
+      if (!resultBuffer) {
+        setGenerateError('오류가 발생했습니다.')
+        return
+      }
+
+      setCurrentHtml(resultBuffer)
       setShowPreview(true)
+      setStatusMsg('')
       savedSelectionRef.current = null
-    } catch {
-      setGenerateError('네트워크 오류가 발생했습니다.')
+    } catch (err) {
+      if (err instanceof Error && err.name === 'AbortError') {
+        setStatusMsg('생성이 중지되었습니다.')
+      } else {
+        setGenerateError('네트워크 오류가 발생했습니다.')
+      }
+    } finally {
+      abortControllerRef.current = null
     }
   }, [])
 

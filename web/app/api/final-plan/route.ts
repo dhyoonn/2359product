@@ -109,35 +109,55 @@ export async function POST(request: NextRequest) {
   const currentDate = `${today.getFullYear()}년 ${String(today.getMonth() + 1).padStart(2, '0')}월 ${String(today.getDate()).padStart(2, '0')}일`
   const prompt = buildFinalPlanPrompt(initialPlanContent, specContent, attachmentContent, currentDate)
 
-  try {
-    const message = await client.messages.create({
-      model: MODEL_LARGE,
-      max_tokens: 8000,
-      messages: [{ role: 'user', content: prompt }],
-    })
+  const encoder = new TextEncoder()
+  // 생성 중에는 원문 델타를 그대로 흘려보내 진행 상황을 표시하고,
+  // 완료되면 이 구분자 뒤에 조립된 최종 HTML을 이어붙여 보낸다.
+  const RESULT_DELIMITER = '\n---FINALPLAN-RESULT---\n'
 
-    const raw = message.content[0].type === 'text' ? message.content[0].text : ''
+  const readable = new ReadableStream({
+    async start(controller) {
+      try {
+        const stream = client.messages.stream({
+          model: MODEL_LARGE,
+          max_tokens: 8000,
+          messages: [{ role: 'user', content: prompt }],
+        })
 
-    const delimIdx = raw.indexOf(DELIMITER)
-    let aiContent: FinalPlanAiContent
+        for await (const event of stream) {
+          if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
+            controller.enqueue(encoder.encode(event.delta.text))
+          }
+        }
 
-    if (delimIdx !== -1) {
-      // 구분자 방식: JSON + ---HTML--- + HTML
-      const jsonPart = raw.slice(0, delimIdx).trim()
-      const htmlPart = raw.slice(delimIdx + DELIMITER.length).trim()
-      const cleanedJson = jsonPart.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
-      const partial = JSON.parse(cleanedJson) as Omit<FinalPlanAiContent, 'design_html'>
-      aiContent = { ...partial, design_html: htmlPart }
-    } else {
-      // 폴백: JSON에 design_html이 포함된 구 방식
-      const cleaned = raw.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
-      aiContent = JSON.parse(cleaned) as FinalPlanAiContent
-    }
+        const message = await stream.finalMessage()
+        const raw = message.content[0].type === 'text' ? message.content[0].text : ''
 
-    const html = assembleFinalPlanHtml(aiContent, specFields, currentDate)
-    return NextResponse.json({ html })
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : '알 수 없는 오류'
-    return NextResponse.json({ error: `생성 중 오류: ${msg}` }, { status: 500 })
-  }
+        const delimIdx = raw.indexOf(DELIMITER)
+        let aiContent: FinalPlanAiContent
+
+        if (delimIdx !== -1) {
+          // 구분자 방식: JSON + ---HTML--- + HTML
+          const jsonPart = raw.slice(0, delimIdx).trim()
+          const htmlPart = raw.slice(delimIdx + DELIMITER.length).trim()
+          const cleanedJson = jsonPart.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
+          const partial = JSON.parse(cleanedJson) as Omit<FinalPlanAiContent, 'design_html'>
+          aiContent = { ...partial, design_html: htmlPart }
+        } else {
+          // 폴백: JSON에 design_html이 포함된 구 방식
+          const cleaned = raw.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
+          aiContent = JSON.parse(cleaned) as FinalPlanAiContent
+        }
+
+        const html = assembleFinalPlanHtml(aiContent, specFields, currentDate)
+        controller.enqueue(encoder.encode(RESULT_DELIMITER + html))
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : '알 수 없는 오류'
+        controller.enqueue(encoder.encode(`${RESULT_DELIMITER}ERROR:생성 중 오류: ${msg}`))
+      } finally {
+        controller.close()
+      }
+    },
+  })
+
+  return new Response(readable, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } })
 }

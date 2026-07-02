@@ -160,45 +160,64 @@ export async function POST(request: NextRequest) {
     })
   }
 
-  // 시스템 프롬프트 선택
+  // 시스템 프롬프트 선택 (캐싱: 매 요청 동일한 텍스트이므로 반복 요청 시 응답 시작 속도 개선)
   const systemPrompt = hasReference ? PAGE_FLOW_REF_SYSTEM_PROMPT : PAGE_FLOW_SYSTEM_PROMPT
 
-  try {
-    // 레퍼런스 모드는 48K 토큰으로 10분 초과 가능 → 스트리밍 필수
-    const stream = client.messages.stream({
-      model: MODEL_LARGE,
-      max_tokens: hasReference ? 48000 : 16000,
-      system: systemPrompt,
-      messages: [{ role: 'user', content: contentBlocks }],
-    })
-    const message = await stream.finalMessage()
+  const encoder = new TextEncoder()
+  // 생성 중에는 원문 델타를 그대로 흘려보내 화면에 진행 상황을 표시하고,
+  // 완료되면 이 구분자 뒤에 후처리된 최종 HTML을 이어붙여 보낸다.
+  const FINAL_DELIMITER = '\n---PAGEFLOW-FINAL---\n'
 
-    const raw = message.content[0].type === 'text' ? message.content[0].text : ''
+  const readable = new ReadableStream({
+    async start(controller) {
+      try {
+        const stream = client.messages.stream({
+          model: MODEL_LARGE,
+          max_tokens: hasReference ? 48000 : 16000,
+          system: [{ type: 'text', text: systemPrompt, cache_control: { type: 'ephemeral' } }],
+          messages: [{ role: 'user', content: contentBlocks }],
+        })
 
-    // 코드블록 마커 및 전체 HTML 껍데기 제거
-    let sectionsOnly = raw
-      .replace(/^```html\s*/i, '')
-      .replace(/^```\s*/i, '')
-      .replace(/```\s*$/i, '')
-      .replace(/<!DOCTYPE[\s\S]*?<body[^>]*>/i, '')
-      .replace(/<\/body>[\s\S]*<\/html>/i, '')
-      .trim()
+        for await (const event of stream) {
+          if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
+            controller.enqueue(encoder.encode(event.delta.text))
+          }
+        }
 
-    // AI가 <div class="detail-wrap">을 직접 감쌌을 경우 제거
-    const dwMatch = sectionsOnly.match(/^<div[^>]+class="[^"]*detail-wrap[^"]*"[^>]*>([\s\S]*)<\/div>\s*$/i)
-    if (dwMatch) sectionsOnly = dwMatch[1].trim()
+        const message = await stream.finalMessage()
+        const raw = message.content[0].type === 'text' ? message.content[0].text : ''
 
-    if (!sectionsOnly) {
-      return NextResponse.json({ error: 'AI가 내용을 생성하지 못했습니다. 다시 시도해주세요.' }, { status: 500 })
-    }
+        // 코드블록 마커 및 전체 HTML 껍데기 제거
+        let sectionsOnly = raw
+          .replace(/^```html\s*/i, '')
+          .replace(/^```\s*/i, '')
+          .replace(/```\s*$/i, '')
+          .replace(/<!DOCTYPE[\s\S]*?<body[^>]*>/i, '')
+          .replace(/<\/body>[\s\S]*<\/html>/i, '')
+          .trim()
 
-    // HTML 템플릿 선택: 레퍼런스 모드는 최소 CSS, 기본 모드는 AKKBELL CSS
-    const templateOpen = hasReference ? PAGE_FLOW_REF_HTML_TEMPLATE_OPEN : PAGE_FLOW_HTML_TEMPLATE_OPEN
-    const html = templateOpen + sectionsOnly + PAGE_FLOW_HTML_TEMPLATE_CLOSE
+        // AI가 <div class="detail-wrap">을 직접 감쌌을 경우 제거
+        const dwMatch = sectionsOnly.match(/^<div[^>]+class="[^"]*detail-wrap[^"]*"[^>]*>([\s\S]*)<\/div>\s*$/i)
+        if (dwMatch) sectionsOnly = dwMatch[1].trim()
 
-    return NextResponse.json({ html })
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : '알 수 없는 오류'
-    return NextResponse.json({ error: `생성 중 오류: ${msg}` }, { status: 500 })
-  }
+        if (!sectionsOnly) {
+          controller.enqueue(encoder.encode(`${FINAL_DELIMITER}ERROR:AI가 내용을 생성하지 못했습니다. 다시 시도해주세요.`))
+          return
+        }
+
+        // HTML 템플릿 선택: 레퍼런스 모드는 최소 CSS, 기본 모드는 AKKBELL CSS
+        const templateOpen = hasReference ? PAGE_FLOW_REF_HTML_TEMPLATE_OPEN : PAGE_FLOW_HTML_TEMPLATE_OPEN
+        const html = templateOpen + sectionsOnly + PAGE_FLOW_HTML_TEMPLATE_CLOSE
+
+        controller.enqueue(encoder.encode(FINAL_DELIMITER + html))
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : '알 수 없는 오류'
+        controller.enqueue(encoder.encode(`${FINAL_DELIMITER}ERROR:생성 중 오류: ${msg}`))
+      } finally {
+        controller.close()
+      }
+    },
+  })
+
+  return new Response(readable, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } })
 }
