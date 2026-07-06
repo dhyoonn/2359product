@@ -164,6 +164,7 @@ export default function DevRequestPage() {
 <head>
 <meta charset="UTF-8">
 <title>${dateStr}_개발의뢰서_${brand}_${manager}</title>
+<style>*{-webkit-print-color-adjust:exact;print-color-adjust:exact}</style>
 </head>
 <body style="font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#f3f4f6;margin:0;padding:40px 24px">
   <div style="max-width:720px;margin:0 auto">

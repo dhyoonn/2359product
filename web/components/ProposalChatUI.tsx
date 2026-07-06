@@ -8,6 +8,14 @@ type ChatMessage = { role: 'user' | 'assistant'; content: string }
 const DELIMITER = '---HTML---'
 const SEARCH_MARKER = '<<<SEARCHING>>>'
 
+// 인쇄(→PDF 저장) 시 배경색이 브라우저 기본값으로 누락되는 문제 방지
+function injectPrintColorFix(html: string): string {
+  const fix = '<style>*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}</style>'
+  if (/<\/head>/i.test(html)) return html.replace(/<\/head>/i, `${fix}</head>`)
+  if (/<head[^>]*>/i.test(html)) return html.replace(/<head[^>]*>/i, (m) => `${m}${fix}`)
+  return fix + html
+}
+
 // ────────────────────────────────────────────────
 // 비밀번호 잠금 화면
 // ────────────────────────────────────────────────
@@ -185,7 +193,7 @@ function ChatPanel({ config }: { config: ProposalChatConfig }) {
         if (!/<\/html>/i.test(html)) {
           html += '\n</body></html>'
         }
-        setCurrentHtml(html)
+        setCurrentHtml(injectPrintColorFix(html))
         setShowPreview(true)
       }
     } catch (err) {

@@ -12,6 +12,14 @@ const SCREENING_KEY = '수출_스크리닝_상태'
 const REVISION_DELIMITER = '---HTML---'
 const RESULT_DELIMITER = '\n---FINALPLAN-RESULT---\n'
 
+// 인쇄(→PDF 저장) 시 배경색이 브라우저 기본값으로 누락되는 문제 방지
+function injectPrintColorFix(html: string): string {
+  const fix = '<style>*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}</style>'
+  if (/<\/head>/i.test(html)) return html.replace(/<\/head>/i, `${fix}</head>`)
+  if (/<head[^>]*>/i.test(html)) return html.replace(/<head[^>]*>/i, (m) => `${m}${fix}`)
+  return fix + html
+}
+
 export default function FinalPlanPage() {
   const [initialPlanFiles, setInitialPlanFiles] = useState<File[]>([])
   const [initialPlanNotion, setInitialPlanNotion] = useState<NotionItem[]>([])
@@ -152,7 +160,7 @@ export default function FinalPlanPage() {
         return
       }
 
-      setCurrentHtml(resultBuffer)
+      setCurrentHtml(injectPrintColorFix(resultBuffer))
       setShowPreview(true)
       setStatusMsg('')
       savedSelectionRef.current = null
@@ -213,7 +221,7 @@ export default function FinalPlanPage() {
       if (htmlStart !== -1) {
         let html = htmlBuffer.slice(htmlStart).trim()
         if (!/<\/html>/i.test(html)) html += '\n</body></html>'
-        setCurrentHtml(html)
+        setCurrentHtml(injectPrintColorFix(html))
         setShowPreview(true)
         setStatusMsg('')
         savedSelectionRef.current = null
@@ -350,7 +358,7 @@ export default function FinalPlanPage() {
     }
 
     const html = `<!DOCTYPE html>
-<html lang="ko"><head><meta charset="UTF-8"><title>${yy}${mm}${dd}_최종SPEC_${brand}_${product}</title></head>
+<html lang="ko"><head><meta charset="UTF-8"><title>${yy}${mm}${dd}_최종SPEC_${brand}_${product}</title><style>*{-webkit-print-color-adjust:exact;print-color-adjust:exact}</style></head>
 <body style="font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#f3f4f6;margin:0;padding:40px 24px">
   <div style="max-width:720px;margin:0 auto">
     <div style="margin-bottom:24px">

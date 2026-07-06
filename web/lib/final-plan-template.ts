@@ -49,7 +49,7 @@ function buildSpecRows(fields: Record<string, string>): string {
 }
 
 const CSS = `:root{--bg:#07090F;--bg2:#0F1420;--bg3:#161D30;--card:#1C2540;--border:rgba(180,160,100,0.2);--gold:#C9A84C;--gold-light:#E8D5A3;--gold-dim:rgba(201,168,76,0.15);--teal:#2DD4BF;--teal-dim:rgba(45,212,191,0.12);--coral:#F4A261;--coral-dim:rgba(244,162,97,0.12);--blue:#60A5FA;--blue-dim:rgba(96,165,250,0.12);--purple:#A78BFA;--purple-dim:rgba(167,139,250,0.12);--text:#EDE8DC;--text2:#9AA5BE;--text3:#5C6B87;--serif:'Noto Serif KR',Georgia,serif;--sans:'Noto Sans KR',sans-serif}
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.75;font-size:15px}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,9,15,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;gap:2rem;height:52px}
 .nav-brand{font-family:var(--serif);font-size:13px;color:var(--gold);white-space:nowrap;font-weight:600}

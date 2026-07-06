@@ -280,6 +280,7 @@ function parseHtmlToSections(fullHtml: string): {
     `<!DOCTYPE html>\n<html lang="ko">\n<head>\n` +
     doc.head.innerHTML +
     (floatingStyles ? `\n${floatingStyles}` : '') +
+    `\n<style>*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}</style>` +
     `\n</head>\n<body>\n<div class="detail-wrap">\n`
 
   if (!wrapper) return { head, sections: [{ id: 'sec-0', name: '전체', html: fullHtml }], stickyHtml: '' }
